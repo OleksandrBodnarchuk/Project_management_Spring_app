@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.services;
 
 
+import com.javawwa25.app.springboot.models.Employee;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ProjectServiceImpl implements ProjectService{
         if (optional.isPresent()) {
             project = optional.get();
         } else {
-            throw new RuntimeException(" Project not found for id :: " + id);
+            throw new RuntimeException("Project not found for id :: " + id);
         }
         return project;
     }

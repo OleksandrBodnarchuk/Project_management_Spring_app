@@ -46,8 +46,6 @@ public class ProjectController {
 
     @PostMapping("/project/saveProject")
     public String saveProject(@ModelAttribute("project") Project project) {
-        project.setStartDate(project.getStartDate());
-        project.setEndDate(project.getEndDate());
         projectService.saveProject(project);
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
@@ -65,21 +63,21 @@ public class ProjectController {
      */
 
 
-    @GetMapping("/project/showFormForUpdate/{id}")
+    @GetMapping("/showFormForUpdate/project/{id}")
     public String showFormForUpdate(@PathVariable( value = "id") long id, Model model) {
 
-        // get employee from the service
+        // get project from the service
         Project project = projectService.getProjectById(id);
 
-        // set employee as a model attribute to pre-populate the form
+        // set project as a model attribute to pre-populate the form
         model.addAttribute("project", project);
         return "update_project";
     }
 
-    @GetMapping("/project/deleteProject/{id}")
+    @GetMapping("/deleteProject/project/{id}")
     public String deleteProject(@PathVariable (value = "id") long id) {
 
-        // call delete employee method
+        // call delete project method
         this.projectService.deleteProjectById(id);
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
