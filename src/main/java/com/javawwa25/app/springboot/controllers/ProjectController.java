@@ -35,7 +35,7 @@ public class ProjectController {
         return findPaginated(1, "projectName", "asc", model);
     }
 
-    @GetMapping("/project/showNewProjectForm")
+    @GetMapping("/showNewProjectForm/project")
     public String showNewProjectForm(Model model) {
         // create model attribute to bind form data
         Project project = new Project();
@@ -44,7 +44,7 @@ public class ProjectController {
         return "new_project";
     }
 
-    @PostMapping("/project/saveProject")
+    @PostMapping("/saveProject/project")
     public String saveProject(@ModelAttribute("project") Project project) {
         projectService.saveProject(project);
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!

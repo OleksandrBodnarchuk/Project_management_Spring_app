@@ -17,7 +17,7 @@ public class EmployeeControler {
 	private EmployeeService employeeService;
 	
 	// display list of employees
-	@GetMapping("/")
+	@GetMapping("/user")
 	public String viewHomePage(Model model) {
 		return findPaginated(1, "firstName", "asc", model);		
 	}
@@ -34,7 +34,7 @@ public class EmployeeControler {
 	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
 		// save employee to database
 		employeeService.saveEmployee(employee);
-		return "redirect:/";
+		return "redirect:/user";
 	}
 	
 	@GetMapping("/showFormForUpdate/{id}")
@@ -53,7 +53,7 @@ public class EmployeeControler {
 		
 		// call delete employee method 
 		this.employeeService.deleteEmployeeById(id);
-		return "redirect:/";
+		return "redirect:/user";
 	}
 	
 	
