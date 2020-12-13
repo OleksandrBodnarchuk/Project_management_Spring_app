@@ -3,7 +3,7 @@ package com.javawwa25.app.springboot.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "sda_final_app")
+@Table(name = "employee", schema = "sda_final_app")
 public class Employee {
 
 	@Id
@@ -21,6 +21,12 @@ public class Employee {
 
 	@Column(name="role")
 	private String role;
+
+	@Column(name="alias_name")
+	private String aliasName;
+
+	@Column(name="password")
+	private String password;
 
 	public long getId() {
 		return id;
@@ -62,6 +68,22 @@ public class Employee {
 		this.role = role;
 	}
 
+	public String getAliasName() {
+		return aliasName;
+	}
+
+	public void setAliasName(String aliasName) {
+		this.aliasName = aliasName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee{" +
@@ -70,6 +92,8 @@ public class Employee {
 				", lastName='" + lastName + '\'' +
 				", email='" + email + '\'' +
 				", role='" + role + '\'' +
+				", aliasName='" + aliasName + '\'' +
+				", password='" + password + '\'' +
 				'}';
 	}
 }

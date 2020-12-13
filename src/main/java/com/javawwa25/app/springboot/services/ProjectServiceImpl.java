@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Employee;
+
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class ProjectServiceImpl implements ProjectService{
 
-   @Autowired
+    @Autowired
     private ProjectRepository projectRepository;
 
     @Override
@@ -34,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService{
         if (optional.isPresent()) {
             project = optional.get();
         } else {
-            throw new RuntimeException(" Employee not found for id :: " + id);
+            throw new RuntimeException(" Project not found for id :: " + id);
         }
         return project;
     }

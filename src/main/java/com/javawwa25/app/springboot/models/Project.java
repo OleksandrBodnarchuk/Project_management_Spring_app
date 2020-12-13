@@ -13,6 +13,12 @@ public class Project {
     @Column(name = "project_name")
     private String projectName;
 
+    @Column(name="assignee")
+    private String assigned;
+
+    @Column(name="project_info")
+    private String projectInfo;
+
     @Column(name = "start_date")
     private Date startDate;
 
@@ -22,8 +28,7 @@ public class Project {
     @Column(name = "current_task")
     private String current_task;
 
-    @Column(name="asignee")
-    private String assigned;
+
 
     public long getId() {
         return id;
@@ -71,6 +76,14 @@ public class Project {
 
     public void setAssigned(String assigned) {
         this.assigned = assigned;
+    }
+
+    public String getProjectInfo() {
+        return projectInfo;
+    }
+
+    public void setProjectInfo(String projectInfo) {
+        this.projectInfo = projectInfo;
     }
 
     @Override
