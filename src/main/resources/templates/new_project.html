@@ -10,39 +10,42 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Project Management System</h1>
+		<h1>Project Management: ADD</h1>
 		<hr>
-		<h2>Save Project</h2>
+		<h2>Details</h2>
 
-		<form action="#" th:action="@{/saveProject}" th:object="${project}"
+		<form action="#" th:action="@{/project/saveProject}" th:object="${project}"
 			method="POST">
 			<input type="text" th:field="*{projectName}"
-				placeholder="Employee First Name" class="form-control mb-4 col-4">
-				
+				placeholder="Project Name" class="form-control mb-4 col-4">
+
+
+			<!--  NEED TO PUT ASSIGNEE BY EMPLOYEE ALIAS NAME + WAY TO PICK  -->
 				<input type="text" th:field="*{assigned}"
-				placeholder="Employee Last Name" class="form-control mb-4 col-4">
+				placeholder="Assignee" class="form-control mb-4 col-4">
 				
 				<input type="text" th:field="*{projectInfo}"
-				placeholder="Employee Email" class="form-control mb-4 col-4">
+				placeholder="projectInfo" class="form-control mb-4 col-4">
+
+			<!-- DATE -->
+			<input type="date" th:value="${project.startDate}"
+				   th:field="${project.startDate}" id="date-started"/>
+			<input type="date" name="date" th:field="${project.startDate}"
+				   placeholder="startDate" class="form-control mb-4 col-4">
 
 
-			   		<!-- SHOULD BE DATE HERE -->
-
-			<!--      <input type="text" th:field="*{start_date}"
-				   placeholder="Employee Role" class="form-control mb-4 col-4"> -->
-
-			<!-- <input type="text" th:field="*{end_date}"
-				   placeholder="Employee Role" class="form-control mb-4 col-4"> -->
+			<input type="date" th:value="${project.endDate}"
+				   th:field="${project.endDate}" id="date-ended"/>
 
 			<input type="text" th:field="*{current_task}"
-				   placeholder="Employee Role" class="form-control mb-4 col-4">
+				   placeholder="endDate"  class="form-control mb-4 col-4">
 
 			<button type="submit" class="btn btn-info col-2"> Save Project</button>
 		</form>
 		
 		<hr>
 
-		// WARNING
+		<!-- WARNING -->
 		<a th:href = "@{/project}"> Back to Project List</a>
 	</div>
 </body>

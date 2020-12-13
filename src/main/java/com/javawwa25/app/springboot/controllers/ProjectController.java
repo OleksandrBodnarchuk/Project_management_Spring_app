@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.controllers;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.services.EmployeeService;
 import com.javawwa25.app.springboot.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,13 +17,16 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private EmployeeService employeeService;
+
     // display list of employees
     @GetMapping("/project")
     public String viewHomePage(Model model) {
-        return findPaginated(1, "firstName", "asc", model);
+        return findPaginated(1, "projectName", "asc", model);
     }
 
-    @GetMapping("/showNewProjectForm")
+    @GetMapping("/project/showNewProjectForm")
     public String showNewProjectForm(Model model) {
         // create model attribute to bind form data
         Project project = new Project();
@@ -30,14 +34,29 @@ public class ProjectController {
         return "new_project";
     }
 
-    @PostMapping("/saveProject")
+    @PostMapping("/project/saveProject")
     public String saveProject(@ModelAttribute("project") Project project) {
-        // save employee to database
+        project.getAssigned();
         projectService.saveProject(project);
+
+
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
+    /**
+     * Another save project() needs to be tested
+     *
+     * !@PostMapping(value = "/saveProject")
+     * public String saveProject(@ModelAttribute Project project, Model model) {
+     *     // Fill id field for project.rolesNeeded
+     *     mRoleService.setRolesId(project.getRolesNeeded());
+     *     project.fixCollaboratorsAndRoles();
+     *
+     *     mProjectService.save(project);
+     *     return "redirect:/";
+     */
 
-    @GetMapping("/showFormForUpdate/{id}")
+
+    @GetMapping("/project/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable( value = "id") long id, Model model) {
 
         // get employee from the service
@@ -48,16 +67,16 @@ public class ProjectController {
         return "update_project";
     }
 
-    @GetMapping("/deleteProject/{id}")
+    @GetMapping("/project/deleteProject/{id}")
     public String deleteProject(@PathVariable (value = "id") long id) {
 
-        // call delete employee method 
+        // call delete employee method
         this.projectService.deleteProjectById(id);
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
-    @GetMapping("/page/{pageNo}")
+    @GetMapping("/project/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,

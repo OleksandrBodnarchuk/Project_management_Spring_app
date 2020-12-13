@@ -1,5 +1,7 @@
 package com.javawwa25.app.springboot.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -19,9 +21,12 @@ public class Project {
     @Column(name="project_info")
     private String projectInfo;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
+
     private Date startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_date")
     private Date endDate;
 
@@ -71,6 +76,7 @@ public class Project {
     }
 
     public String getAssigned() {
+
         return assigned;
     }
 
