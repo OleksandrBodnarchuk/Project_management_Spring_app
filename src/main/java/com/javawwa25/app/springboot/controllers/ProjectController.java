@@ -2,14 +2,23 @@ package com.javawwa25.app.springboot.controllers;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.EmployeeService;
+import com.javawwa25.app.springboot.services.EmployeeServiceImpl;
 import com.javawwa25.app.springboot.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
 
 @Controller
 public class ProjectController {
@@ -30,16 +39,16 @@ public class ProjectController {
     public String showNewProjectForm(Model model) {
         // create model attribute to bind form data
         Project project = new Project();
+
         model.addAttribute("project", project);
         return "new_project";
     }
 
     @PostMapping("/project/saveProject")
     public String saveProject(@ModelAttribute("project") Project project) {
-        project.getAssigned();
+        project.setStartDate(project.getStartDate());
+        project.setEndDate(project.getEndDate());
         projectService.saveProject(project);
-
-
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
     /**
@@ -97,4 +106,11 @@ public class ProjectController {
         model.addAttribute("projectList", projectList);
         return "project-list";
     }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.registerCustomEditor(       Date.class,
+                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
+    }
+
 }

@@ -3,7 +3,7 @@ package com.javawwa25.app.springboot.models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "project", schema = "sda_final_app")
@@ -23,7 +23,6 @@ public class Project {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
-
     private Date startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -59,6 +58,7 @@ public class Project {
         this.startDate = startDate;
     }
 
+
     public Date getEndDate() {
         return endDate;
     }
@@ -76,7 +76,6 @@ public class Project {
     }
 
     public String getAssigned() {
-
         return assigned;
     }
 
