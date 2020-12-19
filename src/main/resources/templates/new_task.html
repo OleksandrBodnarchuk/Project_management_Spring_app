@@ -27,11 +27,15 @@
 				<input type="text" th:field="*{sprint}"
 				placeholder="Sprint" class="form-control mb-4 col-4">
 
-			<input type="text" th:field="*{priorityTask}"
-				   placeholder="Priority" class="form-control mb-4 col-4">
+			<select name="priorityTask" class="form-control mb-4 col-4">
+				<option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.PriorityTask).values()}"
+						th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
+			</select>
 
-			<input type="text" th:field="*{progress}"
-				   placeholder="Current Step" class="form-control mb-4 col-4">
+			<select name="progress" class="form-control mb-4 col-4">
+				<option th:each="progress : ${T(com.javawwa25.app.springboot.models.Progress).values()}"
+						th:value="${progress}" th:text="${progress.displayValue}"></option>
+			</select>
 
 			<input type="text" th:field="*{userAssigned}"
 				   placeholder="Asignee" class="form-control mb-4 col-4">

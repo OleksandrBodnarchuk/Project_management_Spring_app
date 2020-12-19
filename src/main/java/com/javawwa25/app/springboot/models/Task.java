@@ -8,7 +8,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
+    @Column(name = "id")
     private long id;
     @Column(name = "task_name")
     private String name;
@@ -19,7 +19,7 @@ public class Task {
     private String sprint;
     // ENUM
     @Column(name = "priority")
-    private String priorityTask;
+    private PriorityTask priorityTask;
     // ENUM
     @Column(name = "progress")
     private Progress progress;
@@ -60,11 +60,11 @@ public class Task {
         this.sprint = sprint;
     }
 
-    public String getPriorityTask() {
+    public PriorityTask getPriorityTask() {
         return priorityTask;
     }
 
-    public void setPriorityTask(String priorityTask) {
+    public void setPriorityTask(PriorityTask priorityTask) {
         this.priorityTask = priorityTask;
     }
 
