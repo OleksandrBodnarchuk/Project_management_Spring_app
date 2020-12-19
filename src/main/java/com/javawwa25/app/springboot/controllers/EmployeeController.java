@@ -17,12 +17,12 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 	
 	// display list of employees
-	@GetMapping("/user")
+	@GetMapping("/employee")
 	public String viewHomePage(Model model) {
 		return findPaginated(1, "firstName", "asc", model);		
 	}
 	
-	@GetMapping("/showNewEmployeeForm")
+	@GetMapping("/showNewEmployeeForm/employee")
 	public String showNewEmployeeForm(Model model) {
 		// create model attribute to bind form data
 		Employee employee = new Employee();
@@ -30,14 +30,15 @@ public class EmployeeController {
 		return "new_employee";
 	}
 	
-	@PostMapping("/saveEmployee")
+	@PostMapping("/saveEmployee/employee")
 	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
 		// save employee to database
+
 		employeeService.saveEmployee(employee);
-		return "redirect:/user";
+		return "redirect:/employee";
 	}
 	
-	@GetMapping("/showFormForUpdate/{id}")
+	@GetMapping("/showFormForUpdate/employee/{id}")
 	public String showFormForUpdate(@PathVariable ( value = "id") long id, Model model) {
 		
 		// get employee from the service
@@ -48,12 +49,12 @@ public class EmployeeController {
 		return "update_employee";
 	}
 	
-	@GetMapping("/deleteEmployee/{id}")
+	@GetMapping("/deleteEmployee/employee/{id}")
 	public String deleteEmployee(@PathVariable (value = "id") long id) {
 		
 		// call delete employee method 
 		this.employeeService.deleteEmployeeById(id);
-		return "redirect:/user";
+		return "redirect:/employee";
 	}
 	
 	
@@ -65,7 +66,7 @@ public class EmployeeController {
 		int pageSize = 5;
 		
 		Page<Employee> page = employeeService.findPaginated(pageNo, pageSize, sortField, sortDir);
-		List<Employee> listEmployees = page.getContent();
+		List<Employee> employeeList = page.getContent();
 		
 		model.addAttribute("currentPage", pageNo);
 		model.addAttribute("totalPages", page.getTotalPages());
@@ -75,7 +76,7 @@ public class EmployeeController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		
-		model.addAttribute("listEmployees", listEmployees);
+		model.addAttribute("employeeList", employeeList);
 		return "user-list";
 	}
 

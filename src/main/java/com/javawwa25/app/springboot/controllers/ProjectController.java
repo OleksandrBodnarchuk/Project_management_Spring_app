@@ -45,18 +45,6 @@ public class ProjectController {
         projectService.saveProject(project);
         return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
     }
-    /**
-     * Another save project() needs to be tested
-     *
-     * !@PostMapping(value = "/saveProject")
-     * public String saveProject(@ModelAttribute Project project, Model model) {
-     *     // Fill id field for project.rolesNeeded
-     *     mRoleService.setRolesId(project.getRolesNeeded());
-     *     project.fixCollaboratorsAndRoles();
-     *
-     *     mProjectService.save(project);
-     *     return "redirect:/";
-     */
 
 
     @GetMapping("/showFormForUpdate/project/{id}")

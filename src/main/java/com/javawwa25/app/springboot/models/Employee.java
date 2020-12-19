@@ -1,7 +1,6 @@
 package com.javawwa25.app.springboot.models;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "sda_final_app")
@@ -9,6 +8,7 @@ public class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private long id;
 
 	@Column(name = "first_name")
@@ -17,9 +17,6 @@ public class Employee {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "role_name")
-	private Roles role;
-
 	@Column(name = "email")
 	private String email;
 
@@ -27,8 +24,10 @@ public class Employee {
 	private String aliasName;
 
 	@Column(name="password")
-	@Transient
-	private String passwordConfirm;
+	private String password;
+
+	@Column(name="role_name")
+	private String role;
 
 	public long getId() {
 		return id;
@@ -54,14 +53,6 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Roles getRole() {
-		return role;
-	}
-
-	public void setRole(Roles role) {
-		this.role = role;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -78,12 +69,20 @@ public class Employee {
 		this.aliasName = aliasName;
 	}
 
-	public String getPasswordConfirm() {
-		return passwordConfirm;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class Employee {
 				", lastName='" + lastName + '\'' +
 				", email='" + email + '\'' +
 				", aliasName='" + aliasName + '\'' +
-				", password='" + passwordConfirm + '\'' +
+				", password='" + password + '\'' +
 				'}';
 	}
 }
