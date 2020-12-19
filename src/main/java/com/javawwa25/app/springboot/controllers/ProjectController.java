@@ -2,19 +2,15 @@ package com.javawwa25.app.springboot.controllers;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.EmployeeService;
-import com.javawwa25.app.springboot.services.EmployeeServiceImpl;
 import com.javawwa25.app.springboot.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

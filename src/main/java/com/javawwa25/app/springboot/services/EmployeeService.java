@@ -2,9 +2,11 @@ package com.javawwa25.app.springboot.services;
 
 import com.javawwa25.app.springboot.models.Employee;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface EmployeeService {
 	List<Employee> getAllEmployees();
 	void saveEmployee(Employee employee);

@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "sda_final_app")
@@ -23,7 +24,12 @@ public class Employee {
 	private String aliasName;
 
 	@Column(name="password")
-	private String password;
+	@Transient
+	private String passwordConfirm;
+
+	//
+	// @ManyToMany
+	//private Set<Role> roles;
 
 	public long getId() {
 		return id;
@@ -66,12 +72,28 @@ public class Employee {
 	}
 
 	public String getPassword() {
-		return password;
+		return passwordConfirm;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.passwordConfirm = password;
 	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+/*
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}*/
 
 	@Override
 	public String toString() {
@@ -81,7 +103,7 @@ public class Employee {
 				", lastName='" + lastName + '\'' +
 				", email='" + email + '\'' +
 				", aliasName='" + aliasName + '\'' +
-				", password='" + password + '\'' +
+				", password='" + passwordConfirm + '\'' +
 				'}';
 	}
 }
