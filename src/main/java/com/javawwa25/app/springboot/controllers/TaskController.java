@@ -24,7 +24,7 @@ public class TaskController {
     // display list of employees
     @GetMapping("/tasks")
     public String viewHomePage(Model model) {
-        return findPaginated(1, "projectName", "asc", model);
+        return findPaginated(1, "name", "asc", model);
     }
 
     @GetMapping("/showNewTaskForm/task")

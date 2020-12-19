@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.models;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users", schema = "sda_final_app")
@@ -8,7 +9,7 @@ public class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "user_id")
 	private long id;
 
 	@Column(name = "first_name")
@@ -28,6 +29,7 @@ public class Employee {
 
 	@Column(name="role_name")
 	private String role;
+
 
 	public long getId() {
 		return id;
