@@ -61,7 +61,7 @@
 
 					<td> <a th:href="@{/showFormForUpdate/project/{id}(id=${project.id})}" class="btn btn-primary">Update</a>
 					    <a th:href="@{/deleteProject/project/{id}(id=${project.id})}" class="btn btn-danger">Delete</a>
-						<a class="btn btn-lg btn-secondary fw-bold border-white bg-black">View Project backlog</a>
+						<a th:href="@{/board}" class="btn btn-lg btn-secondary fw-bold border-white bg-black">View Project backlog</a>
 
 					</td>
 				</tr>
