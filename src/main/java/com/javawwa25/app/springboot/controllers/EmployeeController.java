@@ -2,20 +2,16 @@ package com.javawwa25.app.springboot.controllers;
 
 import com.javawwa25.app.springboot.services.EmployeeService;
 import com.javawwa25.app.springboot.models.Employee;
-import com.javawwa25.app.springboot.services.SecurityConfig;
-import com.javawwa25.app.springboot.services.SecurityService;
-import com.javawwa25.app.springboot.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-public class EmployeeControler {
+public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
@@ -83,56 +79,4 @@ public class EmployeeControler {
 		return "user-list";
 	}
 
-    @Controller
-    public static class UserController {
-        @Autowired
-        private SecurityConfig.UserService userService;
-
-        @Autowired
-        private SecurityService securityService;
-
-        @Autowired
-        private SecurityConfig.UserValidator validator;
-
-        @GetMapping("/register")
-        public String register(Model model) {
-            model.addAttribute("userForm", new User());
-            return "blocks/RegisterButton";
-        }
-
-        @PostMapping("/register")
-        public String register(@ModelAttribute("userForm") User userForm,
-                               BindingResult bindingResult) {
-            if (bindingResult.hasErrors()) {
-                return "blocks/RegisterButton";
-            }
-            userService.save(userForm);
-            securityService.autoLogin(userForm.getUsername(),
-                    userForm.getPasswordConfirm());
-            return "redirect:welcome";
-
-        }
-
-        @GetMapping("/login")
-        public String login(Model model, String error, String logout) {
-            if (error != null)
-                model.addAttribute("message", "You have been loged out successfully");
-            return "blocks/login-button";
-        }
-
-        @GetMapping("/welcome")
-        public String welcome(Model model) {
-            return "home-page";
-        }
-    }
-
-	@Controller
-	public static class LoginController {
-
-		@GetMapping("main/login")
-		public String login(Model model){
-			model.addAttribute("title","Login");
-			return "login-page";
-		}
-	}
 }

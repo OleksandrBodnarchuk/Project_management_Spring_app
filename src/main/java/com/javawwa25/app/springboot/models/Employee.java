@@ -17,6 +17,9 @@ public class Employee {
 	@Column(name = "last_name")
 	private String lastName;
 
+	@Column(name = "role_name")
+	private Roles role;
+
 	@Column(name = "email")
 	private String email;
 
@@ -26,10 +29,6 @@ public class Employee {
 	@Column(name="password")
 	@Transient
 	private String passwordConfirm;
-
-	//
-	// @ManyToMany
-	//private Set<Role> roles;
 
 	public long getId() {
 		return id;
@@ -55,6 +54,14 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
+	public Roles getRole() {
+		return role;
+	}
+
+	public void setRole(Roles role) {
+		this.role = role;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -63,20 +70,12 @@ public class Employee {
 		this.email = email;
 	}
 
-		public String getAliasName() {
+	public String getAliasName() {
 		return aliasName;
 	}
 
 	public void setAliasName(String aliasName) {
 		this.aliasName = aliasName;
-	}
-
-	public String getPassword() {
-		return passwordConfirm;
-	}
-
-	public void setPassword(String password) {
-		this.passwordConfirm = password;
 	}
 
 	public String getPasswordConfirm() {
@@ -86,14 +85,6 @@ public class Employee {
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
 	}
-/*
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}*/
 
 	@Override
 	public String toString() {
