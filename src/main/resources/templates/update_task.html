@@ -25,10 +25,17 @@
 				   placeholder="Comments" class="form-control mb-4 col-4">
 			<input type="text" th:field="*{sprint}"
 				   placeholder="Sprint" class="form-control mb-4 col-4">
-			<input type="text" th:field="*{priorityTask}"
-				   placeholder="Priority" class="form-control mb-4 col-4">
-			<input type="text" th:field="*{progress}"
-				   placeholder="Current Step" class="form-control mb-4 col-4">
+
+
+			<select name="priority" class="form-control mb-4 col-4" >
+				<option th:each="priority : ${T(com.javawwa25.app.springboot.models.PriorityTask).values()}"
+						th:value="${priority}" th:text="${priority.displayValue}"></option>
+			</select>
+
+			<select name="progress" class="form-control mb-4 col-4" >
+				<option th:each="progress : ${T(com.javawwa25.app.springboot.models.Progress).values()}"
+						th:value="${progress}" th:text="${progress.displayValue}"></option>
+			</select>
 			<input type="text" th:field="*{userAssigned}"
 				   placeholder="Asignee" class="form-control mb-4 col-4">
 			<button type="submit" class="btn btn-info col-2"> Update Task</button>

@@ -1,6 +1,5 @@
 package com.javawwa25.app.springboot.controllers;
 
-import com.javawwa25.app.springboot.models.PriorityTask;
 import com.javawwa25.app.springboot.services.EmployeeService;
 import com.javawwa25.app.springboot.models.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class EmployeeController {
 	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
 		// save employee to database
 		employeeService.saveEmployee(employee);
-		return "redirect:/employee";
+		return "redirect:/user-page";
 	}
 	
 	@GetMapping("/showFormForUpdate/employee/{id}")
@@ -54,10 +54,36 @@ public class EmployeeController {
 		
 		// call delete employee method 
 		this.employeeService.deleteEmployeeById(id);
-		return "redirect:/employee";
+		return "redirect:/user-page";
 	}
-	
-	
+
+	@GetMapping("/user/user-list")
+	public String showEmployeeList( Model model) {
+		Employee employee = new Employee();
+
+		List<Employee> employeeList = employeeService.getAllEmployees();
+
+		model.addAttribute("employee", employee);
+		model.addAttribute("employeeList", employeeList);
+
+		return "user/user-list";
+	}
+
+	@PostMapping("/saveNewEmployee/employee")
+	public String saveNewEmployee(@ModelAttribute("employee") Employee employee) {
+		// save employee to database
+		employeeService.saveEmployee(employee);
+		return "redirect:/user-page/";
+	}
+
+	@GetMapping("/user/user-page/{id}")
+	public String showUserPage(@PathVariable( value = "id") long id, Model model) {
+		Employee employee = employeeService.getEmployeeById(id);
+		model.addAttribute("employee",employee);
+		return "user/user-page";
+	}
+
+
 	@GetMapping("/page/{pageNo}")
 	public String findPaginated(@PathVariable (value = "pageNo") int pageNo, 
 			@RequestParam("sortField") String sortField,
@@ -76,8 +102,9 @@ public class EmployeeController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 		
-		model.addAttribute("list", employeeList);
-		return "user-list";
+		model.addAttribute("employeeList", employeeList);
+		return "user/user-list";
 	}
+
 
 }

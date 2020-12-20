@@ -1,5 +1,6 @@
 package com.javawwa25.app.springboot.controllers;
 
+import com.javawwa25.app.springboot.models.Employee;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.EmployeeService;
 import com.javawwa25.app.springboot.services.ProjectService;
@@ -35,15 +36,17 @@ public class ProjectController {
     public String showNewProjectForm(Model model) {
         // create model attribute to bind form data
         Project project = new Project();
-
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
         model.addAttribute("project", project);
+
         return "new_project";
     }
 
     @PostMapping("/saveProject/project")
     public String saveProject(@ModelAttribute("project") Project project) {
         projectService.saveProject(project);
-        return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/project/project-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
@@ -67,6 +70,7 @@ public class ProjectController {
     }
 
 
+    // list of projects OLD
     @GetMapping("/project/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
@@ -86,7 +90,25 @@ public class ProjectController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("projectList", projectList);
-        return "project-list";
+        return "/project/project-list";
+    }
+
+    @GetMapping("/project/project-list")
+    public String showProjectList(Model model) {
+        List<Project> projectList = projectService.getAllProjects();
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
+        model.addAttribute("projectList", projectList);
+        return "/project/project-list";
+    }
+
+    @GetMapping("/project/{id}")
+    public String findProjectTasksById(@PathVariable( value = "id") long id, Model model) {
+        Project project = projectService.getProjectById(id);
+        List<Project> projectList = projectService.getAllProjects();
+        model.addAttribute("projectList", projectList);
+        model.addAttribute("project",project);
+        return "project/{id}/task-list";
     }
 
     @InitBinder

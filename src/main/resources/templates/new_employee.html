@@ -28,15 +28,18 @@
 			<input type="text" th:field="*{email}"
 				placeholder="Employee Email" class="form-control mb-4 col-4">
 
-				<input type="text" th:field="*{role}"
-				   placeholder="Employee Role" class="form-control mb-4 col-4">
+			<select name="role" class="form-control mb-4 col-4">
+				<option th:each="role : ${T(com.javawwa25.app.springboot.models.Roles).values()}"
+						th:value="${role}" th:text="${role.displayValue}"></option>
+			</select>
+
 
 			<button type="submit" class="btn btn-info col-2"> Save Employee</button>
 		</form>
 		
 		<hr>
 		
-		<a th:href = "@{/employee}"> Back to Employee List</a>
+		<a th:href = "@{/user/user-list}"> Back to Employee List</a>
 	</div>
 </body>
 </html>

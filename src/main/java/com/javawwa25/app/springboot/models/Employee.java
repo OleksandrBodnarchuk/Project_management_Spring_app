@@ -1,6 +1,9 @@
 package com.javawwa25.app.springboot.models;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
 @Entity
@@ -13,19 +16,29 @@ public class Employee {
 	private long id;
 
 	@Column(name = "first_name")
+	@NotNull
+	@NotEmpty
 	private String firstName;
 
 	@Column(name = "last_name")
+    @NotNull
+    @NotEmpty
 	private String lastName;
 
 	@Column(name = "email")
+	@NotNull
+	@NotEmpty
 	private String email;
 
 	@Column(name="alias_name")
 	private String aliasName;
 
 	@Column(name="password")
+	@NotNull
+	@NotEmpty
 	private String password;
+
+	private String matchingPassword;
 
 	@Column(name="role_name")
 	private String role;
@@ -85,6 +98,14 @@ public class Employee {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getMatchingPassword() {
+		return matchingPassword;
+	}
+
+	public void setMatchingPassword(String matchingPassword) {
+		this.matchingPassword = matchingPassword;
 	}
 
 	@Override

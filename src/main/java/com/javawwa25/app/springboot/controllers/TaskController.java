@@ -22,7 +22,7 @@ public class TaskController {
     TaskService taskService;
 
     // display list of employees
-    @GetMapping("/tasks")
+    @GetMapping("/task-list")
     public String viewHomePage(Model model) {
         return findPaginated(1, "name", "asc", model);
     }
@@ -39,7 +39,7 @@ public class TaskController {
     @PostMapping("/saveTask/task")
     public String saveTask(@ModelAttribute("task") Task task) {
        taskService.saveTask(task);
-        return "redirect:/task";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
@@ -59,7 +59,7 @@ public class TaskController {
 
         // call delete project method
         this.taskService.deleteTaskById(id);
-        return "redirect:/task";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
