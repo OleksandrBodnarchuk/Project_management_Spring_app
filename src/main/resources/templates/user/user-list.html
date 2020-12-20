@@ -135,7 +135,7 @@
 			<td th:text="${employee.role}"></td>
 			<td></td>
 			<td> <a th:href="@{/showFormForUpdate/employee/{id}(id=${employee.id})}" class="btn btn-primary">Update User</a>
-				<a th:href="@{/deteteEmployee/employee/{id}(id=${employee.id})}" class="btn btn-danger">Delete User</a>
+				<a th:href="@{/deleteEmployee/employee/{id}(id=${employee.id})}" class="btn btn-danger">Delete User</a>
 			</td>
 		</tr>
 		</tbody>

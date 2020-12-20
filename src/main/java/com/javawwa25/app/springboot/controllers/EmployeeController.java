@@ -35,7 +35,7 @@ public class EmployeeController {
 	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
 		// save employee to database
 		employeeService.saveEmployee(employee);
-		return "redirect:/user-page";
+		return "redirect:/user/user-list";
 	}
 	
 	@GetMapping("/showFormForUpdate/employee/{id}")
@@ -54,7 +54,7 @@ public class EmployeeController {
 		
 		// call delete employee method 
 		this.employeeService.deleteEmployeeById(id);
-		return "redirect:/user-page";
+		return "redirect:/user/user-list";
 	}
 
 	@GetMapping("/user/user-list")

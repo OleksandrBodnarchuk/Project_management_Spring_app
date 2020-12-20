@@ -95,19 +95,10 @@
 
 <div class="container bootstrap snippets bootdey">
 	<div class="row well">
-		<div class="col-md-2">
-			<ul class="nav nav-pills nav-stacked well">
-				<li><a th:href="@{/user-page/{id}(id=${employee.id})}"><i class="fa fa-user"></i> Profile</a></li>
-				<li><a th:href="@{/main}"><i class="fa fa-home"></i> Main</a></li>
-				<li><a th:href="@{/project/project-list}"><i class="fa fa-key"></i> Projects</a></li>
-				<li><a href="#"><i class="fa fa-key"></i> Tasks</a></li>
-				<li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
-			</ul>
-		</div>
 		<div class="container">
-			<h2>Project Management: ADD</h2>
+			<h2>Project Management: Add new project</h2>
 			<hr>
-			<h3>Details</h3>
+			<h3>Project Details</h3>
 
 			<form action="#" th:action="@{/saveProject/project}" th:object="${project} "
 				  method="POST">
@@ -118,7 +109,7 @@
 
 				<!--  NEED TO PUT ASSIGNEE BY EMPLOYEE ALIAS NAME + WAY TO PICK  -->
 				<input type="text" th:field="*{assigned}"
-					   placeholder="projectInfo" class="form-control mb-4 col-4">
+					   placeholder="assigned" class="form-control mb-4 col-4">
 
 				<input type="text" th:field="*{projectInfo}"
 					   placeholder="projectInfo" class="form-control mb-4 col-4">

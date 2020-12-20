@@ -66,7 +66,7 @@ public class ProjectController {
 
         // call delete project method
         this.projectService.deleteProjectById(id);
-        return "redirect:/project";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/project/project-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
