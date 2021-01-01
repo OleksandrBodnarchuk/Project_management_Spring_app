@@ -3,9 +3,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:top="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8">
-	<!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
-	<!--  All snippets are MIT license http://bootdey.com/license -->
-	<title>social User Profile and layout - Bootdey.com</title>
+	<title>New Project Form</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
 	<style type="text/css">
@@ -69,7 +67,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Profile</a>
+			<a class="navbar-brand" th:href="@{/user/{user_id}(user_id=user.user_id)}">Profile</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -77,7 +75,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${employee.getFirstName()}" >Username <b class="caret"></b></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.getFirst_name()}" >Username <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li align="center" class="well">
 							<div><img class="img-responsive" style="padding:2%;" src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change" href="">Change Picture</a></div>
@@ -100,26 +98,26 @@
 			<hr>
 			<h3>Project Details</h3>
 
-			<form action="#" th:action="@{/saveProject/project}" th:object="${project} "
+			<form action="#" th:action="@{/project/saveProject}" th:object="${project}"
 				  method="POST">
 
-				<input type="text" th:field="*{projectName}"
+				<input type="text" th:field="*{project_name}"
 					   placeholder="Project Name" class="form-control mb-4 col-4">
 
 
-				<!--  NEED TO PUT ASSIGNEE BY EMPLOYEE ALIAS NAME + WAY TO PICK  -->
-				<input type="text" th:field="*{assigned}"
-					   placeholder="assigned" class="form-control mb-4 col-4">
-
-				<input type="text" th:field="*{projectInfo}"
+				<input type="text" th:field="*{project_info}"
 					   placeholder="projectInfo" class="form-control mb-4 col-4">
 
-				<!-- DATE -->
+				<select name="project_priority" class="form-control mb-4 col-4" >
+					<option th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+							th:value="${priority}" th:text="${priority.displayValue}"></option>
+				</select>
 
-				<input type="date" name="date" th:field="${project.startDate}"
+				<!-- DATE -->
+				<input type="date" name="date" th:field="${project.project_startDate}"
 					   placeholder="startDate" class="form-control mb-4 col-4">
 
-				<input type="date" name="date" th:field="${project.endDate}"
+				<input type="date" name="date" th:field="${project.project_endDate}"
 					   placeholder="endDate"  class="form-control mb-4 col-4">
 
 				<button type="submit" class="btn btn-info col-2"> Save Project</button>
@@ -128,7 +126,7 @@
 			<hr>
 
 			<!-- WARNING -->
-			<a th:href = "@{/project/project-list}"> Back to Project List</a>
+			<a th:href = "@{/user/{user_id}(user_id=${user.user_id})}"> Back to My Page</a>
 		</div>
 
 	</div>

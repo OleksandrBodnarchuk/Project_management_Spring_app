@@ -9,12 +9,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -53,5 +59,12 @@ public class ProjectServiceImpl implements ProjectService{
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.projectRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Project> getAllProjectsByUserId(long user_id) {
+        Query query = entityManager.createQuery(MessageFormat.format("SELECT u FROM Project u where user_id={0}", user_id));
+        List<Project> projectList = query.getResultList();
+        return projectList;
     }
 }

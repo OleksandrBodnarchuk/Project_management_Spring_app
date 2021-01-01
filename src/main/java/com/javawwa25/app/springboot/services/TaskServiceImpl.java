@@ -1,6 +1,5 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
@@ -11,6 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,14 @@ import java.util.Optional;
 public class TaskServiceImpl implements  TaskService{
 
     @Autowired
+    private EntityManager entityManager;
+    @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    ProjectRepository projectRepository;
+
+
 
     @Override
     public List<Task> getAllTasks() {
@@ -56,4 +65,13 @@ public class TaskServiceImpl implements  TaskService{
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.taskRepository.findAll(pageable);
     }
+
+    @Override
+    public List<Task> getAllTasksByProjectId(long id) {
+        Query query = entityManager.createQuery(MessageFormat.format("SELECT t FROM Task t where project_id={0}", id));
+        List<Task> taskList = query.getResultList();
+        return taskList;
+    }
+
+
 }

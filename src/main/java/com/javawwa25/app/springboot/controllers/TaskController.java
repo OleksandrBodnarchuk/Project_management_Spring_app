@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/task")
 public class TaskController {
 
     @Autowired
@@ -27,23 +28,23 @@ public class TaskController {
         return findPaginated(1, "name", "asc", model);
     }
 
-    @GetMapping("/showNewTaskForm/task")
+    @GetMapping("/showNewTaskForm")
     public String showNewTaskForm(Model model) {
         // create model attribute to bind form data
         Task task = new Task();
 
         model.addAttribute("task", task);
-        return "new_task";
+        return "/task/new_task";
     }
 
-    @PostMapping("/saveTask/task")
+    @PostMapping("/saveTask")
     public String saveTask(@ModelAttribute("task") Task task) {
        taskService.saveTask(task);
-        return "redirect:/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/task/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
-    @GetMapping("/showFormForUpdate/task/{id}")
+    @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable( value = "id") long id, Model model) {
 
         // get project from the service
@@ -51,19 +52,19 @@ public class TaskController {
 
         // set project as a model attribute to pre-populate the form
         model.addAttribute("task", task);
-        return "update_task";
+        return "/task/update_task";
     }
 
-    @GetMapping("/deleteTask/task/{id}")
+    @GetMapping("/deleteTask/{id}")
     public String deleteTask(@PathVariable (value = "id") long id) {
 
         // call delete project method
         this.taskService.deleteTaskById(id);
-        return "redirect:/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/task/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
 
-    @GetMapping("/task/{pageNo}")
+    @GetMapping("/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
@@ -82,7 +83,7 @@ public class TaskController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("taskList", taskList);
-        return "task-list";
+        return "/task/task-list";
     }
 
     @InitBinder

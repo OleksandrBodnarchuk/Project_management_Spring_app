@@ -28,7 +28,7 @@
 
 
 			<select name="priority" class="form-control mb-4 col-4" >
-				<option th:each="priority : ${T(com.javawwa25.app.springboot.models.PriorityTask).values()}"
+				<option th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
 						th:value="${priority}" th:text="${priority.displayValue}"></option>
 			</select>
 

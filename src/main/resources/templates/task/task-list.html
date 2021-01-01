@@ -135,9 +135,9 @@
 					<td th:text="${task.sprint}"></td>
 					<td th:text="${task.priorityTask}"></td>
 					<td th:text="${task.progress}"></td>
-					<td th:text="${task.userAssigned}"></td>
-					<td> <a th:href="@{/showFormForUpdate/task/{id}(id=${task.id})}" class="btn btn-primary">Update Task</a>
-					    <a th:href="@{/deleteTask/task/{id}(id=${task.id})}" class="btn btn-danger">Delete Task</a>
+					<td th:text="${task.user_assigned}"></td>
+					<td> <a th:href="@{/showFormForUpdate/task/{id}(id=${task.task_id})}" class="btn btn-primary">Update Task</a>
+					    <a th:href="@{/deleteTask/task/{id}(id=${task.task_id})}" class="btn btn-danger">Delete Task</a>
 					</td>
 				</tr>
 			</tbody>

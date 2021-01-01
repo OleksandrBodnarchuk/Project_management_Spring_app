@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.services;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -13,4 +14,6 @@ public interface ProjectService {
     Project getProjectById(long id);
     void deleteProjectById(long id);
     Page<Project> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+
+    List<Project> getAllProjectsByUserId(long user_id);
 }

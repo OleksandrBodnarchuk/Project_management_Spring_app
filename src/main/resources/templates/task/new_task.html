@@ -101,16 +101,11 @@
 
 			<input type="text" th:field="*{name}"
 				placeholder="Task Name" class="form-control mb-4 col-4">
-
-			<!--  NEED TO PUT ASSIGNEE BY EMPLOYEE ALIAS NAME + WAY TO PICK  -->
 				<input type="text" th:field="*{comments}"
 				placeholder="Comments" class="form-control mb-4 col-4">
-				
-				<input type="text" th:field="*{sprint}"
-				placeholder="Sprint" class="form-control mb-4 col-4">
 
 			<select name="priorityTask" class="form-control mb-4 col-4">
-				<option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.PriorityTask).values()}"
+				<option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
 						th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
 			</select>
 
@@ -119,7 +114,7 @@
 						th:value="${progress}" th:text="${progress.displayValue}"></option>
 			</select>
 
-			<input type="text" th:field="*{userAssigned}"
+			<input type="text" th:field="*{user_assigned}"
 				   placeholder="Asignee" class="form-control mb-4 col-4">
 
 			<button type="submit" class="btn btn-info col-2"> Save Project</button>
