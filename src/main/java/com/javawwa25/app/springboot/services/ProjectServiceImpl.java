@@ -52,14 +52,6 @@ public class ProjectServiceImpl implements ProjectService{
         this.projectRepository.deleteById(id);
     }
 
-    @Override
-    public Page<Project> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.projectRepository.findAll(pageable);
-    }
 
     @Override
     public List<Project> getAllProjectsByUserId(long user_id) {

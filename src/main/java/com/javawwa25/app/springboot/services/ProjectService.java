@@ -13,7 +13,6 @@ public interface ProjectService {
     void saveProject(Project project);
     Project getProjectById(long id);
     void deleteProjectById(long id);
-    Page<Project> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
     List<Project> getAllProjectsByUserId(long user_id);
 }

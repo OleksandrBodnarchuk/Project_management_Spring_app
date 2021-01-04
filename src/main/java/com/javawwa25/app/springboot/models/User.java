@@ -28,6 +28,9 @@ public class User {
 
 	private String email;
 
+	private boolean isActive;
+	private String activationCode;
+
 	private String password;
 
 	// no ID constructor
@@ -49,6 +52,8 @@ public class User {
 	private Set<Project> user_projects;
 
 
-	// mapping Users with Tasks
-
+	// mapping User with Task
+//	@ManyToMany(fetch =FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//	@JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
+//	private Collection<Task> user_tasks;
 }

@@ -1,16 +1,12 @@
 package com.javawwa25.app.springboot.services;
 
+import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.text.MessageFormat;
 import java.util.List;
@@ -19,14 +15,12 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements  TaskService{
 
-    @Autowired
-    private EntityManager entityManager;
+
     @Autowired
     private TaskRepository taskRepository;
 
     @Autowired
     ProjectRepository projectRepository;
-
 
 
     @Override
@@ -53,25 +47,10 @@ public class TaskServiceImpl implements  TaskService{
 
     @Override
     public void deleteTaskById(long id) {
-
         this.taskRepository.deleteById(id);
     }
 
-    @Override
-    public Page<Task> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
 
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.taskRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Task> getAllTasksByProjectId(long id) {
-        Query query = entityManager.createQuery(MessageFormat.format("SELECT t FROM Task t where project_id={0}", id));
-        List<Task> taskList = query.getResultList();
-        return taskList;
-    }
 
 
 }

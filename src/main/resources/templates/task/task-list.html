@@ -1,171 +1,129 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:>
 <head>
-	<meta charset="utf-8">
-	<!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
-	<!--  All snippets are MIT license http://bootdey.com/license -->
-	<title>Task List</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Task List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
 
 
-		body{
-			background:#eee;
-		}
-		.pic
-		{
-			margin-top:50px;
-			width:120px;
-			margin-left:50px;
-			margin-bottom:-60px;
-		}
+        body {
+            background: #eee;
+        }
 
-		.panel
-		{
-			background-image:url("https://via.placeholder.com/800x100/FFB6C1/000000");
-		}
+        .pic {
+            margin-top: 50px;
+            width: 120px;
+            margin-left: 50px;
+            margin-bottom: -60px;
+        }
 
-		.name
-		{
-			position:absolute;
-			padding-left:200px;
-			font-size:30px;
-		}
+        .panel {
+            background-image: url("https://via.placeholder.com/800x100/FFB6C1/000000");
+        }
 
-		.dropdown
-		{
-			position:absolute;
-		}
+        .name {
+            position: absolute;
+            padding-left: 200px;
+            font-size: 30px;
+        }
 
-		.change
-		{
-			position:relative;
-			bottom:20px;
-			padding:1px;
-			color:white;
-			text-decoration:none;
-		}
+        .dropdown {
+            position: absolute;
+        }
+
+        .change {
+            position: relative;
+            bottom: 20px;
+            padding: 1px;
+            color: white;
+            text-decoration: none;
+        }
 
 
-		.change:hover
-		{
-			text-decoration:none;
-			background-color:black;
-			color:white;
-		}
-	</style>
+        .change:hover {
+            text-decoration: none;
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head>
 <body style="">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <nav class="navbar navbar-inverse container" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" th:href="@{/task-list}">TASK list</a>
-		</div>
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}">Profile</a>
+        </div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li align="center" class="well">
-							<div><img class="img-responsive" style="padding:2%;" src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change" href="">Change Picture</a></div>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span> Security</a>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li align="center" class="well">
+                            <div><img class="img-responsive" style="padding:2%;"
+                                      src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change"
+                                                                                                  href="">Change
+                                Picture</a></div>
+                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
+                                Security</a>
+                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span>
+                                Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
-	<div class="container my-2">
-	<h1>Task List</h1>
+<div class="container my-2">
+    <h1>Task List</h1>
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th><a> Project Name</a></th>
+            <th><a> Task Name</a></th>
+            <th><a> Comments </a></th>
+            <th><a>Priority</a></th>
+            <th><a>Progress </a></th>
+            <th> Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${taskList}">
+            <td th:text="${task.project.project_name}"></td>
+            <td th:text="${task.task_name}"></td>
+            <td th:text="${task.comments}"></td>
+            <td th:text="${task.task_priority}"></td>
+            <td th:text="${task.task_progress}"></td>
 
-		<!-- GET MAPPING FOR ADD PROJECT-->
-	<a th:href = "@{/showNewTaskForm/task}" class="btn btn-primary btn-sm mb-3"> Add Task </a>
-	 <a th:href = "@{/main}" class="btn btn-primary btn-sm mb-3">Home </a>
-		<table border="1" class = "table table-striped table-responsive-md">
-			<thead>
-			<tr>
-				<th>
-					<a th:href="@{'/task/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}}">
-						Task Name</a>
-				</th>
-				<th>
-					<a th:href="@{'/task/' + ${currentPage} + '?sortField=comments&sortDir=' + ${reverseSortDir}}">
-						Comments </a>
-				</th> <th>
-				<a th:href="@{'/task/' + ${currentPage} + '?sortField=sprint&sortDir=' + ${reverseSortDir}}">
-					Sprint</a>
-			</th>
-				<th>
-				<a th:href="@{'/task/' + ${currentPage} + '?sortField=priorityTask&sortDir=' + ${reverseSortDir}}">
-					Priority</a>
-			</th>
 
-				 <th>
-				<a th:href="@{'/task/' + ${currentPage} + '?sortField=progress&sortDir=' + ${reverseSortDir}}">
-					Progress </a>
-			</th>
-				<th>
-					<a th:href="@{'/task/' + ${currentPage} + '?sortField=userAssigned&sortDir=' + ${reverseSortDir}}">
-						Assigned person </a>
-				</th>
-				<th> Actions </th>
-			</tr>
-			</thead>
-			<tbody>
-				<tr th:each="task : ${taskList}">
-					<td th:text="${task.name}"></td>
-					<td th:text="${task.comments}"></td>
-					<td th:text="${task.sprint}"></td>
-					<td th:text="${task.priorityTask}"></td>
-					<td th:text="${task.progress}"></td>
-					<td th:text="${task.user_assigned}"></td>
-					<td> <a th:href="@{/showFormForUpdate/task/{id}(id=${task.task_id})}" class="btn btn-primary">Update Task</a>
-					    <a th:href="@{/deleteTask/task/{id}(id=${task.task_id})}" class="btn btn-danger">Delete Task</a>
-					</td>
-				</tr>
-			</tbody>
+            <td><a th:href="@{/task/moveTaskToNextStep/{task_id}(task_id=${task.task_id})}"
+                   class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span> Move Task to next
+                step</a><br>
+                <a href="#"
+                   class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>Edit Task</a>
+            </td>
+        </tr>
+        </tbody>
 
-		</table>
-		
-		<div th:if = "${totalPages > 1}">
-			<div class = "row col-sm-10">
-				<div class = "col-sm-2">
-					Total Rows: [[${totalItems}]] 
-				</div>
-				<div class = "col-sm-1">
-					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/project/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
-				</div>
-				<div class = "col-sm-1">
-					<a th:if="${currentPage < totalPages}" th:href="@{'/project/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-					<span th:unless="${currentPage < totalPages}">Next</span>
-				</div>
-				
-				 <div class="col-sm-1">
-    				<a th:if="${currentPage < totalPages}" th:href="@{'/project/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-					<span th:unless="${currentPage < totalPages}">Last</span>
-   				 </div>
-			</div>
-		</div>
-	</div>
+    </table>
+
+</div>
 </body>
 </html>

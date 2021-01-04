@@ -108,7 +108,7 @@
             <a th:href="@{/project/showNewProjectForm}" class="btn btn-primary btn-success"><span
                     class="glyphicon glyphicon-plus-sign"></span> Add new
                 Project</a>
-            <a href="#" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-eye-open"></span> All tasks
+            <a th:href="@{/task/allTasksByUser/{user_id}(user_id=${user.user_id})}" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-eye-open"></span> All tasks
                 assigned to me</a>
             <br><br>
             <table border="1" class="table table-striped table-responsive-md">
@@ -129,12 +129,14 @@
                     <td th:text="${project.project_startDate}"></td>
                     <td th:text="${project.project_endDate}"></td>
                     <td th:text="${project.project_priority}"></td>
-                    <td><a th:href="@{/project/{project_id}(project_id=${project.project_id})/board}"
-                      class="btn btn-primary btn-info"><span class="glyphicon glyphicon-list-alt"></span> View Project backlog</a>
+                    <td> <a th:href="@{/project/redirect/{id}(id=${project.project_id})}"
+                         class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus"></span> Add Task to Project Backlog</a>
+                        <a th:href="@{/project/board/{id}(id=${project.project_id})}"
+                      class="btn btn-sm btn-info"><span class="glyphicon glyphicon-list-alt"></span> View Project backlog</a><br>
                         <a th:href="@{/project/showFormForUpdate/{id}(id=${project.project_id})}"
-                       class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-pencil"></span> Update Project</a>
+                       class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span> Update Project</a>
                         <a th:href="@{/project/deleteProject/{id}(id=${project.project_id})}"
-                        class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete Project</a>
+                        class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete Project</a>
                     </td>
                 </tr>
             </table>

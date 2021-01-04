@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date project_endDate;
 
+    @Enumerated(EnumType.STRING)
     private Priority project_priority;
 
     // mapping projects with user
@@ -39,7 +41,6 @@ public class Project {
     // mapping tasks with project
     @OneToMany(mappedBy="project")
     private Set<Task> project_tasks;
-
 
 
 

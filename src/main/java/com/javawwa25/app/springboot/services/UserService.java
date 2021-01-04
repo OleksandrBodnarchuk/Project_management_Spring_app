@@ -14,7 +14,6 @@ public interface UserService extends UserDetailsService {
 	void saveUser(User user);
 	User getUserById(long id);
 	void deleteUserById(long id);
-	Page<User> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
 	// method to save User during registration
 	User save(UserRegistrationDto registrationDto);

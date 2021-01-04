@@ -1,11 +1,16 @@
 package com.javawwa25.app.springboot.controllers;
 
 
+import com.javawwa25.app.springboot.models.Progress;
+import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
+import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.TaskRepository;
+import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
+import com.javawwa25.app.springboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -15,80 +20,102 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.javawwa25.app.springboot.models.Progress.*;
+
+
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
     @Autowired
     TaskService taskService;
+    @Autowired
+    TaskRepository taskRepository;
+    @Autowired
+    ProjectService projectService;
+    @Autowired
+    private UserService userService;
 
-    // display list of employees
-    @GetMapping("/task-list")
-    public String viewHomePage(Model model) {
-        return findPaginated(1, "name", "asc", model);
-    }
-
-    @GetMapping("/showNewTaskForm")
-    public String showNewTaskForm(Model model) {
-        // create model attribute to bind form data
+    // adding Task to specific project
+    @GetMapping("/showNewTaskForm/{project_id}")
+    public String showNewTaskForm(@PathVariable(value = "project_id") long project_id, Model model) {
         Task task = new Task();
-
+        Project project = projectService.getProjectById(project_id);
+        model.addAttribute("project", project);
         model.addAttribute("task", task);
         return "/task/new_task";
     }
 
-    @PostMapping("/saveTask")
-    public String saveTask(@ModelAttribute("task") Task task) {
-       taskService.saveTask(task);
-        return "redirect:/task/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
+    @PostMapping("/saveNewTask/{project_id}")
+    public String saveTask(@PathVariable(value = "project_id") long project_id, @ModelAttribute("task") Task task) {
+        task.setTask_progress(TODO);
+        // Assign current project to task
+        task.setProject(projectService.getProjectById(project_id));
+        taskService.saveTask(task);
+        return "redirect:/user";
     }
 
+    @GetMapping("/showTaskInfo/{task_id}")
+    public String showTaskInfo(@PathVariable(value = "task_id") long task_id, Model model) {
+        Task task = taskService.getTaskById(task_id);
+        List<User> userList = userService.getAllUsers();
+        model.addAttribute("userList", userList);
+        model.addAttribute("task", task);
+        return "/task/task-info";
+    }
 
-    @GetMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable( value = "id") long id, Model model) {
+    @PostMapping("/saveCurrentTask")
+    public String saveCurrentTask( @ModelAttribute("task") Task task) {
+        taskService.saveTask(task);
+        return "redirect:/user";
+    }
 
-        // get project from the service
-        Task task = taskService.getTaskById(id);
+    @GetMapping("/deleteTask/{task_id}")
+    public String deleteTask(@PathVariable(value = "task_id") long task_id) {
+        // call delete project method
+        this.taskService.deleteTaskById(task_id);
+        return "redirect:/user";
+    }
 
-        // set project as a model attribute to pre-populate the form
+    @GetMapping("/updateTaskInBoard/{task_id}")
+    public String updateTaskInBoard(@PathVariable(value = "task_id") long task_id, Model model) {
+        Task task = taskService.getTaskById(task_id);
+        task.setProject(projectService.getProjectById(task.getProject().getProject_id()));
+        List<User> userList = userService.getAllUsers();
+        model.addAttribute("userList", userList);
         model.addAttribute("task", task);
         return "/task/update_task";
     }
 
-    @GetMapping("/deleteTask/{id}")
-    public String deleteTask(@PathVariable (value = "id") long id) {
-
-        // call delete project method
-        this.taskService.deleteTaskById(id);
-        return "redirect:/task/task-list";   // CHECK REDIRECT !!!!!!!!!!!!
+    @GetMapping("/moveTaskToNextStep/{task_id}")
+    public String moveTaskToNextStep(@PathVariable(value = "task_id") long task_id) {
+        Task task = taskService.getTaskById(task_id);
+        switch (task.getTask_progress()) {
+            case TODO:
+                task.setTask_progress(IN_PROGRESS);
+                break;
+            case IN_PROGRESS:
+                task.setTask_progress(QA);
+                break;
+            case QA:
+                task.setTask_progress(DONE);
+                break;
+        }
+        taskService.saveTask(task);
+        return "redirect:/";
     }
 
-
-    @GetMapping("/{pageNo}")
-    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir,
-                                Model model) {
-        int pageSize = 5;
-
-        Page<Task> page = taskService.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<Task> taskList = taskService.getAllTasks();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
+    @GetMapping("/allTasksByUser/{user_id}")
+    public String allTasksByUser(@PathVariable(value = "user_id")long user_id, Model model){
+        List<Task> taskList = taskRepository.getAllTasksByUserId(user_id);
         model.addAttribute("taskList", taskList);
         return "/task/task-list";
+
     }
 
     @InitBinder
-    public void initBinder(WebDataBinder binder){
-        binder.registerCustomEditor(       Date.class,
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Date.class,
                 new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
     }
 

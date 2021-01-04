@@ -94,10 +94,7 @@
 <div class="container bootstrap snippets bootdey">
 	<div class="row well">
 		<div class="container">
-			<h2>Project Management: Add new project</h2>
-			<hr>
-			<h3>Project Details</h3>
-
+			<h3>Add new project</h3>
 			<form action="#" th:action="@{/project/saveProject}" th:object="${project}"
 				  method="POST">
 
@@ -119,13 +116,10 @@
 
 				<input type="date" name="date" th:field="${project.project_endDate}"
 					   placeholder="endDate"  class="form-control mb-4 col-4">
-
-				<button type="submit" class="btn btn-info col-2"> Save Project</button>
+				<br>
+				<button type="submit" class="btn btn-primary btn-success"><span
+						class="glyphicon glyphicon-plus-sign"></span> Save Project </button>
 			</form>
-
-			<hr>
-
-			<!-- WARNING -->
 			<a th:href = "@{/user/{user_id}(user_id=${user.user_id})}"> Back to My Page</a>
 		</div>
 

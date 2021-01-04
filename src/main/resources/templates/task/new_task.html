@@ -1,127 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:>
 <head>
-	<meta charset="utf-8">
-	<!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
-	<!--  All snippets are MIT license http://bootdey.com/license -->
-	<title>Project List</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
+    <meta charset="utf-8">
+
+    <title>New Task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
 
 
-		body{
-			background:#eee;
-		}
-		.pic
-		{
-			margin-top:50px;
-			width:120px;
-			margin-left:50px;
-			margin-bottom:-60px;
-		}
+        body {
+            background: #eee;
+        }
 
-		.panel
-		{
-			background-image:url("https://via.placeholder.com/800x100/FFB6C1/000000");
-		}
+        .pic {
+            margin-top: 50px;
+            width: 120px;
+            margin-left: 50px;
+            margin-bottom: -60px;
+        }
 
-		.name
-		{
-			position:absolute;
-			padding-left:200px;
-			font-size:30px;
-		}
+        .panel {
+            background-image: url("https://via.placeholder.com/800x100/FFB6C1/000000");
+        }
 
-		.dropdown
-		{
-			position:absolute;
-		}
+        .name {
+            position: absolute;
+            padding-left: 200px;
+            font-size: 30px;
+        }
 
-		.change
-		{
-			position:relative;
-			bottom:20px;
-			padding:1px;
-			color:white;
-			text-decoration:none;
-		}
+        .dropdown {
+            position: absolute;
+        }
+
+        .change {
+            position: relative;
+            bottom: 20px;
+            padding: 1px;
+            color: white;
+            text-decoration: none;
+        }
 
 
-		.change:hover
-		{
-			text-decoration:none;
-			background-color:black;
-			color:white;
-		}
-	</style>
+        .change:hover {
+            text-decoration: none;
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head>
 <body style="">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <nav class="navbar navbar-inverse container" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" th:href="@{/project/project-list}">Project list</a>
-		</div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/user}">Profile</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li align="center" class="well">
-							<div><img class="img-responsive" style="padding:2%;" src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change" href="">Change Picture</a></div>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span> Security</a>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li align="center" class="well">
+                            <div><img class="img-responsive" style="padding:2%;"
+                                      src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change"
+                                                                                                  href="">Change
+                                Picture</a></div>
+                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
+                                Security</a>
+                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span>
+                                Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
-	<div class="container">
-		<h1>Task Management: ADD</h1>
-		<hr>
-		<h2>Details</h2>
+<div class="container bootstrap snippets bootdey">
+    <div class="row well">
+        <div class="container">
+    <h3>Add new task</h3>
+    <form action="#" th:action="@{/task/saveNewTask/{id}(id=${project.project_id})}" th:object="${task}"
+          method="POST">
 
-		<form action="#" th:action="@{/saveTask/task}" th:object="${task}"
-			method="POST">
+        <input type="text" th:field="*{task_name}"
+               placeholder="Task Name" class="form-control mb-4 col-4">
 
-			<input type="text" th:field="*{name}"
-				placeholder="Task Name" class="form-control mb-4 col-4">
-				<input type="text" th:field="*{comments}"
-				placeholder="Comments" class="form-control mb-4 col-4">
+        <input type="text" th:field="*{comments}"
+               placeholder="Comments" class="form-control mb-4 col-4">
 
-			<select name="priorityTask" class="form-control mb-4 col-4">
-				<option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
-						th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
-			</select>
+        <select name="priorityTask" class="form-control mb-4 col-4">
+            <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+                    th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
+        </select>
+        <!-- DATE -->
+        <input type="date" name="date" th:field="${task.task_startDate}"
+               class="form-control mb-4 col-4">
 
-			<select name="progress" class="form-control mb-4 col-4">
-				<option th:each="progress : ${T(com.javawwa25.app.springboot.models.Progress).values()}"
-						th:value="${progress}" th:text="${progress.displayValue}"></option>
-			</select>
+        <input type="date" name="date" th:field="${task.task_endDate}"
+               class="form-control mb-4 col-4">
 
-			<input type="text" th:field="*{user_assigned}"
-				   placeholder="Asignee" class="form-control mb-4 col-4">
+        <br>
+        <button type="submit" class="btn btn-primary btn-success"><span
+                class="glyphicon glyphicon-plus-sign"></span> Save Task </button>
 
-			<button type="submit" class="btn btn-info col-2"> Save Project</button>
-		</form>
+    </form>
 
-		<!-- WARNING -->
-		<a th:href = "@{/tasks}"> Back to Task List</a>
-	</div>
+    <!-- WARNING -->
+    <a th:href="@{/user}"> Back to Profile</a>
+        </div>
+
+    </div>
+</div>
+
 </body>
 </html>
