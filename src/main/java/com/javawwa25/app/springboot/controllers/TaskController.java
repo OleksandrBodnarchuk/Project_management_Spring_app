@@ -1,22 +1,22 @@
 package com.javawwa25.app.springboot.controllers;
 
 
-import com.javawwa25.app.springboot.models.Progress;
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.models.*;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
+import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +34,9 @@ public class TaskController {
     @Autowired
     ProjectService projectService;
     @Autowired
-    private UserService userService;
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
     // adding Task to specific project
     @GetMapping("/showNewTaskForm/{project_id}")
@@ -47,10 +49,17 @@ public class TaskController {
     }
 
     @PostMapping("/saveNewTask/{project_id}")
-    public String saveTask(@PathVariable(value = "project_id") long project_id, @ModelAttribute("task") Task task) {
+    public String saveTask(@CurrentSecurityContext(expression = "authentication.name") String userName,
+                           @PathVariable(value = "project_id") long project_id,
+                           @RequestParam("priority") Priority priority,
+                           @ModelAttribute("task") Task task) {
         task.setTask_progress(TODO);
+        task.setTask_priority(priority);
         // Assign current project to task
         task.setProject(projectService.getProjectById(project_id));
+        // Assign current User to task
+        task.setUsers(Collections.singleton(userRepository.findByEmail(userName)));
+
         taskService.saveTask(task);
         return "redirect:/user";
     }
@@ -58,33 +67,34 @@ public class TaskController {
     @GetMapping("/showTaskInfo/{task_id}")
     public String showTaskInfo(@PathVariable(value = "task_id") long task_id, Model model) {
         Task task = taskService.getTaskById(task_id);
-        List<User> userList = userService.getAllUsers();
-        model.addAttribute("userList", userList);
         model.addAttribute("task", task);
         return "/task/task-info";
     }
 
-    @PostMapping("/saveCurrentTask")
-    public String saveCurrentTask( @ModelAttribute("task") Task task) {
-        taskService.saveTask(task);
-        return "redirect:/user";
-    }
 
     @GetMapping("/deleteTask/{task_id}")
     public String deleteTask(@PathVariable(value = "task_id") long task_id) {
-        // call delete project method
         this.taskService.deleteTaskById(task_id);
         return "redirect:/user";
     }
 
-    @GetMapping("/updateTaskInBoard/{task_id}")
+    // Updating current task
+    @GetMapping("/updateCurrentTask/{task_id}")
     public String updateTaskInBoard(@PathVariable(value = "task_id") long task_id, Model model) {
         Task task = taskService.getTaskById(task_id);
-        task.setProject(projectService.getProjectById(task.getProject().getProject_id()));
         List<User> userList = userService.getAllUsers();
         model.addAttribute("userList", userList);
         model.addAttribute("task", task);
         return "/task/update_task";
+    }
+
+    @PostMapping("/saveCurrentTask")
+    public String saveCurrentTask(@RequestParam("userEmail") String userEmail,
+                                  @ModelAttribute("task") Task task) {
+        // assigning new user to task
+        task.addUser(userRepository.findByEmail(userEmail));
+        taskService.saveTask(task);
+        return "redirect:/user";
     }
 
     @GetMapping("/moveTaskToNextStep/{task_id}")
@@ -106,8 +116,10 @@ public class TaskController {
     }
 
     @GetMapping("/allTasksByUser/{user_id}")
-    public String allTasksByUser(@PathVariable(value = "user_id")long user_id, Model model){
+    public String allTasksByUser(@PathVariable(value = "user_id") long user_id, Model model) {
         List<Task> taskList = taskRepository.getAllTasksByUserId(user_id);
+        User user = userService.getUserById(user_id);
+        model.addAttribute("user", user);
         model.addAttribute("taskList", taskList);
         return "/task/task-list";
 

@@ -77,27 +77,19 @@
                 <tr>
                     <th>Project Name</th>
                     <th>Task Name</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
                     <th>Task information</th>
                     <th>Priority</th>
-                    <th>Assigned person</th>
                     <th> Actions</th>
                 </tr>
                 </thead>
                 <tr>
                     <td th:text="${task.project.project_name}"></td>
                     <td th:text="${task.task_name}"></td>
-                    <td th:text="${task.task_startDate}"></td>
-                    <td th:text="${task.task_endDate}"></td>
                     <td th:text="${task.comments}"></td>
                     <td th:text="${task.task_priority}"></td>
-                    <td th:text="${task.project.user.email}"></td>
                     <td>
-                        <a th:href="@{/task/moveTaskToNextStep/{task_id}(task_id=${task.task_id})}"
-                           class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span> Move Task to next step</a><br>
-                        <a th:href="@{/project/board/{project_id}(project_id=${task.project.project_id})}"
-                           class="btn btn-sm btn-info"><span class="glyphicon glyphicon-list-alt"></span> View Project backlog</a><br>
+                        <a th:href="@{/task/updateCurrentTask/{task_id}(task_id=${task.task_id})}"
+                           class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>Update Task</a><br>
                         <a th:href="@{/task/deleteTask/{task_id}(task_id=${task.task_id})}"
                            class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete
                             Task</a>
