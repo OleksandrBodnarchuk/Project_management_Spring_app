@@ -6,6 +6,7 @@
     <title>New Task</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+
     <style type="text/css">
 
 
@@ -91,33 +92,23 @@
         <div class="container">
     <h3>Add new task</h3>
     <form action="#" th:action="@{/task/saveNewTask/{id}(id=${project.project_id})}" th:object="${task}"
-          method="POST">
+          method="POST" class="row">
 
         <label>
             <input type="text" th:field="*{task_name}"
                    placeholder="Task Name" class="form-control mb-4 col-4">
         </label>
-
+<br>
         <label>
-            <input type="text" th:field="*{comments}"
-                   placeholder="Comments" class="form-control mb-4 col-4">
+            <textarea  th:field="*{comments}"
+                      placeholder="Comments" class="form-control"></textarea>
         </label>
-
+<br>
         <label>
             <select name="priority" class="form-control mb-4 col-4">
                 <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
                         th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
             </select>
-        </label>
-        <!-- DATE -->
-        <label>
-            <input type="date" name="date" th:field="${task.task_startDate}"
-                   class="form-control mb-4 col-4">
-        </label>
-
-        <label>
-            <input type="date" name="date" th:field="${task.task_endDate}"
-                   class="form-control mb-4 col-4">
         </label>
 
         <br>

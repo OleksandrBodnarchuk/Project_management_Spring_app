@@ -1,12 +1,9 @@
 package com.javawwa25.app.springboot.models;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 
@@ -51,9 +48,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Project> user_projects;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "task_id"))
-    private Collection<Task> tasks;
+    // mapping user with tasks
+    @OneToMany(mappedBy = "user")
+    private Set<Task> tasks;
+
+
 
 
 

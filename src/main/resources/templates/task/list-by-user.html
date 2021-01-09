@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns: xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com    @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
-    <title>Task List</title>
+    <title th:text="*{user.first_name+' '+ user.last_name}">Home </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -15,14 +13,15 @@
         }
 
         .pic {
-            margin-top: 50px;
-            width: 120px;
-            margin-left: 50px;
-            margin-bottom: -60px;
+            width: 180px;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -10px;
         }
 
         .panel {
-            background-image: url("https://via.placeholder.com/800x100/FFB6C1/000000");
+            position: initial;
+            background-image: url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
         }
 
         .name {
@@ -75,52 +74,53 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.getFirst_name()}">Username
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li align="center" class="well">
+                        <li align="center" class="well" sec:authorize="isAuthenticated()">
                             <div><img class="img-responsive" style="padding:2%;"
-                                      src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change"
-                                                                                                  href="">Change
-                                Picture</a></div>
+                                      src="https://www.pngitem.com/pimgs/m/146-1468323_gamer-profile-icon-png-transparent-png.png"><a
+                                    class="change" href="">Change Picture</a></div>
                             <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
                                 Security</a>
-                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span>
-                                Logout</a>
+                            <a th:href="@{/logout}" class="btn btn-sm btn-default"><span
+                                    class="glyphicon glyphicon-log-out"></span> Logout</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
+        <!-- /.navbar-collapse -->
     </div>
+    <!-- /.container-fluid -->
 </nav>
 
 <div class="container my-2">
-    <h1>Task List</h1>
+    <h1>Tasks assigned to my account </h1>
     <table border="1" class="table table-striped table-responsive-md">
         <thead>
         <tr>
             <th><a> Project Name</a></th>
-            <th><a> Project Priority</a></th>
+            <th><a> Project PM</a></th>
             <th><a> Task Name</a></th>
             <th><a> Comments </a></th>
             <th><a>Priority</a></th>
             <th><a>Progress </a></th>
-            <th><a>Assigned</a></th>
+            <th><a>Project Deadline</a></th>
             <th> Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="task : ${taskList}">
-          <td th:text="${task.project.project_name}"></td>
-            <td th:text="${task.project.project_priority}"></td>
+       <td th:text="${task.project.project_name}"></td>
+            <td th:text="${task.project.user.email}"></td>
             <td th:text="${task.task_name}"></td>
             <td th:text="${task.comments}"></td>
             <td th:text="${task.task_priority}"></td>
             <td th:text="${task.task_progress}"></td>
-            <td th:text="${task.user.email}"></td>
+            <td th:text="${task.project.project_endDate}"></td>
 
 
-            <td>
-                <a th:href="@{/task/updateCurrentTask/{task_id}(task_id=${task.task_id})}"
-                   class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>Edit Task</a>
+            <td><a th:href="@{/task/moveTaskToNextStep/{task_id}(task_id=${task.task_id})}"
+                   class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span> Move Task to next
+                step</a><br>
             </td>
         </tr>
         </tbody>

@@ -1,136 +1,143 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="utf-8">
-	<title>Task Update</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
+    <meta charset="utf-8">
+    <title>Task Update</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
 
 
-		body {
-			background: #eee;
-		}
+        body {
+            background: #eee;
+        }
 
-		.pic {
-			width: 180px;
-			margin-top: 20px;
-			margin-left: 10px;
-			margin-bottom: -10px;
-		}
+        .pic {
+            width: 180px;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -10px;
+        }
 
-		.panel {
-			position: initial;
-			background-image: url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
-		}
+        .panel {
+            position: initial;
+            background-image: url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
+        }
 
-		.name {
-			position: absolute;
-			padding-left: 200px;
-			font-size: 30px;
-		}
+        .name {
+            position: absolute;
+            padding-left: 200px;
+            font-size: 30px;
+        }
 
-		.dropdown {
-			position: absolute;
-		}
+        .dropdown {
+            position: absolute;
+        }
 
-		.change {
-			position: relative;
-			bottom: 20px;
-			padding: 1px;
-			color: white;
-			text-decoration: none;
-		}
+        .change {
+            position: relative;
+            bottom: 20px;
+            padding: 1px;
+            color: white;
+            text-decoration: none;
+        }
 
 
-		.change:hover {
-			text-decoration: none;
-			background-color: black;
-			color: white;
-		}
-	</style>
+        .change:hover {
+            text-decoration: none;
+            background-color: black;
+            color: white;
+        }
+    </style>
 </head>
-<<body style="">
+<
+<body style="">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <nav class="navbar navbar-inverse container" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#">Profile</a>
-		</div>
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Profile</a>
+        </div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${task.project.user.first_name}">Username
-						<b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li align="center" class="well" sec:authorize="isAuthenticated()">
-							<div><img class="img-responsive" style="padding:2%;"
-									  src="https://www.pngitem.com/pimgs/m/146-1468323_gamer-profile-icon-png-transparent-png.png"><a
-									class="change" href="">Change Picture</a></div>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
-								Security</a>
-							<a th:href="@{/logout}" class="btn btn-sm btn-default"><span
-									class="glyphicon glyphicon-log-out"></span> Logout</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${task.user.first_name}">Username
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li align="center" class="well" sec:authorize="isAuthenticated()">
+                            <div><img class="img-responsive" style="padding:2%;"
+                                      src="https://www.pngitem.com/pimgs/m/146-1468323_gamer-profile-icon-png-transparent-png.png"><a
+                                    class="change" href="">Change Picture</a></div>
+                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
+                                Security</a>
+                            <a th:href="@{/logout}" class="btn btn-sm btn-default"><span
+                                    class="glyphicon glyphicon-log-out"></span> Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <div class="container bootstrap snippets bootdey">
-	<h3>Update Task</h3>
+    <h3>Update Task</h3>
 
-	<!--SAVING CURRENT TASK TO CURRENT PROJECT -->
-	<form action="#" th:action="@{/task/saveCurrentTask}" th:object="${task}"
-		  method="POST">
+    <!--SAVING CURRENT TASK TO CURRENT PROJECT -->
+    <form action="#" th:action="@{/task/saveCurrentTask}" th:object="${task}"
+          method="POST" class="row">
 
-		<!-- Add hidden form field to handle update -->
-		<input type="hidden" th:field="*{task_id}" />
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{task_id}"/>
 
-		<label>
-			<input type="text" th:field="*{task_name}"
-				   placeholder="Task Name"  class="form-control mb-4 col-4">
-		</label>
+        <label>
+            <input type="text" th:field="*{task_name}"
+                   placeholder="Task Name" class="form-control mb-4 col-4">
+        </label>
+        <br>
+        <label>
+			<textarea th:field="*{comments}"
+                      placeholder="Comments" class="form-control" rows="5" cols="33"></textarea>
+        </label>
+        <br>
+        <label>
+            <select name="priority" class="form-control mb-4 col-4">
+                <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+                        th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
+            </select>
+        </label>
+        <br>
+        <label>
+            <select name="progress" class="form-control mb-4 col-4">
+                <option th:each="progress : ${T(com.javawwa25.app.springboot.models.Progress).values()}"
+                        th:value="${progress}" th:text="${progress.displayValue}"></option>
+            </select>
+        </label>
+        <br>
+        <label>
+            <select name="user" class="form-control mb-4 col-4">
+                <option th:each="user : ${userList}"
+                        th:value="${user.user_id}" th:text="${user.email}"></option>
+            </select>
+        </label>
+        <br>
+        <button type="submit" class="btn btn-info col-2"> Update Task</button>
 
-		<label>
-			<input type="text" th:field="*{comments}"
-				   placeholder="Comments" class="form-control mb-4 col-4">
-		</label>
 
-		<label>
-			<input type="date" name="startDate" th:field="${task.task_startDate}"
-				   class="form-control mb-4 col-4">
-		</label>
+    </form>
 
-		<label>
-			<input type="date" name="endDate" th:field="${task.task_endDate}"
-				   class="form-control mb-4 col-4">
-		</label>
-
-		<label>
-			<select name="userEmail" class="form-control mb-4 col-4" >
-				<option th:each="user : ${userList}"
-						th:value="${user}" th:text="${user.email}"></option>
-			</select>
-		</label>
-
-		<button type="submit" class="btn btn-info col-2"> Update Task</button>
-	</form>
-
-	<a th:href="@{/}"> Back to My Page </a>
+    <a th:href="@{/}"> Back to My Page </a>
 </div>
 </body>
 </html>

@@ -25,11 +25,11 @@ public class Task {
 
     private String task_name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date task_startDate;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date task_endDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date task_startDate;
+//
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Date task_endDate;
 
     @Enumerated(EnumType.STRING)
     private Priority task_priority;
@@ -44,21 +44,9 @@ public class Task {
 
 
     // mapping tasks with user
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
-
-    // mapping Users with Tasks
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "user_tasks", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Collection<User> users;
-
-    public void addUser(User theUser) {
-        if(users==null) {
-            users=new ArrayList<>();
-        }
-        users.add(theUser);
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 }

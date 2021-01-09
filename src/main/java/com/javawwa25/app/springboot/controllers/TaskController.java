@@ -58,7 +58,7 @@ public class TaskController {
         // Assign current project to task
         task.setProject(projectService.getProjectById(project_id));
         // Assign current User to task
-        task.setUsers(Collections.singleton(userRepository.findByEmail(userName)));
+        task.setUser(userRepository.findByEmail(userName));
 
         taskService.saveTask(task);
         return "redirect:/user";
@@ -89,11 +89,12 @@ public class TaskController {
     }
 
     @PostMapping("/saveCurrentTask")
-    public String saveCurrentTask(@RequestParam("userEmail") String userEmail,
-                                  @ModelAttribute("task") Task task) {
-        // assigning new user to task
-        task.addUser(userRepository.findByEmail(userEmail));
-        taskService.saveTask(task);
+    public String saveCurrentTask(@ModelAttribute("task") Task newTask) {
+        Task oldTaskFromDB = taskService.getTaskById(newTask.getTask_id());
+        newTask.setTask_priority(oldTaskFromDB.getTask_priority());
+        newTask.setTask_progress(oldTaskFromDB.getTask_progress());
+        newTask.setProject(oldTaskFromDB.getProject());
+       taskService.saveTask(newTask);
         return "redirect:/user";
     }
 
@@ -116,7 +117,7 @@ public class TaskController {
     }
 
     @GetMapping("/allTasksByUser/{user_id}")
-    public String allTasksByUser(@PathVariable(value = "user_id") long user_id, Model model) {
+    public String taskList(@PathVariable(value = "user_id") long user_id, Model model) {
         List<Task> taskList = taskRepository.getAllTasksByUserId(user_id);
         User user = userService.getUserById(user_id);
         model.addAttribute("user", user);
@@ -125,6 +126,17 @@ public class TaskController {
 
     }
 
+
+    // NEW TASK LIST PER ASSIGNED USER
+    @GetMapping("/allTasksByUserId/{user_id}")
+    public String allTasksFilteredByUserEmail(@PathVariable(value = "user_id") long user_id, Model model) {
+        List<Task> taskList = taskRepository.getAllTasksByUser(user_id);
+        User user = userService.getUserById(user_id);
+        model.addAttribute("user", user);
+        model.addAttribute("taskList", taskList);
+        return "/task/list-by-user";
+
+    }
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class,
