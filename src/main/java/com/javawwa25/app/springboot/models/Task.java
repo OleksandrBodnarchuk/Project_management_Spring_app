@@ -25,6 +25,9 @@ public class Task {
 
     private String task_name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date task_created;
+
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
 //    private Date task_startDate;
 //

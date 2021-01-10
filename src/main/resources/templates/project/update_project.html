@@ -63,7 +63,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Profile</a>
+            <a class="navbar-brand" th:href="@{/}">Profile</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,7 +71,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${project.user.first_name}">Username
+                    <a th:href="@{/}" class="dropdown-toggle" data-toggle="dropdown" th:text="${project.user.first_name}">Username
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li align="center" class="well" sec:authorize="isAuthenticated()">
@@ -104,9 +104,9 @@
         <input type="text" th:field="*{project_name}" class="form-control mb-4 col-4" placeholder="Project Name">
 
         <input type="text" th:field="*{project_info}" class="form-control mb-4 col-4" placeholder="Comments">
-
+<!--
         <input type="date" name="date" th:field="${project.project_startDate}"
-               placeholder="startDate" class="form-control mb-4 col-4">
+               placeholder="startDate" class="form-control mb-4 col-4"> -->
 
         <input type="date" name="date" th:field="${project.project_endDate}"
                placeholder="startDate" class="form-control mb-4 col-4">

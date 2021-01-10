@@ -109,13 +109,13 @@
         </thead>
         <tbody>
         <tr th:each="task : ${taskList}">
-       <td th:text="${task.project.project_name}"></td>
-            <td th:text="${task.project.user.email}"></td>
-            <td th:text="${task.task_name}"></td>
-            <td th:text="${task.comments}"></td>
-            <td th:text="${task.task_priority}"></td>
-            <td th:text="${task.task_progress}"></td>
-            <td th:text="${task.project.project_endDate}"></td>
+            <td><span th:text="${task.project.project_name}"></span></td>
+            <td><span th:text="${task.project.user.email}"></span></td>
+            <td><span th:text="${task.task_name}"></span></td>
+            <td><span th:text="${task.comments}"></span></td>
+            <td><span th:text="${task.task_priority}"></span></td>
+            <td><span th:text="${task.task_progress}"></span></td>
+            <td><span th:text="${task.project.project_endDate}"></span></td>
 
 
             <td><a th:href="@{/task/moveTaskToNextStep/{task_id}(task_id=${task.task_id})}"

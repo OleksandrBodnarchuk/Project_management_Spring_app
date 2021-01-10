@@ -93,7 +93,7 @@
 </nav>
 
 <div class="container my-2">
-    <h1>Task List</h1>
+    <h1>My Projects Task List</h1>
     <table border="1" class="table table-striped table-responsive-md">
         <thead>
         <tr>
@@ -101,19 +101,19 @@
             <th><a> Project Priority</a></th>
             <th><a> Task Name</a></th>
             <th><a> Comments </a></th>
-            <th><a>Priority</a></th>
-            <th><a>Progress </a></th>
+            <th><a>Task Priority</a></th>
+            <th><a>Task Progress </a></th>
             <th><a>Assigned</a></th>
             <th> Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="task : ${taskList}">
-          <td th:text="${task.project.project_name}"></td>
+            <td th:text="${task.project.project_name}"></td>
             <td th:text="${task.project.project_priority}"></td>
             <td th:text="${task.task_name}"></td>
             <td th:text="${task.comments}"></td>
-            <td th:text="${task.task_priority}"></td>
+            <td th:text="${task.task_priority}" th:if="${task.task_priority}=='HIGH' ? 'color:red;':'color:blue;'"></td>
             <td th:text="${task.task_progress}"></td>
             <td th:text="${task.user.email}"></td>
 

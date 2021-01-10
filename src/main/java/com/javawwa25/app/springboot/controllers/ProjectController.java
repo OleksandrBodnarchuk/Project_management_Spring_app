@@ -55,6 +55,8 @@ public class ProjectController {
     @PostMapping("/saveProject")
     public String saveProject(@CurrentSecurityContext(expression = "authentication.name") String userName, @ModelAttribute("project") Project project) {
         // Assigning current user to new project
+        Date date = new Date();
+        project.setProject_startDate(date);
         project.setUser(userRepository.findByEmail(userName));
         projectService.saveProject(project);
         return "redirect:/user";
@@ -76,7 +78,7 @@ public class ProjectController {
 
         // call delete project method
         this.projectService.deleteProjectById(id);
-        return "redirect:/user";   // CHECK REDIRECT !!!!!!!!!!!!
+        return "redirect:/";   // CHECK REDIRECT !!!!!!!!!!!!
     }
 
     @GetMapping("/redirect/{id}")

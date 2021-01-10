@@ -53,6 +53,8 @@ public class TaskController {
                            @PathVariable(value = "project_id") long project_id,
                            @RequestParam("priority") Priority priority,
                            @ModelAttribute("task") Task task) {
+        Date date = new Date();
+        task.setTask_created(date);
         task.setTask_progress(TODO);
         task.setTask_priority(priority);
         // Assign current project to task
@@ -94,7 +96,8 @@ public class TaskController {
         newTask.setTask_priority(oldTaskFromDB.getTask_priority());
         newTask.setTask_progress(oldTaskFromDB.getTask_progress());
         newTask.setProject(oldTaskFromDB.getProject());
-       taskService.saveTask(newTask);
+        newTask.setTask_created(oldTaskFromDB.getTask_created());
+        taskService.saveTask(newTask);
         return "redirect:/user";
     }
 
@@ -112,8 +115,9 @@ public class TaskController {
                 task.setTask_progress(DONE);
                 break;
         }
+        long user_id = task.getUser().getUser_id();
         taskService.saveTask(task);
-        return "redirect:/";
+        return "redirect:/task/allTasksByUserId/" + user_id;
     }
 
     @GetMapping("/allTasksByUser/{user_id}")
@@ -137,6 +141,7 @@ public class TaskController {
         return "/task/list-by-user";
 
     }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class,

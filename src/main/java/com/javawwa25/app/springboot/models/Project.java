@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
@@ -39,7 +41,7 @@ public class Project {
     private User user;
 
     // mapping tasks with project
-    @OneToMany(mappedBy="project")
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="project")
     private Set<Task> project_tasks;
 
 

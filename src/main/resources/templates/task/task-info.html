@@ -77,6 +77,7 @@
                 <tr>
                     <th>Project Name</th>
                     <th>Task Name</th>
+                    <th>Created on</th>
                     <th>Task information</th>
                     <th>Priority</th>
                     <th> Actions</th>
@@ -85,6 +86,7 @@
                 <tr>
                     <td th:text="${task.project.project_name}"></td>
                     <td th:text="${task.task_name}"></td>
+                    <td th:text="${task.task_created}"></td>
                     <td th:text="${task.comments}"></td>
                     <td th:text="${task.task_priority}"></td>
                     <td>
