@@ -44,9 +44,9 @@ public class User extends Person {
 	private Set<Task> tasks = new HashSet<>();
 
 	@Builder
-	public User(Long id, String firstName, String lastName, String email, boolean isActive, String activationCode,
+	public User(String firstName, String lastName, String email, boolean isActive, String activationCode,
 			String password, Set<Project> projects, Set<Task> tasks) {
-		super(id, firstName, lastName);
+		super(firstName, lastName);
 		this.email = email;
 		this.isActive = isActive;
 		this.activationCode = activationCode;

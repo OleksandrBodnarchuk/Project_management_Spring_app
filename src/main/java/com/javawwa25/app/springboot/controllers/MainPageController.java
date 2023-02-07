@@ -14,9 +14,7 @@ import com.javawwa25.app.springboot.services.UserService;
 @Controller
 public class MainPageController {
 
-
-    final
-    UserService userService;
+	private final UserService userService;
 
     public MainPageController(UserService userService) {
         this.userService = userService;
@@ -25,22 +23,17 @@ public class MainPageController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/login")
+	@GetMapping({ "", "/", "/login" })
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/")
-    public String afterLoginRedirect() {
-        return "redirect:/user";
     }
 
     // SAVE USER --> for admin to manipulate users later
     @PostMapping("/saveNewUser")
     public String saveNewUser(@ModelAttribute("user") User user) {
         // save user to database
-        userService.saveUser(user);
-        return "redirect:/user/" + user.getId();
+//        userService.saveUser(user);
+        return "redirect:/user/"; // + user.getId();
     }
 
 
