@@ -1,16 +1,14 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
-import com.javawwa25.app.springboot.repositories.TaskRepository;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
+import com.javawwa25.app.springboot.models.Task;
+import com.javawwa25.app.springboot.repositories.ProjectRepository;
+import com.javawwa25.app.springboot.repositories.TaskRepository;
 
 @Service
 public class TaskServiceImpl implements  TaskService{

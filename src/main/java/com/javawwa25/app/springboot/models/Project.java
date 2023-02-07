@@ -1,14 +1,26 @@
 package com.javawwa25.app.springboot.models;
 
-import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.PastOrPresent;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity

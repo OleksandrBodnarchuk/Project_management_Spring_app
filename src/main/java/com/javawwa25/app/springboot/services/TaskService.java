@@ -1,9 +1,10 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Task;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.javawwa25.app.springboot.models.Task;
 
 @Service
 public interface TaskService {

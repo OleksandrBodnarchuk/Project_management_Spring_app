@@ -1,11 +1,10 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.Task;
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.javawwa25.app.springboot.models.Project;
 
 @Service
 public interface ProjectService {

@@ -1,19 +1,15 @@
 package com.javawwa25.app.springboot.services;
 
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.repositories.ProjectRepository;
+
+import jakarta.persistence.EntityManager;
 
 
 @Service
@@ -55,8 +51,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public List<Project> getAllProjectsByUserId(long user_id) {
-        Query query = entityManager.createQuery(MessageFormat.format("SELECT u FROM Project u where user_id={0}", user_id));
-        List<Project> projectList = query.getResultList();
+//        Query query = entityManager.createQuery(MessageFormat.format("SELECT u FROM Project u where user_id={0}", user_id));
+        List<Project> projectList = List.of(); //query.getResultList();
         return projectList;
     }
 }
