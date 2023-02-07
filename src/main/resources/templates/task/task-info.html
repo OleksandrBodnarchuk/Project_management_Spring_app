@@ -86,9 +86,9 @@
                 <tr>
                     <td th:text="${task.project.project_name}"></td>
                     <td th:text="${task.task_name}"></td>
-                    <td th:text="${task.task_created}"></td>
+                    <td th:text="${task.created}"></td>
                     <td th:text="${task.comments}"></td>
-                    <td th:text="${task.task_priority}"></td>
+                    <td th:text="${task.priority}"></td>
                     <td>
                         <a th:href="@{/task/updateCurrentTask/{task_id}(task_id=${task.task_id})}"
                            class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>Update Task</a><br>

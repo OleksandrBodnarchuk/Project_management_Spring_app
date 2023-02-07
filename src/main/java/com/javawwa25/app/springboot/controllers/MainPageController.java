@@ -40,7 +40,7 @@ public class MainPageController {
     public String saveNewUser(@ModelAttribute("user") User user) {
         // save user to database
         userService.saveUser(user);
-        return "redirect:/user/" + user.getUser_id();
+        return "redirect:/user/" + user.getId();
     }
 
 

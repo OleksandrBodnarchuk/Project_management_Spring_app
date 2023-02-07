@@ -6,13 +6,11 @@ import java.util.Set;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -22,40 +20,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Project {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long project_id;
+public class Project extends BaseEntity {
 
-    private String project_name;
+	@Column(name = "project_name")
+	private String name;
 
-    private String project_info;
+	@Column(name = "project_info")
+	private String info;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date project_startDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date project_endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date endDate;
 
-    @Enumerated(EnumType.STRING)
-    private Priority project_priority;
+	@Column(name = "project_priority")
+	@Enumerated(EnumType.STRING)
+	private Priority priority;
 
-    // mapping projects with user
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+	// mapping projects with user
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-    // mapping tasks with project
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="project")
-    private Set<Task> project_tasks;
-
-
+	// mapping tasks with project
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
+	private Set<Task> tasks;
 
 }

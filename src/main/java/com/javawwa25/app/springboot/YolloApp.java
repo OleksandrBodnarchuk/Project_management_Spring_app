@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class YolloApp {
 
-	public static void main(String[] args) throws Throwable{
+	public static void main(String[] args) {
 		SpringApplication.run(YolloApp.class, args);
 	}
 

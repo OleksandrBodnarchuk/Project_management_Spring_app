@@ -30,8 +30,8 @@ public class UserController {
     @GetMapping()
     public String userPage(String userName) {
         User user = userRepository.findByEmail(userName);
-        user.setUser_id(1L);
-        return "redirect:/user/" + user.getUser_id();
+        user.setId(1L);
+        return "redirect:/user/" + user.getId();
     }
 
     // MAIN PAGE FOR USER

@@ -56,7 +56,7 @@ public class ProjectController {
     public String saveProject(String userName, @ModelAttribute("project") Project project) {
         // Assigning current user to new project
         Date date = new Date();
-        project.setProject_startDate(date);
+        project.setStartDate(date);
         project.setUser(userRepository.findByEmail(userName));
         projectService.saveProject(project);
         return "redirect:/user";

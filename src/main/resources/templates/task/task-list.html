@@ -113,8 +113,8 @@
             <td th:text="${task.project.project_priority}"></td>
             <td th:text="${task.task_name}"></td>
             <td th:text="${task.comments}"></td>
-            <td th:text="${task.task_priority}" th:if="${task.task_priority}=='HIGH' ? 'color:red;':'color:blue;'"></td>
-            <td th:text="${task.task_progress}"></td>
+            <td th:text="${task.priority}" th:if="${task.priority}=='HIGH' ? 'color:red;':'color:blue;'"></td>
+            <td th:text="${task.progress}"></td>
             <td th:text="${task.user.email}"></td>
 
 

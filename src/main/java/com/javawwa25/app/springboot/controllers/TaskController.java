@@ -1,11 +1,6 @@
 package com.javawwa25.app.springboot.controllers;
 
 
-import static com.javawwa25.app.springboot.models.Progress.DONE;
-import static com.javawwa25.app.springboot.models.Progress.IN_PROGRESS;
-import static com.javawwa25.app.springboot.models.Progress.QA;
-import static com.javawwa25.app.springboot.models.Progress.TODO;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javawwa25.app.springboot.models.Priority;
+import com.javawwa25.app.springboot.models.Progress;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
@@ -65,9 +61,9 @@ public class TaskController {
                            @RequestParam("priority") Priority priority,
                            @ModelAttribute("task") Task task) {
         Date date = new Date();
-        task.setTask_created(date);
-        task.setTask_progress(TODO);
-        task.setTask_priority(priority);
+        task.setCreated(date);
+        task.setProgress(Progress.TODO);
+        task.setPriority(priority);
         // Assign current project to task
         task.setProject(projectService.getProjectById(project_id));
         // Assign current User to task
@@ -103,11 +99,11 @@ public class TaskController {
 
     @PostMapping("/saveCurrentTask")
     public String saveCurrentTask(@ModelAttribute("task") Task newTask) {
-        Task oldTaskFromDB = taskService.getTaskById(newTask.getTask_id());
-        newTask.setTask_priority(oldTaskFromDB.getTask_priority());
-        newTask.setTask_progress(oldTaskFromDB.getTask_progress());
+        Task oldTaskFromDB = taskService.getTaskById(newTask.getId());
+        newTask.setPriority(oldTaskFromDB.getPriority());
+        newTask.setProgress(oldTaskFromDB.getProgress());
         newTask.setProject(oldTaskFromDB.getProject());
-        newTask.setTask_created(oldTaskFromDB.getTask_created());
+        newTask.setCreated(oldTaskFromDB.getCreated());
         taskService.saveTask(newTask);
         return "redirect:/user";
     }
@@ -115,18 +111,18 @@ public class TaskController {
     @GetMapping("/moveTaskToNextStep/{task_id}")
     public String moveTaskToNextStep(@PathVariable(value = "task_id") long task_id) {
         Task task = taskService.getTaskById(task_id);
-        switch (task.getTask_progress()) {
+        switch (task.getProgress()) {
             case TODO:
-                task.setTask_progress(IN_PROGRESS);
+                task.setProgress(Progress.IN_PROGRESS);
                 break;
             case IN_PROGRESS:
-                task.setTask_progress(QA);
+                task.setProgress(Progress.QA);
                 break;
             case QA:
-                task.setTask_progress(DONE);
+                task.setProgress(Progress.DONE);
                 break;
         }
-        long user_id = task.getUser().getUser_id();
+        long user_id = task.getUser().getId();
         taskService.saveTask(task);
         return "redirect:/task/allTasksByUserId/" + user_id;
     }

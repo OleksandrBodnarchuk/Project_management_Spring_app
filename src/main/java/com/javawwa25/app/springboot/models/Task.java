@@ -4,12 +4,10 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -24,18 +22,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Task {
+public class Task extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long task_id;
+	private String comments;
 
-    private String comments;
+	@Column(name = "task_name")
+	private String name;
 
-    private String task_name;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date task_created;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "created")
+	private Date created;
 
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
 //    private Date task_startDate;
@@ -43,22 +39,22 @@ public class Task {
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
 //    private Date task_endDate;
 
-    @Enumerated(EnumType.STRING)
-    private Priority task_priority;
+	@Column(name = "task_priority")
+	@Enumerated(EnumType.STRING)
+	private Priority priority;
 
-    @Enumerated(EnumType.STRING)
-    private Progress task_progress;
+	@Column(name = "task_progress")
+	@Enumerated(EnumType.STRING)
+	private Progress progress;
 
-    // Mapping Tasks with Project
-    @ManyToOne
-    @JoinColumn(name = "project_id")
-    private Project project;
+	// Mapping Tasks with Project
+	@ManyToOne
+	@JoinColumn(name = "project_id")
+	private Project project;
 
-
-    // mapping tasks with user
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+	// mapping tasks with user
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 }
