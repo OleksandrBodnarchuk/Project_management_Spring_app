@@ -1,14 +1,15 @@
 package com.javawwa25.app.springboot.controllers;
 
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 @Controller
 @RequestMapping("/registration")
@@ -33,7 +34,7 @@ public class UserRegistrationController {
     // binding user with RegistrationDTO
     @PostMapping
     public String registerNewUser(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-        userService.save(registrationDto);
+        userService.save(new User());
         return "redirect:/registration?success";
     }
 }

@@ -1,28 +1,28 @@
 package com.javawwa25.app.springboot.controllers;
 
-import com.javawwa25.app.springboot.models.Progress;
-import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
-import com.javawwa25.app.springboot.repositories.TaskRepository;
-import com.javawwa25.app.springboot.repositories.UserRepository;
-import com.javawwa25.app.springboot.services.TaskService;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.services.ProjectService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.Task;
+import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.TaskRepository;
+import com.javawwa25.app.springboot.repositories.UserRepository;
+import com.javawwa25.app.springboot.services.ProjectService;
+import com.javawwa25.app.springboot.services.TaskService;
 
 
 @Controller
@@ -43,7 +43,7 @@ public class ProjectController {
 
 
     @GetMapping("/showNewProjectForm")
-    public String showNewProjectForm(@CurrentSecurityContext(expression = "authentication.name") String userName, Model model) {
+    public String showNewProjectForm(String userName, Model model) {
         User user = userRepository.findByEmail(userName);
         Project project = new Project();
         model.addAttribute("user", user);
@@ -53,7 +53,7 @@ public class ProjectController {
 
 
     @PostMapping("/saveProject")
-    public String saveProject(@CurrentSecurityContext(expression = "authentication.name") String userName, @ModelAttribute("project") Project project) {
+    public String saveProject(String userName, @ModelAttribute("project") Project project) {
         // Assigning current user to new project
         Date date = new Date();
         project.setProject_startDate(date);

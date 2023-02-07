@@ -1,22 +1,19 @@
 package com.javawwa25.app.springboot.controllers;
 
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.repositories.UserRepository;
-import com.javawwa25.app.springboot.services.ProjectService;
-import com.javawwa25.app.springboot.services.TaskService;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-
-import java.util.List;
+import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.UserRepository;
+import com.javawwa25.app.springboot.services.ProjectService;
+import com.javawwa25.app.springboot.services.UserService;
 
 @Controller
 @RequestMapping("/user")
@@ -31,8 +28,9 @@ public class UserController {
 
     // Getting User details of current logged-in User
     @GetMapping()
-    public String userPage(@CurrentSecurityContext(expression = "authentication.name") String userName) {
+    public String userPage(String userName) {
         User user = userRepository.findByEmail(userName);
+        user.setUser_id(1L);
         return "redirect:/user/" + user.getUser_id();
     }
 

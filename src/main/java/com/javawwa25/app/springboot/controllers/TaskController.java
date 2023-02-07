@@ -1,26 +1,37 @@
 package com.javawwa25.app.springboot.controllers;
 
 
-import com.javawwa25.app.springboot.models.*;
+import static com.javawwa25.app.springboot.models.Progress.DONE;
+import static com.javawwa25.app.springboot.models.Progress.IN_PROGRESS;
+import static com.javawwa25.app.springboot.models.Progress.QA;
+import static com.javawwa25.app.springboot.models.Progress.TODO;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.javawwa25.app.springboot.models.Priority;
+import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.Task;
+import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static com.javawwa25.app.springboot.models.Progress.*;
 
 
 @Controller
@@ -49,7 +60,7 @@ public class TaskController {
     }
 
     @PostMapping("/saveNewTask/{project_id}")
-    public String saveTask(@CurrentSecurityContext(expression = "authentication.name") String userName,
+    public String saveTask(String userName,
                            @PathVariable(value = "project_id") long project_id,
                            @RequestParam("priority") Priority priority,
                            @ModelAttribute("task") Task task) {
