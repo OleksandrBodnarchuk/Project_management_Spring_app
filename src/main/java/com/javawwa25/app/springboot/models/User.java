@@ -7,7 +7,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,7 @@ public class User extends Person {
 	// mapping user with projects
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH }, mappedBy = "users")
-	private Set<Project> projects = new HashSet<>();;
+	private Set<Project> projects;
 
 	@Transient // TEMP
 	private Set<Task> tasks = new HashSet<>();
@@ -48,5 +47,11 @@ public class User extends Person {
 		this.projects = projects;
 		this.tasks = tasks;
 	}
-
+	
+	public void addProject(Project project) {
+		if (this.projects == null) {
+			this.projects = new HashSet<>();
+		}
+		this.projects.add(project);
+	}
 }

@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.controllers;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -48,10 +49,9 @@ public class ProjectController {
     @PostMapping("/saveProject")
     public String saveProject(String userName, @ModelAttribute("project") Project project) {
         // Assigning current user to new project
-        Date date = new Date();
-        project.setStartDate(date);
+        project.setStartDate(LocalDate.now());
         project.getUsers().add(userService.findByEmail(userName));
-        projectService.saveProject(project);
+        projectService.save(project);
         return "redirect:/user";
     }
 

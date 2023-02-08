@@ -9,7 +9,7 @@ import com.javawwa25.app.springboot.models.Project;
 @Service
 public interface ProjectService {
     List<Project> getAllProjects();
-    void saveProject(Project project);
+    void save(Project project);
     Project getProjectById(long id);
     void deleteProjectById(long id);
 

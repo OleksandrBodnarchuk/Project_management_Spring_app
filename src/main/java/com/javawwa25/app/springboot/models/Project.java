@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,19 +37,26 @@ public class Project extends Job {
 	@JoinTable(name = "users_projects", 
 		joinColumns = @JoinColumn(name = "project_id"), 
 		inverseJoinColumns = @JoinColumn(name = "users_id"))
-	private Set<User> users = new HashSet<>();
+	private Set<User> users;
 
 	// mapping tasks with project
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
 	private Set<Task> tasks;
 	
 	@Builder
-	public Project(Date startDate, Date endDate, String name, String info, Set<User> users, Set<Task> tasks) {
+	public Project(LocalDate startDate, LocalDate endDate, String name, String info, Set<User> users, Set<Task> tasks) {
 		super(startDate, endDate);
 		this.name = name;
 		this.info = info;
 		this.users = users;
 		this.tasks = tasks;
 	}
-
+	
+	public void addUser(User user) {
+		if (this.users == null) {
+			this.users = new HashSet<>();
+		}
+		this.users.add(user);
+	}
+	
 }

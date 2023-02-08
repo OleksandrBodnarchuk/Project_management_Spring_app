@@ -33,15 +33,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(UserRegistrationDto dto) {
-		User detachedUser = User.builder().firstName(dto.getFirstName()).lastName(dto.getLastName())
-				.email(dto.getEmail()).password(dto.getPassword()).build();
-		return userRepository.save(detachedUser);
+	public User save(User dto) {
+		return userRepository.save(dto);
 	}
 
 	@Override
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public User saveRegister(UserRegistrationDto dto) {
+		User detachedUser = User.builder().firstName(dto.getFirstName()).lastName(dto.getLastName())
+				.email(dto.getEmail()).password(dto.getPassword()).build();
+		return userRepository.save(detachedUser);
 	}
 
 }

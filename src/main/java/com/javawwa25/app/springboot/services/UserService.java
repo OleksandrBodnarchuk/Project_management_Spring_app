@@ -11,7 +11,8 @@ public interface UserService /*extends UserDetailsService*/ {
 	void deleteUserById(long id);
 
 	// method to save User during registration
-	User save(UserRegistrationDto	 registrationDto);
+	User saveRegister(UserRegistrationDto	 registrationDto);
+	User save(User user);
 	User findByEmail(String email);
 
 }
