@@ -16,28 +16,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.repositories.TaskRepository;
 import com.javawwa25.app.springboot.services.ProjectService;
-import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 
 
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/projects")
 public class ProjectController {
 
 	private final  ProjectService projectService;
-	private final  TaskService taskService;
 	private final  UserService userService;
-	private final  TaskRepository taskRepository;
 
-    public ProjectController(ProjectService projectService, TaskService taskService, UserService userService,
-			TaskRepository taskRepository) {
+	public ProjectController(ProjectService projectService, UserService userService) {
 		this.projectService = projectService;
-		this.taskService = taskService;
 		this.userService = userService;
-		this.taskRepository = taskRepository;
 	}
+
+	@GetMapping("/user/{id}")
+    public String projectList(@PathVariable("id") long id, Model model) {
+		model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("projects", projectService.getAllProjects());
+        return "project/project_list";
+    }
 
 	@GetMapping("/new/user/{id}")
     public String showNewProjectForm(@PathVariable("id") long id, Model model) {
