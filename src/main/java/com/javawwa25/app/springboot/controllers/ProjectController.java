@@ -20,48 +20,44 @@ import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
-import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
+import com.javawwa25.app.springboot.services.UserService;
 
 
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Autowired
-    private ProjectService projectService;
+	private final  ProjectService projectService;
+	private final  TaskService taskService;
+	private final  UserService userService;
+	private final  TaskRepository taskRepository;
 
-    @Autowired
-    private TaskService taskService;
+    public ProjectController(ProjectService projectService, TaskService taskService, UserService userService,
+			TaskRepository taskRepository) {
+		this.projectService = projectService;
+		this.taskService = taskService;
+		this.userService = userService;
+		this.taskRepository = taskRepository;
+	}
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    TaskRepository taskRepository;
-
-
-    @GetMapping("/showNewProjectForm")
-    public String showNewProjectForm(String userName, Model model) {
-        User user = userRepository.findByEmail(userName);
-        Project project = new Project();
-        model.addAttribute("user", user);
-        model.addAttribute("project", project);
+	@GetMapping("/new/user/{id}")
+    public String showNewProjectForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("project", new Project());
         return "project/new_project";
     }
-
 
     @PostMapping("/saveProject")
     public String saveProject(String userName, @ModelAttribute("project") Project project) {
         // Assigning current user to new project
         Date date = new Date();
         project.setStartDate(date);
-        project.setUser(userRepository.findByEmail(userName));
+        project.setUser(userService.findByEmail(userName));
         projectService.saveProject(project);
         return "redirect:/user";
     }
-
 
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {

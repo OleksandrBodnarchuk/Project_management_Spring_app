@@ -102,17 +102,15 @@
                         class="glyphicon glyphicon-picture"></span> Change cover</a>
             </div>
             <!--NAME UNDER PHOTO -->
-				<h4 th:text="${user.firstName}+ ' ' +${user.lastName}">User name</h4>
+				<h4 th:text="${user.firstName} + ' ' + ${user.lastName}">User name</h4>
 				<h4 th:text="${user.email}">Email</h4>
             <h3 text-align="center">My projects</h3>
-            <a th:href="@{/project/showNewProjectForm}" class="btn btn-primary btn-success"><span
-                    class="glyphicon glyphicon-plus-sign"></span> Add new
-                Project</a>
-            <a th:href="@{/task/allTasksByUser/{id}(id=${user.id})}" class="btn btn-primary btn-primary"><span
-                    class="glyphicon glyphicon-eye-open"></span> All tasks for my projects </a>
-            <a th:href="@{/task/allTasksByUserId/{id}(id=${user.id})}"
-               class="btn btn-primary btn-warning"><span
-                    class="glyphicon glyphicon-eye-open"></span> All tasks assigned currently to me </a>
+				<a th:href="@{'/project/new/user/' + ${user.id}}" class="btn btn-primary btn-success">
+				<span class="glyphicon glyphicon-plus-sign"></span> Add new Project</a> 
+				<a th:href="@{/task/allTasksByUser/{id}(id=${user.id})}" class="btn btn-primary btn-primary">
+				<span class="glyphicon glyphicon-eye-open"></span> All tasks for my projects </a>
+            <a th:href="@{/task/allTasksByUserId/{id}(id=${user.id})}" class="btn btn-primary btn-warning">
+            	<span class="glyphicon glyphicon-eye-open"></span> All tasks assigned currently to me </a>
             <br><br>
             <table border="1" class="table table-striped table-responsive-md">
                 <thead>

@@ -67,7 +67,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" th:href="@{/user/{user_id}(user_id=user.user_id)}">Profile</a>
+			<a class="navbar-brand" th:href="@{/user/{id}(id=${user.id})}">Profile</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -75,7 +75,7 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.getFirst_name()}" >Username <b class="caret"></b></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}" >Username <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li align="center" class="well">
 							<div><img class="img-responsive" style="padding:2%;" src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change" href="">Change Picture</a></div>
@@ -98,14 +98,14 @@
 			<form action="#" th:action="@{/project/saveProject}" th:object="${project}"
 				  method="POST">
 
-				<input type="text" th:field="*{project_name}"
+				<input type="text" th:field="*{name}"
 					   placeholder="Project Name" class="form-control mb-4 col-4">
 
 
-				<input type="text" th:field="*{project_info}"
-					   placeholder="projectInfo" class="form-control mb-4 col-4">
+				<textarea th:field="*{info}"
+					   placeholder="projectInfo" class="form-control mb-4 col-4"></textarea>
 
-				<select name="project_priority" class="form-control mb-4 col-4" >
+				<select name="priority" class="form-control mb-4 col-4" >
 					<option th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
 							th:value="${priority}" th:text="${priority.displayValue}"></option>
 				</select>
@@ -114,13 +114,13 @@
 				<input type="date" name="date" th:field="${project.project_startDate}"
 					   placeholder="startDate" class="form-control mb-4 col-4"> -->
 
-				<input type="date" name="date" th:field="${project.project_endDate}"
+				<input type="date" name="date" th:field="${project.endDate}"
 					   placeholder="endDate"  class="form-control mb-4 col-4">
 				<br>
 				<button type="submit" class="btn btn-primary btn-success"><span
 						class="glyphicon glyphicon-plus-sign"></span> Save Project </button>
 			</form>
-			<a th:href = "@{/user/{user_id}(user_id=${user.user_id})}"> Back to My Page</a>
+			<a th:href = "@{/user/{id}(id=${user.id})}"> Back to My Page</a>
 		</div>
 
 	</div>

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,23 +23,12 @@ public class UserController {
 	private final static Logger LOG = LoggerFactory.getLogger(UserController.class);
 	
     private final UserService userService;
-    private final UserRepository userRepository;
     private final ProjectService projectService;
     
-    public UserController(UserService userService, UserRepository userRepository, ProjectService projectService) {
+    public UserController(UserService userService, ProjectService projectService) {
 		this.userService = userService;
-		this.userRepository = userRepository;
 		this.projectService = projectService;
 	}
-
-	// Getting User details of current logged-in User
-    @GetMapping()
-    public String userPage(String userName) {
-     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userPage - called");
-        User user = userRepository.findByEmail(userName);
-        user.setId(1L);
-        return "redirect:/user/" + user.getId();
-    }
 
     // MAIN PAGE FOR USER
     @GetMapping("/{user_id}")
