@@ -1,0 +1,20 @@
+UserController
+/users -[TBC]
+/users/new
+/users/{userId}
+
+ProjectController
+/users/{userId}/projects
+/users/{userId}/projects/new
+/users/{userId}/projects/save
+/users/{userId}/projects/{projectId}
+/users/{userId}/projects/{projectId}/update
+
+TaskController
+/users/{userId}/projects/{projectId}/tasks
+/users/{userId}/projects/{projectId}/tasks/new
+/users/{userId}/projects/{projectId}/tasks/save
+/users/{userId}/projects/{projectId}/tasks/{taskId}
+/users/{userId}/projects/{projectId}/tasks/{taskId}/update
+/users/{userId}/projects/{projectId}/tasks/{taskId}/moveNext
+/users/{userId}/projects/{projectId}/tasks/{taskId}/movePrevious

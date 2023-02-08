@@ -61,7 +61,7 @@ class UserControllerTest {
 		underTest.showUserPage(userId, model);
 		verify(model,times(2)).addAttribute(anyString(), any());
 		
-		mvc.perform(get("/user/{id}", userId))
+		mvc.perform(get("/users/{userId}", userId))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name(expectedTemplate));
@@ -72,7 +72,7 @@ class UserControllerTest {
 		String expectedTemplate = "user/new_user";
 		underTest.showNewUserForm(model);
 		verify(model,times(1)).addAttribute(eq("user"), any());
-		mvc.perform(get("/user/new"))
+		mvc.perform(get("/users/new"))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name(expectedTemplate));
