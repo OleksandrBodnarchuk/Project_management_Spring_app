@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,8 @@ import com.javawwa25.app.springboot.services.UserService;
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
-
+	private final static Logger LOG = LoggerFactory.getLogger(ProjectController.class);
+	
 	private final  ProjectService projectService;
 	private final  UserService userService;
 
@@ -32,8 +35,17 @@ public class ProjectController {
 		this.userService = userService;
 	}
 
+
+	@GetMapping
+    public String projectListNoUser(Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectListNoUser - called");
+        model.addAttribute("projects", projectService.getAllProjects());
+        return "project/project_list_no_user";
+    }
+	
 	@GetMapping("/user/{id}")
     public String projectList(@PathVariable("id") long id, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
 		model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("projects", projectService.getAllProjects());
         return "project/project_list";
@@ -41,13 +53,21 @@ public class ProjectController {
 
 	@GetMapping("/new/user/{id}")
     public String showNewProjectForm(@PathVariable("id") long id, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
         model.addAttribute("user", userService.getUserById(id));
         model.addAttribute("project", new Project());
         return "project/new_project";
     }
+	
+	@GetMapping("/{id}/tasks/user/{userId}")
+	public String redirectToProjectTasks(@PathVariable("id") long id, @PathVariable("userId") long userId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET redirectToProjectTasks - called");
+		return "redirect:/tasks/list/project/" + id + "/user/" + userId;
+	}
 
     @PostMapping("/saveProject")
     public String saveProject(String userName, @ModelAttribute("project") Project project) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveProject - called");
         // Assigning current user to new project
         project.setStartDate(LocalDate.now());
         project.getUsers().add(userService.findByEmail(userName));

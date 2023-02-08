@@ -1,8 +1,9 @@
 package com.javawwa25.app.springboot.models;
 
 public enum Progress {
-
-    TODO("To_Do"),
+	
+	NEW("New"),
+	ANALYSIS("Analysis"),
     IN_PROGRESS ("In_progress"),
     QA ("QA"),
     DONE("Done");

@@ -91,19 +91,19 @@
     <div class="row well">
         <div class="container">
     <h3>Add new task</h3>
-    <form action="#" th:action="@{/task/saveNewTask/{id}(id=${project.project_id})}" th:object="${task}"
+    <form th:action="@{/tasks/save/project/{id}(id=${project.id})}" th:object="${task}"
           method="POST" class="row">
 
         <label>
-            <input type="text" th:field="*{task_name}"
+            <input type="text" th:field="*{name}"
                    placeholder="Task Name" class="form-control mb-4 col-4">
         </label>
 <br>
-        <label>
-            <textarea  th:field="*{comments}"
-                      placeholder="Comments" class="form-control"></textarea>
+          <label>
+            <textarea  th:field="*{description}"
+                      placeholder="Description" class="form-control mb-4 col-4"></textarea>
         </label>
-<br>
+<br> 
         <label>
             <select name="priority" class="form-control mb-4 col-4">
                 <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"

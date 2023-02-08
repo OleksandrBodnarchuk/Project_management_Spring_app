@@ -24,10 +24,8 @@ import lombok.Setter;
 @Builder
 public class Task extends BaseEntity {
 
-	private String comments;
-
-	@Column(name = "task_name")
 	private String name;
+	private String description;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "created")
