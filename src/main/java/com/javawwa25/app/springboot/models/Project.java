@@ -1,18 +1,16 @@
 package com.javawwa25.app.springboot.models;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +23,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Project extends BaseEntity {
+public class Project extends Job {
 
 	@Column(name = "project_name")
 	private String name;
@@ -34,23 +31,25 @@ public class Project extends BaseEntity {
 	@Column(name = "project_info")
 	private String info;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date startDate;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
-
-	@Column(name = "project_priority")
-	@Enumerated(EnumType.STRING)
-	private Priority priority;
-
 	// mapping projects with user
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "users_projects", 
+		joinColumns = @JoinColumn(name = "project_id"), 
+		inverseJoinColumns = @JoinColumn(name = "users_id"))
+	private Set<User> users = new HashSet<>();
 
 	// mapping tasks with project
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
 	private Set<Task> tasks;
+	
+	@Builder
+	public Project(Date startDate, Date endDate, String name, String info, Set<User> users, Set<Task> tasks) {
+		super(startDate, endDate);
+		this.name = name;
+		this.info = info;
+		this.users = users;
+		this.tasks = tasks;
+	}
 
 }

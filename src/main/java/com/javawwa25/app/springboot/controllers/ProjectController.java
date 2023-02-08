@@ -2,9 +2,7 @@ package com.javawwa25.app.springboot.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
@@ -54,7 +50,7 @@ public class ProjectController {
         // Assigning current user to new project
         Date date = new Date();
         project.setStartDate(date);
-        project.setUser(userService.findByEmail(userName));
+        project.getUsers().add(userService.findByEmail(userName));
         projectService.saveProject(project);
         return "redirect:/user";
     }
@@ -85,15 +81,15 @@ public class ProjectController {
     @GetMapping("/board/{project_id}")
     public String getBoardByProjectId(@PathVariable(value = "project_id") long project_id,
                            Model model) {
-        List<Task> toDoTaskList = taskRepository.getAllTasksOnTODOStep(project_id);
-        List<Task> qaTaskList = taskRepository.getAllTasksOnQAStep(project_id);
-        List<Task> inProgressTaskList = taskRepository.getAllTasksOnInProgressStep(project_id);
-        List<Task> doneTaskList = taskRepository.getAllTasksOnDONEStep(project_id);
-        model.addAttribute("project", projectService.getProjectById(project_id));
-        model.addAttribute("toDoTaskList", toDoTaskList);
-        model.addAttribute("qaTaskList", qaTaskList);
-        model.addAttribute("inProgressTaskList", inProgressTaskList);
-        model.addAttribute("doneTaskList", doneTaskList);
+//        List<Task> toDoTaskList = taskRepository.getAllTasksOnTODOStep(project_id);
+//        List<Task> qaTaskList = taskRepository.getAllTasksOnQAStep(project_id);
+//        List<Task> inProgressTaskList = taskRepository.getAllTasksOnInProgressStep(project_id);
+//        List<Task> doneTaskList = taskRepository.getAllTasksOnDONEStep(project_id);
+//        model.addAttribute("project", projectService.getProjectById(project_id));
+//        model.addAttribute("toDoTaskList", toDoTaskList);
+//        model.addAttribute("qaTaskList", qaTaskList);
+//        model.addAttribute("inProgressTaskList", inProgressTaskList);
+//        model.addAttribute("doneTaskList", doneTaskList);
         return "/board/board1";
     }
 

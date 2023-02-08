@@ -129,10 +129,10 @@ public class TaskController {
 
     @GetMapping("/allTasksByUser/{user_id}")
     public String taskList(@PathVariable(value = "user_id") long user_id, Model model) {
-        List<Task> taskList = taskRepository.getAllTasksByUserId(user_id);
+//        List<Task> taskList = taskRepository.getAllTasksByUserId(user_id);
         User user = userService.getUserById(user_id);
         model.addAttribute("user", user);
-        model.addAttribute("taskList", taskList);
+//        model.addAttribute("taskList", taskList);
         return "/task/task-list";
 
     }
@@ -141,10 +141,10 @@ public class TaskController {
     // NEW TASK LIST PER ASSIGNED USER
     @GetMapping("/allTasksByUserId/{user_id}")
     public String allTasksFilteredByUserEmail(@PathVariable(value = "user_id") long user_id, Model model) {
-        List<Task> taskList = taskRepository.getAllTasksByUser(user_id);
+//        List<Task> taskList = taskRepository.getAllTasksByUser(user_id);
         User user = userService.getUserById(user_id);
         model.addAttribute("user", user);
-        model.addAttribute("taskList", taskList);
+//        model.addAttribute("taskList", taskList);
         return "/task/list-by-user";
 
     }
