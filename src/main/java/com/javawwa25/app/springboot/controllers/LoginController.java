@@ -12,7 +12,6 @@ import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.UserLoginDto;
 
-
 @Controller
 public class LoginController {
 	
@@ -28,27 +27,18 @@ public class LoginController {
     public String login(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET login - called");
 		model.addAttribute("dto", new UserLoginDto());
-        return "login";
+        return "login-page";
     }
 	
 	@PostMapping({ "", "/", "/login" })
 	public String loginUser(@ModelAttribute("dto") UserLoginDto dto) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST login - called");
 		User user = userService.findByEmail(dto.getUsername());
-		if (user.getPassword().equals(dto.getPassword())) {
+		if (user != null && user.getPassword().equals(dto.getPassword())) {
 			return "redirect:/user/" + user.getId();
 		} else {
-			return "login";
+			return "login-page";
 		}
 	}
-
-    // SAVE USER --> for admin to manipulate users later
-    @PostMapping("/saveNewUser")
-    public String saveNewUser(@ModelAttribute("user") User user) {
-        // save user to database
-//        userService.saveUser(user);
-        return "redirect:/user/"; // + user.getId();
-    }
-
 
 }
