@@ -42,7 +42,7 @@ public class UserController {
     }
 
     // for admin only
-    @GetMapping("/showNewUserForm")
+    @GetMapping("/new")
     public String showNewUserForm(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewUserForm - called");
         User user = new User();
