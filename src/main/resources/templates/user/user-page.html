@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <title th:text="*{user.first_name+' '+ user.last_name}">Home </title>
+    <title th:text="*{user.firstName+' '+ user.lastName}">Home </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
@@ -71,10 +71,10 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.getFirst_name()}">Username
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}">Username
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li align="center" class="well" sec:authorize="isAuthenticated()">
+                       <!--  <li align="center" class="well" sec:authorize="isAuthenticated()"> -->
                             <div><img class="img-responsive" style="padding:2%;"
                                       src="https://www.pngitem.com/pimgs/m/146-1468323_gamer-profile-icon-png-transparent-png.png"><a
                                     class="change" href="">Change Picture</a></div>
@@ -82,7 +82,7 @@
                                 Security</a>
                             <a th:href="@{/logout}" class="btn btn-sm btn-default"><span
                                     class="glyphicon glyphicon-log-out"></span> Logout</a>
-                        </li>
+                        <!-- </li>  -->
                     </ul>
                 </li>
             </ul>
@@ -102,15 +102,15 @@
                         class="glyphicon glyphicon-picture"></span> Change cover</a>
             </div>
             <!--NAME UNDER PHOTO -->
-            <h4 th:text="${user.getFirst_name()+ ' ' +user.getLast_name()}">User name</h4>
-            <h4 th:text="${user.email}">Email</h4>
+				<h4 th:text="${user.firstName}+ ' ' +${user.lastName}">User name</h4>
+				<h4 th:text="${user.email}">Email</h4>
             <h3 text-align="center">My projects</h3>
             <a th:href="@{/project/showNewProjectForm}" class="btn btn-primary btn-success"><span
                     class="glyphicon glyphicon-plus-sign"></span> Add new
                 Project</a>
-            <a th:href="@{/task/allTasksByUser/{user_id}(user_id=${user.user_id})}" class="btn btn-primary btn-primary"><span
+            <a th:href="@{/task/allTasksByUser/{id}(id=${user.id})}" class="btn btn-primary btn-primary"><span
                     class="glyphicon glyphicon-eye-open"></span> All tasks for my projects </a>
-            <a th:href="@{/task/allTasksByUserId/{user_id}(user_id=${user.user_id})}"
+            <a th:href="@{/task/allTasksByUserId/{id}(id=${user.id})}"
                class="btn btn-primary btn-warning"><span
                     class="glyphicon glyphicon-eye-open"></span> All tasks assigned currently to me </a>
             <br><br>
@@ -127,18 +127,18 @@
                 </tr>
                 </thead>
                 <tr th:each="project : ${projectList}">
-                    <td th:text="${project.project_name}"></td>
-                    <td th:text="${project.project_priority}"></td>
-                    <td th:text="${project.project_info}"></td>
-                    <td th:text="${project.project_startDate}"></td>
-                    <td th:text="${project.project_endDate}"></td>
-                    <td><a th:href="@{/project/board/{id}(id=${project.project_id})}"
+                    <td th:text="${project.name}"></td>
+                    <td th:text="${project.priority}"></td>
+                    <td th:text="${project.info}"></td>
+                    <td th:text="${project.startDate}"></td>
+                    <td th:text="${project.endDate}"></td>
+                    <td><a th:href="@{/project/board/{id}(id=${project.id})}"
                            class="btn btn-sm btn-info"><span class="glyphicon glyphicon-list-alt"></span> View Backlog</a
                     ><br>
-                        <a th:href="@{/project/showFormForUpdate/{id}(id=${project.project_id})}"
+                        <a th:href="@{/project/showFormForUpdate/{id}(id=${project.id})}"
                            class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span> Update
                             Project</a>
-                        <a th:href="@{/project/deleteProject/{id}(id=${project.project_id})}"
+                        <a th:href="@{/project/deleteProject/{id}(id=${project.id})}"
                            class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-remove-circle"></span> Delete Project</a>
                     </td>
                 </tr>

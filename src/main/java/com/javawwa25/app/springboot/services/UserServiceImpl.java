@@ -23,8 +23,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserById(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.findById(id).orElse(null);
 	}
 
 	@Override
@@ -38,6 +37,11 @@ public class UserServiceImpl implements UserService {
 		User detachedUser = User.builder().firstName(dto.getFirstName()).lastName(dto.getLastName())
 				.email(dto.getEmail()).password(dto.getPassword()).build();
 		return userRepository.save(detachedUser);
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 }

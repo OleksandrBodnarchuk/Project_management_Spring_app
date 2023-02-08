@@ -12,6 +12,7 @@ public interface UserService /*extends UserDetailsService*/ {
 
 	// method to save User during registration
 	User save(UserRegistrationDto	 registrationDto);
+	User findByEmail(String email);
 
 }
 
