@@ -117,7 +117,6 @@
                 <thead>
                 <tr>
                     <th><a>Project Name</a></th>
-                    <th><a> Priority </a></th>
                     <th><a>Project information</a></th>
                     <!-- DATE -->
                     <th><a> Start Date</a></th>
@@ -127,7 +126,6 @@
                 </thead>
                 <tr th:each="project : ${projectList}">
                     <td th:text="${project.name}"></td>
-                    <td th:text="${project.priority}"></td>
                     <td th:text="${project.info}"></td>
                     <td th:text="${project.startDate}"></td>
                     <td th:text="${project.endDate}"></td>

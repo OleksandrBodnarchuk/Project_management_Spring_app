@@ -1,22 +1,27 @@
 package com.javawwa25.app.springboot.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
 
-    @Autowired
-    private ProjectRepository projectRepository;
+	private final UserService userService;
+    private final ProjectRepository projectRepository;
+    
+    public ProjectServiceImpl(UserService userService, ProjectRepository projectRepository) {
+		this.userService = userService;
+		this.projectRepository = projectRepository;
+	}
 
-    @Override
+	@Override
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
@@ -28,14 +33,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Project getProjectById(long id) {
-        Optional<Project> optional = projectRepository.findById(id);
-        Project project = null;
-        if (optional.isPresent()) {
-            project = optional.get();
-        } else {
-            throw new RuntimeException("Project not found for id :: " + id);
-        }
-        return project;
+		return projectRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Project not found for id : " + id));
     }
 
     @Override
@@ -45,9 +44,16 @@ public class ProjectServiceImpl implements ProjectService{
 
 
     @Override
-    public List<Project> getAllProjectsByUserId(long user_id) {
-//        Query query = entityManager.createQuery(MessageFormat.format("SELECT u FROM Project u where user_id={0}", user_id));
-        List<Project> projectList = List.of(); //query.getResultList();
+    public List<Project> getAllProjectsByUserId(long userId) {
+        List<Project> projectList = projectRepository.findAllUserProjects(userId);
         return projectList;
     }
+
+	@Override
+	public void fillUserProjects(long userId, Model model) {
+		User user = userService.getUserById(userId);
+        List<Project> projects = this.getAllProjectsByUserId(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("projectList", projects);
+	}
 }
