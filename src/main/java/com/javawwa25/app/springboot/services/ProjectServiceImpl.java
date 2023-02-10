@@ -9,14 +9,9 @@ import org.springframework.stereotype.Service;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 
-import jakarta.persistence.EntityManager;
-
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private ProjectRepository projectRepository;

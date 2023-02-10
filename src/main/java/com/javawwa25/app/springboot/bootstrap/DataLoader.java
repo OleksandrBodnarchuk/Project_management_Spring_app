@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,12 @@ public class DataLoader implements CommandLineRunner{
 	
 	private final UserService userService;
 	private final ProjectService projectService;
+	private final PasswordEncoder passwordEncoder;
 	
-	public DataLoader(UserService userService, ProjectService projectService) {
+	public DataLoader(UserService userService, ProjectService projectService, PasswordEncoder passwordEncoder) {
 		this.userService = userService;
 		this.projectService = projectService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Transactional
@@ -58,14 +61,14 @@ public class DataLoader implements CommandLineRunner{
 				.firstName("TempUser1")
 				.lastName("TempUser1")
 				.email("tempUser1@email.com")
-				.password("tempUser1")
+				.password(passwordEncoder.encode("tempUser1"))
 				.build();
 		
 		User tempUser2 = User.builder()
 				.firstName("TempUser2")
 				.lastName("TempUser2")
 				.email("tempUser2@email.com")
-				.password("tempUser2")
+				.password(passwordEncoder.encode("tempUser2"))
 				.build();
 		
 		userService.save(tempUser1);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
 
@@ -27,6 +28,14 @@ public class UserController {
 		this.projectService = projectService;
 	}
 
+    @GetMapping(path = "/users")
+    public String userLoggedIn() {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userLoggedIn - called");
+    	String sessionUser = SecurityUtil.getSessionUser();
+    	System.out.println("Session user: " + sessionUser);
+    	return "redirect:";
+    }
+    
     @GetMapping("/users/{userId}")
     public String showUserPage(@PathVariable(value = "userId") long userId, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showUserPage - called");

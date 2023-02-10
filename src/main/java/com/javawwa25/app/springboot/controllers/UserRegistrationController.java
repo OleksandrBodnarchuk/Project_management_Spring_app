@@ -24,16 +24,14 @@ public class UserRegistrationController {
     // get mapping for Registration Page Form
     @GetMapping
     public String showRegistrationPage(Model model) {
-        // --> new object that is used in form by Thymeleaf
         model.addAttribute("user", new UserRegistrationDto());
-        return "registration-form";
+        return "register";
     }
 
-    // handler method for POST request
-    // binding user with RegistrationDTO
     @PostMapping
     public String registerNewUser(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-        userService.saveRegister(registrationDto);
-        return "redirect:/login";
+    	System.out.println("REGISTRATION OK");
+        //userService.saveRegister(registrationDto);
+        return "redirect:/login?registered=true";
     }
 }

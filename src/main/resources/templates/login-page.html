@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>Registration and Loggin</title>
+<title>Registration and Login</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -21,8 +21,8 @@
 						class="icon-bar"></span><span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
-					Login</a>
+				<!-- <a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login</a> -->
 			</div>
 		</div>
 	</nav>
@@ -33,7 +33,12 @@
 			<!-- Login form in the centre-->
 			<div class="col-md-6 col-md-offset-3">
 				<h1>Login Page</h1>
-				<form th:action="@{/login}" method="post" th:object="${dto}">
+				<form th:action="@{/login}" method="post">
+					<!-- Error message for wrong password input -->
+					<div th:if="${param.registered}">
+						<div class="alert alert-info">Registered successfully please check your email to activate account</div>
+					</div>
+					
 					<!-- Error message for wrong password input -->
 					<div th:if="${param.error}">
 						<div class="alert alert-danger">Please check credentials or
@@ -48,15 +53,14 @@
 					<!-- Input fields for User email and password -->
 					<!-- Email -->
 					<div class="form-group">
-						<label for="email"> Email: </label> <input type="text"
-							id="email" class="form-control" th:field="*{username}" name="email"
+						<label for="email"> Email: </label> <input class="form-control" type="text" name="username" 
 							placeholder="Enter Email" autofocus="autofocus">
 					</div>
 					<!-- Password -->
 					<div class="form-group">
-						<label for="password"> Password: </label> <input type="password"
-							id="password" class="form-control" th:field="*{password}" name="password"
-							placeholder="Enter Password" autofocus="autofocus">
+						<label for="password"> Password: </label> <input class="form-control" type="password"
+							name="password" placeholder="Enter Password"
+							autofocus="autofocus">
 					</div>
 					<div class="form-group">
 						<div class="row">
