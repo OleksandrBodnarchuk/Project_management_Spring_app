@@ -28,6 +28,7 @@ public class SecurityConfiguration {
 					.requestMatchers(
 							antMatcher("/login"), 
 							antMatcher("/registration"),
+							antMatcher("/registration/save"),
 							antMatcher("/css/**"), 
 							antMatcher("/js/**"))
 					.permitAll()
