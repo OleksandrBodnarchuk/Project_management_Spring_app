@@ -26,7 +26,6 @@ public class SecurityConfiguration {
 		   http.csrf().disable()
            .authorizeHttpRequests()
 					.requestMatchers(
-							antMatcher("/h2-console/**"), 
 							antMatcher("/login"), 
 							antMatcher("/registration"),
 							antMatcher("/css/**"), 
@@ -35,9 +34,8 @@ public class SecurityConfiguration {
            .anyRequest().authenticated()
            .and()
            .formLogin(form -> form
-                   .loginPage("/login")
-                   .defaultSuccessUrl("/users")
-                   .loginProcessingUrl("/login")
+        		   .loginPage("/login")	
+                   .defaultSuccessUrl("/users", true)
                    .failureUrl("/login?error=true")
                    .permitAll()
            ).logout(
@@ -45,8 +43,6 @@ public class SecurityConfiguration {
                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
            );
    
-   http.headers().frameOptions().sameOrigin();
-
    return http.build();
 	}
 

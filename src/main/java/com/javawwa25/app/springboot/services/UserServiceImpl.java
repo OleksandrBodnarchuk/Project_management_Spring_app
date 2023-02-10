@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.UserRepository;
+import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 @Service
@@ -57,4 +58,8 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	@Override
+	public Long getLoggedUserId() {
+		return findByEmail(SecurityUtil.getSessionUser()).getId();
+	}
 }
