@@ -1,3 +1,10 @@
+LoginController
+/login
+
+RegistrationController
+/register
+/register/save
+
 UserController
 /users -[TBC]
 /users/new

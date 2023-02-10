@@ -77,5 +77,16 @@ class UserControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name(expectedTemplate));
 	}
+	
+	@Test
+	void test_userLoggedIn() throws Exception {
+		long id = 1L;
+		String expectedTemplate = "redirect:/users/" + id;
+		when(userService.getLoggedUserId()).thenReturn(id);
+		mvc.perform(get("/users"))
+			.andDo(print())
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name(expectedTemplate));
+	}
 
 }
