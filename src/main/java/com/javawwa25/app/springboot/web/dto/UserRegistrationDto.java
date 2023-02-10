@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.web.dto;
 
-import com.javawwa25.app.springboot.security.ValidEmail;
+import com.javawwa25.app.springboot.security.validators.ValidEmail;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

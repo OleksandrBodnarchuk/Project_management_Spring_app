@@ -1,12 +1,10 @@
-package com.javawwa25.app.springboot.security;
+package com.javawwa25.app.springboot.security.validators;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import com.javawwa25.app.springboot.security.validators.EmailValidator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.springframework.util.StringUtils;
 
 import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.security.ValidEmail;
 import com.javawwa25.app.springboot.services.UserService;
 
 import jakarta.validation.ConstraintValidator;
