@@ -1,5 +1,13 @@
 package com.javawwa25.app.springboot.controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,10 +22,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.security.validators.EmailValidator;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 @ExtendWith(MockitoExtension.class)
 class UserRegistrationControllerTest {
@@ -49,5 +60,19 @@ class UserRegistrationControllerTest {
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name(expectedTemplate));
+	}
+	
+	@Test
+	void testRegister_hasErrors() {
+		BindingResult result = mock(BindException.class);
+		result.addError(new ObjectError("TEMP","TEMP"));
+		given(result.hasErrors()).willReturn(true);
+		UserRegistrationDto userDto = new UserRegistrationDto();
+		String expected = "register";
+		String actual = underTest.register(userDto, result, model);
+		verify(model, times(1)).addAttribute(anyString(), any());
+		verify(userService, never()).saveRegister(any());
+		
+		assertEquals(expected, actual);
 	}
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Account;
@@ -75,11 +74,11 @@ public class UserServiceImpl implements UserService {
 		return findByEmail(SecurityUtil.getSessionUser()).getId();
 	}
 
-	@Transactional
 	@Override
 	public void userLogged() {
 		User user = findByEmail(SecurityUtil.getSessionUser());
 		user.getAccount().setLastActiveDate(new Date());
+		this.save(user);
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException("Wrong user id");
 		} else {
 			UserDto dto = new UserDto();
-			dto.setAccountId(user.getAccount().getId());
+			dto.setAccountId(user.getAccount().getAccountId());
 			dto.setFirstName(user.getLastName());
 			dto.setLastName(user.getLastName());
 			dto.setEmail(user.getAccount().getEmail());
