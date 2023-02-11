@@ -27,12 +27,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOG.debug(String.format("[%s] - %s - called", this.getClass().getSimpleName(), "loadUserByUsername"));
-		 User user = userRepository.findByEmail(username);
+		 User user = userRepository.findByAccountEmail(username);
 	        if(user != null) {
 	        	LOG.debug(String.format("[%s] - %s", this.getClass().getSimpleName(), "user loaded"));
 	        	return new org.springframework.security.core.userdetails.User(
-	        			user.getEmail(), 
-	        			user.getPassword(),
+	        			user.getAccount().getEmail(), 
+	        			user.getAccount().getPassword(),
 	                    List.of(new SimpleGrantedAuthority("USER")));
 	        } else {
 	            throw new UsernameNotFoundException("Invalid username or password");

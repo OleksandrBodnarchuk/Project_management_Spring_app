@@ -19,4 +19,6 @@ public interface UserService {
 	User findByEmail(String email);
 
 	Long getLoggedUserId();
+
+	void userLogged();
 }

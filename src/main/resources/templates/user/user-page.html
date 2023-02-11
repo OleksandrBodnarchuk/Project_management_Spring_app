@@ -104,7 +104,7 @@
             </div>
             <!--NAME UNDER PHOTO -->
 				<h4 th:text="${user.firstName} + ' ' + ${user.lastName}">User name</h4>
-				<h4 th:text="${user.email}">Email</h4>
+				<h4 th:text="${user.account.email}">Email</h4>
             <h3 text-align="center">My projects</h3>
 				<a th:href="@{'/project/new/user/' + ${user.id}}" class="btn btn-primary btn-success">
 				<span class="glyphicon glyphicon-plus-sign"></span> Add new Project</a> 

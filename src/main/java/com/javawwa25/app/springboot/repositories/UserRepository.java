@@ -7,6 +7,5 @@ import com.javawwa25.app.springboot.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
-
+	User findByAccountEmail(String email);
 }

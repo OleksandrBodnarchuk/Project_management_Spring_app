@@ -28,6 +28,7 @@ public class UserController {
     @GetMapping(path = "/users")
     public String userLoggedIn() {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userLoggedIn - called");
+    	userService.userLogged();
 		return "redirect:/users/" + getUserId();
     }
     

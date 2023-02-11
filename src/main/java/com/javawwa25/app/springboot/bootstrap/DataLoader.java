@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.services.ProjectService;
@@ -60,15 +61,23 @@ public class DataLoader implements CommandLineRunner{
 		User tempUser1 = User.builder()
 				.firstName("TempUser1")
 				.lastName("TempUser1")
-				.email("tempUser1@email.com")
-				.password(passwordEncoder.encode("tempUser1"))
+				.account(Account.builder()
+						.email("tempUser1@email.com")
+						.password(passwordEncoder.encode("tempUser1"))
+						.accountId(1L)
+						.registrationDate(LocalDate.now())
+						.lastActiveDate(null).build())
 				.build();
 		
 		User tempUser2 = User.builder()
 				.firstName("TempUser2")
 				.lastName("TempUser2")
-				.email("tempUser2@email.com")
-				.password(passwordEncoder.encode("tempUser2"))
+				.account(Account.builder()
+						.email("tempUser2@email.com")
+						.password(passwordEncoder.encode("tempUser2"))
+						.accountId(2L)
+						.registrationDate(LocalDate.now())
+						.lastActiveDate(null).build())
 				.build();
 		
 		userService.save(tempUser1);
@@ -78,7 +87,7 @@ public class DataLoader implements CommandLineRunner{
 		linkUserWithProject(pythonProject, tempUser2);
 		linkUserWithProject(javaProject, tempUser1);
 		
-		LOG.debug("[Users saved]:\n\t - " + tempUser1.getEmail() + "\n\t - " + tempUser2.getEmail());
+		LOG.debug("[Accounts saved]:\n\t - " + tempUser1.getAccount().getEmail() + "\n\t - " + tempUser2.getAccount().getEmail());
 		LOG.debug("[Projects saved]:\n\t - " + javaProject.getName() + "\n\t - " + pythonProject.getName());
 		
 	}

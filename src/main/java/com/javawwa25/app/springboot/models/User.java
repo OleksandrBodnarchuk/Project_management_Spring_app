@@ -4,9 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -21,12 +24,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends Person {
+public class User extends BaseEntity {
 
-	private String email;
-	private boolean isActive;
-	private String activationCode;
-	private String password;
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "last_name")
+	private String lastName;
 
 	// mapping user with projects
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
@@ -36,18 +40,19 @@ public class User extends Person {
 	@Transient // TEMP
 	private Set<Task> tasks = new HashSet<>();
 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "account")
+	private Account account;
+
 	@Builder
-	public User(String firstName, String lastName, String email, boolean isActive, String activationCode,
-			String password, Set<Project> projects, Set<Task> tasks) {
-		super(firstName, lastName);
-		this.email = email;
-		this.isActive = isActive;
-		this.activationCode = activationCode;
-		this.password = password;
+	public User(String firstName, String lastName, Account account, Set<Project> projects, Set<Task> tasks) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.account = account;
 		this.projects = projects;
 		this.tasks = tasks;
 	}
-	
+
 	public void addProject(Project project) {
 		if (this.projects == null) {
 			this.projects = new HashSet<>();
