@@ -19,7 +19,7 @@ import com.javawwa25.app.springboot.services.UserService;
 @Controller
 public class ProjectController {
 	
-	private static final String PROJECTS_ENDPOINT = "/user/{userId}/projects";
+	private static final String PROJECTS_ENDPOINT = "/users/{userId}/projects";
 	private final static Logger LOG = LoggerFactory.getLogger(ProjectController.class);
 	
 	private final  ProjectService projectService;
@@ -38,7 +38,7 @@ public class ProjectController {
         return "project/project_list";
     }
 
-	@GetMapping(PROJECTS_ENDPOINT + "/new")
+	@GetMapping(PROJECTS_ENDPOINT + "/add")
     public String showNewProjectForm(@PathVariable("userId") long userId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
         model.addAttribute("user", userService.getUserById(userId));

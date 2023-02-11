@@ -64,8 +64,8 @@ body {
 								class="icon-bar"></span> <span class="icon-bar"></span> <span
 								class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" th:href="@{/user/{id}(id=${user.id})}">Profile</a>
-						<a class="navbar-brand" th:href="@{/projects/user/{id}(id=${user.id})}">Projects</a>
+						<a class="navbar-brand" th:href="@{/users/{id} (id=${user.account.accountId})}">Profile</a>
+						<a class="navbar-brand" th:href="@{/users/{id}/projects (id=${user.account.accountId})}">Projects</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->

@@ -30,7 +30,7 @@ import com.javawwa25.app.springboot.services.UserService;
 @ExtendWith(MockitoExtension.class)
 class ProjectControllerTest {
 
-	private static final String PROJECTS_ENDPOINT = "/user/{userId}/projects";
+	private static final String PROJECTS_ENDPOINT = "/users/{userId}/projects";
 	
 	@Mock
 	private Model model;
@@ -68,7 +68,7 @@ class ProjectControllerTest {
 		String expectedTemplate = "project/new_project";
 		underTest.showNewProjectForm(anyLong(), model);
 		verify(model, times(2)).addAttribute(anyString(), any());
-		mvc.perform(get(PROJECTS_ENDPOINT+"/new", 1))
+		mvc.perform(get(PROJECTS_ENDPOINT+"/add", 1))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name(expectedTemplate));

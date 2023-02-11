@@ -8,16 +8,19 @@ RegistrationController
 UserController
 /users -[TBC]
 /users/new
+/users/update
 /users/{userId}
+/users/{userId}/delete
 
 ProjectController
 /users/{userId}/projects
-/users/{userId}/projects/new
+/users/{userId}/projects/add
 /users/{userId}/projects/save
 /users/{userId}/projects/{projectId}
 /users/{userId}/projects/{projectId}/update
 
 TaskController
+/users/{userId}/projects/tasks
 /users/{userId}/projects/{projectId}/tasks
 /users/{userId}/projects/{projectId}/tasks/new
 /users/{userId}/projects/{projectId}/tasks/save

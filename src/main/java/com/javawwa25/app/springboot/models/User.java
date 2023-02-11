@@ -26,6 +26,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
+	@Column(name = "status")
+	private String status;
+	
 	@Column(name = "first_name")
 	private String firstName;
 
@@ -45,9 +48,10 @@ public class User extends BaseEntity {
 	private Account account;
 
 	@Builder
-	public User(String firstName, String lastName, Account account, Set<Project> projects, Set<Task> tasks) {
+	public User(String firstName, String lastName, String status, Account account, Set<Project> projects, Set<Task> tasks) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.status = status;
 		this.account = account;
 		this.projects = projects;
 		this.tasks = tasks;

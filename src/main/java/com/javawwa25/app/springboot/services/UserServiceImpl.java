@@ -7,11 +7,13 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 @Service
@@ -78,5 +80,33 @@ public class UserServiceImpl implements UserService {
 	public void userLogged() {
 		User user = findByEmail(SecurityUtil.getSessionUser());
 		user.getAccount().setLastActiveDate(new Date());
+	}
+
+	@Override
+	public void fillUserDtoModel(long userId, Model model) {
+		User user = getUserById(userId);
+		if (user.getAccount().getAccountId() != userId) {
+			throw new RuntimeException("Wrong user id");
+		} else {
+			UserDto dto = new UserDto();
+			dto.setAccountId(user.getAccount().getId());
+			dto.setFirstName(user.getLastName());
+			dto.setLastName(user.getLastName());
+			dto.setEmail(user.getAccount().getEmail());
+			model.addAttribute("dto", dto);
+		}
+	}
+
+	@Override
+	public void update(UserDto dto) {
+		User user = findByEmail(SecurityUtil.getSessionUser());
+		if(user.getAccount().getAccountId() != dto.getAccountId()) {
+			throw new RuntimeException("Id not match user id");
+		} else {
+			user.setFirstName(dto.getFirstName());
+			user.setLastName(dto.getLastName());
+			user.getAccount().setEmail(dto.getEmail());
+			this.save(user);
+		}
 	}
 }
