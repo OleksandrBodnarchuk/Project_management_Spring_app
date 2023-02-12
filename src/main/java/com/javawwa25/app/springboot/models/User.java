@@ -9,9 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,15 +18,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USER")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity {
 
-	@Column(name = "status")
-	private String status;
+	private String userStatus;
 	
 	@Column(name = "first_name")
 	private String firstName;
@@ -35,26 +33,30 @@ public class User extends BaseEntity {
 	@Column(name = "last_name")
 	private String lastName;
 
-	// mapping user with projects
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH }, mappedBy = "users")
+	@ManyToMany(fetch = FetchType.LAZY, 
+				cascade = { CascadeType.DETACH, 
+							CascadeType.MERGE, 
+							CascadeType.PERSIST,
+							CascadeType.REFRESH }, 
+				mappedBy = "users")
 	private Set<Project> projects;
 
-	@Transient // TEMP
-	private Set<Task> tasks = new HashSet<>();
-
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "account")
+	/*
+	 * The best way to map a @OneToOne relationship is to use @MapsId. 
+	 * This way, no even need a bidirectional association since you can always fetch the Account entity by using the User entity identifier.
+	 * https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/
+	 * */
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "account_id")
 	private Account account;
 
 	@Builder
-	public User(String firstName, String lastName, String status, Account account, Set<Project> projects, Set<Task> tasks) {
+	public User(String firstName, String lastName, String userStatus, Account account, Set<Project> projects) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.status = status;
+		this.userStatus = userStatus;
 		this.account = account;
 		this.projects = projects;
-		this.tasks = tasks;
 	}
 
 	public void addProject(Project project) {

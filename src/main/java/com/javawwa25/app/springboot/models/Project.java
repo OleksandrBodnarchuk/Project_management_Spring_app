@@ -32,11 +32,14 @@ public class Project extends Job {
 	private String info;
 
 	// mapping projects with user
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.EAGER, 
+				cascade = { CascadeType.DETACH, 
+							CascadeType.MERGE, 
+							CascadeType.PERSIST,
+							CascadeType.REFRESH })
 	@JoinTable(name = "users_projects", 
-		joinColumns = @JoinColumn(name = "project_id"), 
-		inverseJoinColumns = @JoinColumn(name = "users_id"))
+			   joinColumns = @JoinColumn(name = "project_id"),
+			   inverseJoinColumns = @JoinColumn(name = "users_id"))
 	private Set<User> users;
 
 	// mapping tasks with project
@@ -44,8 +47,9 @@ public class Project extends Job {
 	private Set<Task> tasks;
 	
 	@Builder
-	public Project(LocalDate startDate, LocalDate endDate, String name, String info, Set<User> users, Set<Task> tasks) {
-		super(startDate, endDate);
+	public Project(LocalDate startDate, LocalDate endDate, LocalDate created, String name, String info, Set<User> users,
+			Set<Task> tasks) {
+		super(startDate, endDate, created);
 		this.name = name;
 		this.info = info;
 		this.users = users;

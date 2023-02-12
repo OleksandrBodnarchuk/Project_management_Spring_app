@@ -16,7 +16,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Account save(Account account) {
-		long nextId = accountRepository.getNextId();
+		Long nextId = accountRepository.getNextId();
+		if(nextId == null) {
+			nextId = 1L;
+		}
 		account.setAccountId(++nextId);
 		return accountRepository.save(account);
 	}

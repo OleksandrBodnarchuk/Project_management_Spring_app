@@ -17,9 +17,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Job extends BaseEntity {
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDate startDate; // creation date
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDate endDate; // close date
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDate createdAt;
+
 }

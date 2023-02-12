@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.controllers;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javawwa25.app.springboot.models.Priority;
-import com.javawwa25.app.springboot.models.Progress;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
@@ -25,16 +24,16 @@ import com.javawwa25.app.springboot.services.UserService;
 
 @Controller
 @RequestMapping("/tasks")
-public class TaskController {
+public class IssueController {
 
 	private final static String TASK_ENDPOINT = "/users/{userId}/projects/{projectId}/tasks";
-	private final static Logger LOG = LoggerFactory.getLogger(TaskController.class);
+	private final static Logger LOG = LoggerFactory.getLogger(IssueController.class);
 
 	private final TaskService taskService;
 	private final ProjectService projectService;
 	private final UserService userService;
 
-	public TaskController(TaskService taskService, ProjectService projectService, UserService userService) {
+	public IssueController(TaskService taskService, ProjectService projectService, UserService userService) {
 		this.taskService = taskService;
 		this.projectService = projectService;
 		this.userService = userService;
@@ -58,12 +57,10 @@ public class TaskController {
 			@PathVariable(value = "projectId") long projectId,
 			@RequestParam("priority") Priority priority, @ModelAttribute("task") Task task) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveTask - called");
-		Date date = new Date();
-		task.setCreated(date);
-		task.setProgress(Progress.NEW);
+		task.setCreatedAt(LocalDate.now());
 		task.setPriority(priority);
 		task.setProject(projectService.getProjectById(projectId));
-		task.setUser(userService.getUserById(userId));
+		task.setUserAdded(userService.getUserById(userId));
 
 		taskService.saveTask(task);
 		return "redirect:/users/" + userId;
@@ -91,19 +88,7 @@ public class TaskController {
 	public String moveTaskToNextStep(@PathVariable(value = "userId") long userId,
 			@PathVariable(value = "projectId") long projectId,
 			@PathVariable(value = "taskId") long taskId) {
-		Task task = taskService.getTaskById(taskId);
-		switch (task.getProgress()) {
-		case NEW:
-			task.setProgress(Progress.IN_PROGRESS);
-			break;
-		case IN_PROGRESS:
-			task.setProgress(Progress.QA);
-			break;
-		case QA:
-			task.setProgress(Progress.DONE);
-			break;
-		}
-		taskService.saveTask(task);
+		taskService.saveTask(null);
 		return "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
 	}
 
@@ -113,17 +98,6 @@ public class TaskController {
 			@PathVariable(value = "projectId") long projectId,
 			@PathVariable(value = "taskId") long taskId) {
 		Task task = taskService.getTaskById(taskId);
-		switch (task.getProgress()) {
-		case NEW:
-			task.setProgress(Progress.IN_PROGRESS);
-			break;
-		case IN_PROGRESS:
-			task.setProgress(Progress.QA);
-			break;
-		case QA:
-			task.setProgress(Progress.DONE);
-			break;
-		}
 		taskService.saveTask(task);
 		return "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
 	}

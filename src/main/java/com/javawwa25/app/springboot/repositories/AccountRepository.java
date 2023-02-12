@@ -8,5 +8,5 @@ import com.javawwa25.app.springboot.models.Account;
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
 	@Query("SELECT max(a.id) from Account a")
-	long getNextId();
+	Long getNextId();
 }

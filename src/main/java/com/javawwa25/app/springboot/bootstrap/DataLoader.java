@@ -11,9 +11,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.models.Account;
+import com.javawwa25.app.springboot.models.Priority;
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.Status;
+import com.javawwa25.app.springboot.models.Task;
+import com.javawwa25.app.springboot.models.TaskType;
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.services.AccountService;
 import com.javawwa25.app.springboot.services.ProjectService;
+import com.javawwa25.app.springboot.services.StatusService;
+import com.javawwa25.app.springboot.services.TaskService;
+import com.javawwa25.app.springboot.services.TaskTypeService;
 import com.javawwa25.app.springboot.services.UserService;
 
 @Component
@@ -24,11 +32,20 @@ public class DataLoader implements CommandLineRunner{
 	private final UserService userService;
 	private final ProjectService projectService;
 	private final PasswordEncoder passwordEncoder;
+	private final TaskTypeService taskTypeService;
+	private final TaskService taskService;
+	private final StatusService statusService;
+	private final AccountService accountService;
 	
-	public DataLoader(UserService userService, ProjectService projectService, PasswordEncoder passwordEncoder) {
+	public DataLoader(UserService userService, ProjectService projectService, PasswordEncoder passwordEncoder,
+			TaskTypeService taskTypeService, TaskService taskService, StatusService statusService, AccountService accountService) {
 		this.userService = userService;
 		this.projectService = projectService;
 		this.passwordEncoder = passwordEncoder;
+		this.taskTypeService = taskTypeService;
+		this.taskService = taskService;
+		this.statusService = statusService;
+		this.accountService = accountService;
 	}
 
 	@Transactional
@@ -43,54 +60,87 @@ public class DataLoader implements CommandLineRunner{
 	}
 
 	private void loadData() {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked");
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
+		LOG.debug("[SAVING TASK TYPES]");
+		TaskType bug = new TaskType();
+		bug.setName("BUG");
+		taskTypeService.saveType(bug);
+		TaskType task = new TaskType();
+		bug.setName("TASK");
+		taskTypeService.saveType(task);
+		// SAVING TASK STATUSES PER TYPE		
+		Status newStatus = Status.builder().name("NEW").taskType(bug).build();
+		Status inProgressStatus = Status.builder().name("IN_PROGRESS").taskType(bug).build();
+		Status qaStatus = Status.builder().name("QA").taskType(bug).build();
+		Status doneStatus = Status.builder().name("DONE").taskType(bug).build();
+		statusService.saveStatus(newStatus);
+		statusService.saveStatus(inProgressStatus);
+		statusService.saveStatus(qaStatus);
+		statusService.saveStatus(doneStatus);
+
+		LOG.debug("[SAVING PROJECTS]");
 		Project javaProject = Project.builder()
-				.startDate(LocalDate.now())
+				.created(LocalDate.now())
 				.name("Java")
 				.info("Description")
 				.build();
 		
 		Project pythonProject = Project.builder()
-				.startDate(LocalDate.now())
+				.created(LocalDate.now())
 				.name("Python")
 				.info("Description")
 				.build();
 		projectService.save(pythonProject);
 		projectService.save(javaProject);
 		
-		User tempUser1 = User.builder()
+		LOG.debug("[SAVING ACCOUNT 2]");
+		Account account1 = accountService.save(Account.builder()
+							.email("tempUser1@email.com")
+							.password(passwordEncoder.encode("tempUser1"))
+							.accountId(1L)
+							.registrationDate(LocalDate.now())
+							.lastActiveDate(null).build());
+		
+		User tempUser1 = userService.save(User.builder()
 				.firstName("TempUser1")
 				.lastName("TempUser1")
-				.status("Status is everything")
-				.account(Account.builder()
-						.email("tempUser1@email.com")
-						.password(passwordEncoder.encode("tempUser1"))
-						.accountId(1L)
-						.registrationDate(LocalDate.now())
-						.lastActiveDate(null).build())
-				.build();
+				.userStatus("Status is everything")
+				.account(account1)
+				.build());
 		
-		User tempUser2 = User.builder()
+		LOG.debug("[SAVING ACCOUNT 2]");
+		Account account2 = accountService.save(Account.builder()
+				.email("tempUser2@email.com")
+				.password(passwordEncoder.encode("tempUser2"))
+				.accountId(2L)
+				.registrationDate(LocalDate.now())
+				.lastActiveDate(null).build());
+		
+		User tempUser2 = userService.save(User.builder()
 				.firstName("TempUser2")
 				.lastName("TempUser2")
-				.status("Status is everything")
-				.account(Account.builder()
-						.email("tempUser2@email.com")
-						.password(passwordEncoder.encode("tempUser2"))
-						.accountId(2L)
-						.registrationDate(LocalDate.now())
-						.lastActiveDate(null).build())
-				.build();
+				.userStatus("Status is everything")
+				.account(account2)
+				.build());
 		
-		userService.save(tempUser1);
-		userService.save(tempUser2);
-		
+		LOG.debug("[SAVING USERS]");
+		LOG.debug("[LINKING PROJECTS WITH USERS]");
 		linkUserWithProject(pythonProject, tempUser1);
 		linkUserWithProject(pythonProject, tempUser2);
 		linkUserWithProject(javaProject, tempUser1);
 		
-		LOG.debug("[Accounts saved]:\n\t - " + tempUser1.getAccount().getEmail() + "\n\t - " + tempUser2.getAccount().getEmail());
-		LOG.debug("[Projects saved]:\n\t - " + javaProject.getName() + "\n\t - " + pythonProject.getName());
+		Task task1 = Task.builder()
+				.createdAt(LocalDate.now())
+				.description("Error 500 fix")
+				.name("TASK 1 - NAME")
+				.priority(Priority.HIGH)
+				.project(javaProject)
+				.taskType(bug)
+				.userAdded(tempUser1)
+				.userAssigned(tempUser2)
+				.status(inProgressStatus)
+				.build();
+		taskService.saveTask(task1);
 		
 	}
 

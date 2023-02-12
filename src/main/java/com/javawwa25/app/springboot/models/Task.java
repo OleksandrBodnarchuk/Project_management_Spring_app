@@ -1,15 +1,16 @@
 package com.javawwa25.app.springboot.models;
 
-import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,38 +22,50 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Task extends BaseEntity {
+public class Task extends Job {
 
 	private String name;
+	@Lob
 	private String description;
-
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "created")
-	private Date created;
-
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    private Date task_startDate;
-//
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    private Date task_endDate;
 
 	@Column(name = "task_priority")
 	@Enumerated(EnumType.STRING)
 	private Priority priority;
+	
+	@OneToOne
+	@JoinColumn(name = "type_id")
+	private TaskType taskType;
 
-	@Column(name = "task_progress")
-	@Enumerated(EnumType.STRING)
-	private Progress progress;
-
-	// Mapping Tasks with Project
+	@OneToOne
+	@JoinColumn(name = "status_id")
+	private Status status;
+	
 	@ManyToOne
 	@JoinColumn(name = "project_id")
 	private Project project;
 
-	// mapping tasks with user
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumn(name = "user_assigned_id")
+	private User userAssigned;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_added_id")
+	private User userAdded;
+
+	@Builder
+	public Task(LocalDate startDate, LocalDate endDate, LocalDate createdAt, String name, String description,
+			Priority priority, TaskType taskType, Status status, Project project, User userAssigned, User userAdded) {
+		super(startDate, endDate, createdAt);
+		this.name = name;
+		this.description = description;
+		this.priority = priority;
+		this.taskType = taskType;
+		this.status = status;
+		this.project = project;
+		this.userAssigned = userAssigned;
+		this.userAdded = userAdded;
+	}
+	
+	
 
 }

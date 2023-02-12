@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "accounts")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,7 +23,7 @@ public class Account extends BaseEntity {
 
 	@Column(name = "email", unique = true)
 	private String email;
-	private long accountId;
+	private Long accountId;
 	private String password;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -34,7 +32,7 @@ public class Account extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastActiveDate;
 	
-	
+	// private Boolean isAdmin;
 	// private Boolean activated;
 	// private LocalDate activationDate;
 	
