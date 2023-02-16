@@ -46,7 +46,7 @@ public class User extends BaseEntity {
 	 * This way, no even need a bidirectional association since you can always fetch the Account entity by using the User entity identifier.
 	 * https://vladmihalcea.com/the-best-way-to-map-a-onetoone-relationship-with-jpa-and-hibernate/
 	 * */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "account_id")
 	private Account account;
 

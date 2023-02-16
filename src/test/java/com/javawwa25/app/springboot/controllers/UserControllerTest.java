@@ -31,6 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.services.ProjectService;
+import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
@@ -44,6 +45,8 @@ class UserControllerTest {
 	private UserService userService;
 	@Mock
 	private ProjectService projectService;
+	@Mock
+	private TaskService taskService;
 
 	@InjectMocks
 	private UserController underTest;
@@ -61,12 +64,12 @@ class UserControllerTest {
 		String expectedTemplate = "user/user-page";
 		long userId = 1l;
 		
-		doNothing().when(projectService)
-		.fillUserProjects(userId, model);
+		doNothing().when(taskService)
+		.fillUserPageDtoModel(userId, model);
 		
 		underTest.showUserPage(userId, model);
-		verify(projectService,times(1))
-			.fillUserProjects(userId, model);
+		verify(taskService,times(1))
+			.fillUserPageDtoModel(userId, model);
 		
 		mvc.perform(get("/users/{userId}", userId))
 			.andDo(print())

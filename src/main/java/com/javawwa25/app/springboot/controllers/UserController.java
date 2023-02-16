@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.services.ProjectService;
+import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
@@ -24,11 +24,11 @@ public class UserController {
 	private final static Logger LOG = LoggerFactory.getLogger(UserController.class);
 	
     private final UserService userService;
-    private final ProjectService projectService;
+    private final TaskService taskService;
     
-    public UserController(UserService userService, ProjectService projectService) {
+    public UserController(UserService userService, TaskService taskService) {
 		this.userService = userService;
-		this.projectService = projectService;
+		this.taskService = taskService;
 	}
 
     @GetMapping(path = "/users")
@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping("/users/{userId}")
     public String showUserPage(@PathVariable(value = "userId") long userId, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showUserPage - called");
-    	projectService.fillUserProjects(userId, model);
+    	taskService.fillUserPageDtoModel(userId, model);
         return "user/user-page";
     }
 

@@ -140,7 +140,20 @@ public class DataLoader implements CommandLineRunner{
 				.userAssigned(tempUser2)
 				.status(inProgressStatus)
 				.build();
+		
+		Task task2 = Task.builder()
+				.createdAt(LocalDate.now())
+				.description("Error 500 fix")
+				.name("TASK 2 - NAME")
+				.priority(Priority.HIGH)
+				.project(javaProject)
+				.taskType(bug)
+				.userAdded(tempUser2)
+				.userAssigned(tempUser1)
+				.status(inProgressStatus)
+				.build();
 		taskService.saveTask(task1);
+		taskService.saveTask(task2);
 		
 	}
 

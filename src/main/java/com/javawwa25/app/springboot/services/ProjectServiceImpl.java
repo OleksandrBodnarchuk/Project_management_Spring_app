@@ -3,10 +3,8 @@ package com.javawwa25.app.springboot.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 
 
@@ -49,11 +47,4 @@ public class ProjectServiceImpl implements ProjectService{
         return projectList;
     }
 
-	@Override
-	public void fillUserProjects(long userId, Model model) {
-		User user = userService.getUserById(userId);
-        List<Project> projects = this.getAllProjectsByUserId(userId);
-        model.addAttribute("user", user);
-        model.addAttribute("projectList", projects);
-	}
 }

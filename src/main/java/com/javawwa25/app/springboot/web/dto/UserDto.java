@@ -22,4 +22,5 @@ public class UserDto {
     @NotEmpty
     @ValidEmail(message = "Email invalid or exists")
 	private String email;
+
 }
