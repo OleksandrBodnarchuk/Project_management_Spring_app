@@ -55,42 +55,45 @@
 		}
 	</style>
 </head>
-<body style="">
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<nav class="navbar navbar-inverse container" role="navigation">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" th:href="@{/users/{id} (id=${user.account.accountId})}">Profile</a>
-			<a class="navbar-brand" th:href="@{/users/{id}/projects/ (id=${user.account.accountId})}">Projects</a>
+<body>
+	<nav class="navbar navbar-inverse container" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{/users}">Profile</a>
+			</div>
+			
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}">Username <b
+							class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+							<a type="button" class="btn btn-default"
+								th:href="@{/users/{id}/settings (id=${user.account.accountId})}">
+									<span class="glyphicon glyphicon-lock"></span>Settings
+							</a><br>
+							</li>
+							<li>
+								<a type="button" class="btn btn-default" th:href="@{/logout}"><span
+									class="glyphicon glyphicon-log-out"> Logout </span></a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
 		</div>
-
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}" >Username <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<li align="center" class="well">
-							<div><img class="img-responsive" style="padding:2%;" src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change" href="">Change Picture</a></div>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span> Security</a>
-							<a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid -->
-</nav>
+		<!-- /.container-fluid -->
+	</nav>
+	<br>
 
 <div class="container bootstrap snippets bootdey">
 	<div class="row well">
@@ -121,9 +124,7 @@
 				<button type="submit" class="btn btn-primary btn-success"><span
 						class="glyphicon glyphicon-plus-sign"></span> Save Project </button>
 			</form>
-			<a th:href = "@{/users/{id}(id=${user.account.accountId})}"> Back to My Page</a>
 		</div>
-
 	</div>
 </div>
 

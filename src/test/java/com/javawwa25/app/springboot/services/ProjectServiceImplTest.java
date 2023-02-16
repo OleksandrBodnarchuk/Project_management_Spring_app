@@ -106,7 +106,7 @@ class ProjectServiceImplTest {
 
 	@Test
 	void testGetAllProjectsByUserId() {
-		given(projectRepository.findAllUserProjects(anyLong())).willReturn(projects);
+		given(projectRepository.findByUsers_Id(anyLong())).willReturn(projects);
 		List<Project> retrievedProjects = underTest.getAllProjectsByUserId(user.getId());
 		assertEquals(projects.size(), retrievedProjects.size());
 		assertTrue(retrievedProjects.get(0).getUsers().contains(user));

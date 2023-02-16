@@ -34,7 +34,7 @@ public class ProjectController {
     public String projectList(@PathVariable("userId") long userId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
 		model.addAttribute("user", userService.getUserById(userId));
-        model.addAttribute("projects", projectService.getAllProjects());
+        model.addAttribute("projects", projectService.getAllProjectsByUserId(userId));
         return "project/project_list";
     }
 

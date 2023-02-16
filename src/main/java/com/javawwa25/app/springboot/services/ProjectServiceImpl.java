@@ -11,11 +11,9 @@ import com.javawwa25.app.springboot.repositories.ProjectRepository;
 @Service
 public class ProjectServiceImpl implements ProjectService{
 
-	private final UserService userService;
     private final ProjectRepository projectRepository;
     
-    public ProjectServiceImpl(UserService userService, ProjectRepository projectRepository) {
-		this.userService = userService;
+    public ProjectServiceImpl(ProjectRepository projectRepository) {
 		this.projectRepository = projectRepository;
 	}
 
@@ -43,7 +41,7 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public List<Project> getAllProjectsByUserId(long userId) {
-        List<Project> projectList = projectRepository.findAllUserProjects(userId);
+        List<Project> projectList = projectRepository.findByUsers_Id(userId);
         return projectList;
     }
 

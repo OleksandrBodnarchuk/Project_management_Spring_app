@@ -9,97 +9,97 @@
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
 	rel="stylesheet">
 <style type="text/css">
-body {
-	background: #eee;
-}
 
-.pic {
-	width: 180px;
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-bottom: -10px;
-}
 
-.panel {
-	position: initial;
-	background-image:
-		url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
-}
+        body {
+            background: #eee;
+        }
 
-.name {
-	position: absolute;
-	padding-left: 200px;
-	font-size: 30px;
-}
+        .pic {
+            width: 180px;
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -10px;
+        }
 
-.dropdown {
-	position: absolute;
-}
+        .panel {
+            position: initial;
+            background-image: url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
+        }
 
-.change {
-	position: relative;
-	bottom: 20px;
-	padding: 1px;
-	color: white;
-	text-decoration: none;
-}
+        .name {
+            position: absolute;
+            padding-left: 200px;
+            font-size: 30px;
+        }
 
-.change:hover {
-	text-decoration: none;
-	background-color: black;
-	color: white;
-}
+        .dropdown {
+            position: absolute;
+        }
+
+        .change {
+            position: relative;
+            bottom: 20px;
+            padding: 1px;
+            color: white;
+            text-decoration: none;
+        }
+
+
+        .change:hover {
+            text-decoration: none;
+            background-color: black;
+            color: white;
+        }
 </style>
 </head>
 <body>
+	<nav class="navbar navbar-inverse container" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" th:href="@{/users}">Profile</a>
+			</div>
+			
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}">Username <b
+							class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+							<a type="button" class="btn btn-default"
+								th:href="@{/users/{id}/settings (id=${user.account.accountId})}">
+									<span class="glyphicon glyphicon-lock"></span>Settings
+							</a><br>
+							</li>
+							<li>
+								<a type="button" class="btn btn-default" th:href="@{/logout}"><span
+									class="glyphicon glyphicon-log-out"> Logout </span></a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<br>
 	<div class="container bootstrap snippets bootdey">
 		<div class="row well">
-			<nav class="navbar navbar-inverse container" role="navigation">
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse"
-							data-target="#bs-example-navbar-collapse-1">
-							<span class="sr-only">Toggle navigation</span> <span
-								class="icon-bar"></span> <span class="icon-bar"></span> <span
-								class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" th:href="@{/users/{id} (id=${user.account.accountId})}">Profile</a>
-					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse"
-						id="bs-example-navbar-collapse-1">
-
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown" th:text="${user.firstName}">Username
-									<b class="caret"></b>
-							</a>
-								<ul class="dropdown-menu">
-									<!--  <li align="center" class="well" sec:authorize="isAuthenticated()"> -->
-										<img class="img-responsive" style="padding: 2%;"
-											src="https://www.pngitem.com/pimgs/m/146-1468323_gamer-profile-icon-png-transparent-png.png"><a
-											class="change" href="">Change Picture</a>
-										<a href="#" class="btn btn-sm btn-default"><span
-											class="glyphicon glyphicon-lock"></span> Security</a>
-										<a th:href="@{/logout}" class="btn btn-sm btn-default"><span
-											class="glyphicon glyphicon-log-out"></span> Logout</a>
-									<!-- </li>  -->
-								</ul></li>
-						</ul>
-					</div>
-					<!-- /.navbar-collapse -->
-				</div>
-				<!-- /.container-fluid -->
-			</nav>
-			<br>
 			<div>
-				<a th:href="@{'/projects/new/user/' + ${user.id}}"
-					class="btn btn-primary btn-success"> <span
-					class="glyphicon glyphicon-plus-sign"></span> Add new Project
+				<a th:href="@{/users/{userId}/projects/add (userId=${user.id})}"
+					class="btn btn-primary btn-success"> 
+					<span class="glyphicon glyphicon-plus-sign"></span> Add new Project
 				</a>
-			</div>
+			</div><br>
 			<table border="1" class="table table-striped table-responsive-md">
 				<thead>
 					<tr>
@@ -118,5 +118,14 @@ body {
 			</table>
 		</div>
 	</div>
+	
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('#myTab a:last').tab('show')
+	})
+</script>
+
 </body>
 </html>

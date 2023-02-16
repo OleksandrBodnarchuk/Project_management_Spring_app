@@ -97,7 +97,6 @@ public class DataLoader implements CommandLineRunner{
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
-							.accountId(1L)
 							.registrationDate(LocalDate.now())
 							.lastActiveDate(null).build());
 		
@@ -112,7 +111,6 @@ public class DataLoader implements CommandLineRunner{
 		Account account2 = accountService.save(Account.builder()
 				.email("tempUser2@email.com")
 				.password(passwordEncoder.encode("tempUser2"))
-				.accountId(2L)
 				.registrationDate(LocalDate.now())
 				.lastActiveDate(null).build());
 		

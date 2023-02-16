@@ -55,7 +55,7 @@ class ProjectControllerTest {
 		String expectedTemplate = "project/project_list";
 		underTest.projectList(anyLong(), model);
 		verify(model, times(2)).addAttribute(anyString(), any());
-		verify(projectService, times(1)).getAllProjects();
+		verify(projectService, times(1)).getAllProjectsByUserId(anyLong());
 		verify(userService, times(1)).getUserById(anyLong());
 		mvc.perform(get(PROJECTS_ENDPOINT, 1))
 			.andDo(print())

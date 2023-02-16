@@ -19,8 +19,10 @@ public class AccountServiceImpl implements AccountService {
 		Long nextId = accountRepository.getNextId();
 		if(nextId == null) {
 			nextId = 1L;
+			account.setAccountId(nextId);
+		} else {
+			account.setAccountId(++nextId);	
 		}
-		account.setAccountId(++nextId);
 		return accountRepository.save(account);
 	}
 
