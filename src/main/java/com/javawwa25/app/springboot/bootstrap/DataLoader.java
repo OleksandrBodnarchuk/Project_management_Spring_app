@@ -98,7 +98,9 @@ public class DataLoader implements CommandLineRunner{
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
 							.registrationDate(LocalDate.now())
-							.lastActiveDate(null).build());
+							.lastActiveDate(null)
+							.isAdmin(true)
+							.build());
 		
 		User tempUser1 = userService.save(User.builder()
 				.firstName("TempUser1")
@@ -112,7 +114,9 @@ public class DataLoader implements CommandLineRunner{
 				.email("tempUser2@email.com")
 				.password(passwordEncoder.encode("tempUser2"))
 				.registrationDate(LocalDate.now())
-				.lastActiveDate(null).build());
+				.lastActiveDate(null)
+				.isAdmin(false)
+				.build());
 		
 		User tempUser2 = userService.save(User.builder()
 				.firstName("TempUser2")

@@ -32,7 +32,7 @@ public class Account extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastActiveDate;
 	
-	// private Boolean isAdmin;
+	 private Boolean isAdmin;
 	// private Boolean activated;
 	// private LocalDate activationDate;
 	

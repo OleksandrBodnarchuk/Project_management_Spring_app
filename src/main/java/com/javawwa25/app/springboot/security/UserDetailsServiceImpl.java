@@ -28,15 +28,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOG.debug(String.format("[%s] - %s - called", this.getClass().getSimpleName(), "loadUserByUsername"));
 		 User user = userRepository.findByAccountEmail(username);
+		 SimpleGrantedAuthority authority = setUpAuthority(user);
+		 LOG.debug("USER --> " + authority);
 	        if(user != null) {
 	        	LOG.debug(String.format("[%s] - %s", this.getClass().getSimpleName(), "user loaded"));
 	        	return new org.springframework.security.core.userdetails.User(
 	        			user.getAccount().getEmail(), 
 	        			user.getAccount().getPassword(),
-	                    List.of(new SimpleGrantedAuthority("USER")));
+	                    List.of(authority));
 	        } else {
 	            throw new UsernameNotFoundException("Invalid username or password");
 	        }
+	}
+
+	private SimpleGrantedAuthority setUpAuthority(User user) {
+		return user.getAccount().getIsAdmin() ? new SimpleGrantedAuthority("ADMIN")
+				: new SimpleGrantedAuthority("USER");
 	}
 
 }
