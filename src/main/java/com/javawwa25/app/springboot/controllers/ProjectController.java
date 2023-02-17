@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,7 @@ public class ProjectController {
         return "project/project_list";
     }
 
+	@Secured({"ADMIN"})
 	@GetMapping(PROJECTS_ENDPOINT + "/add")
     public String showNewProjectForm(@PathVariable("userId") long userId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
@@ -50,6 +52,7 @@ public class ProjectController {
 		return "redirect:" + PROJECTS_ENDPOINT + "/" + projectId + "/tasks";
 	}
 
+	@Secured({"ADMIN"})
 	@PostMapping(PROJECTS_ENDPOINT + "/save")
     public String saveProject(@PathVariable("userId") long userId, 
     		@ModelAttribute("project") Project project) {

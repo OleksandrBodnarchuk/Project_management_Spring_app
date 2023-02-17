@@ -3,6 +3,7 @@ package com.javawwa25.app.springboot.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
 	private final UserDetailsService userDetailsService;
@@ -30,7 +32,6 @@ public class SecurityConfiguration {
 							antMatcher("/registration"),
 							antMatcher("/registration/save"),
 							antMatcher("/css/**"),
-							antMatcher("/users/1"),
 							antMatcher("/js/**"))
 					.permitAll()
            .anyRequest().authenticated()
@@ -43,7 +44,7 @@ public class SecurityConfiguration {
            ).logout(
                    logout -> logout
                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
-           );
+           ).exceptionHandling().accessDeniedPage("/access-denied");
    
    return http.build();
 	}
