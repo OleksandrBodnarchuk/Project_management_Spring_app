@@ -1,0 +1,40 @@
+body {
+	background: #eee;
+}
+
+.pic {
+	width: 180px;
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-bottom: -10px;
+}
+
+.panel {
+	position: initial;
+	background-image:
+		url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
+}
+
+.name {
+	position: absolute;
+	padding-left: 200px;
+	font-size: 30px;
+}
+
+.dropdown {
+	position: absolute;
+}
+
+.change {
+	position: relative;
+	bottom: 20px;
+	padding: 1px;
+	color: white;
+	text-decoration: none;
+}
+
+.change:hover {
+	text-decoration: none;
+	background-color: black;
+	color: white;
+}

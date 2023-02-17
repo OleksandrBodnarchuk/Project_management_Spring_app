@@ -3,19 +3,22 @@ package com.javawwa25.app.springboot.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
+import com.javawwa25.app.springboot.web.dto.UserDto;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Service
+@RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService{
 
     private final ProjectRepository projectRepository;
-    
-    public ProjectServiceImpl(ProjectRepository projectRepository) {
-		this.projectRepository = projectRepository;
-	}
+    private final UserService userService;
 
 	@Override
     public List<Project> getAllProjects() {
@@ -44,5 +47,17 @@ public class ProjectServiceImpl implements ProjectService{
         List<Project> projectList = projectRepository.findByUsers_Id(userId);
         return projectList;
     }
+
+	@Override
+	public void fillDtoProjectsModel(long userId, Model model) {
+		User user = userService.getUserById(userId);
+		UserDto dto = new UserDto();
+		dto.setAccountId(user.getAccount().getAccountId());
+		dto.setEmail(user.getAccount().getEmail());
+		dto.setFirstName(user.getFirstName());
+		dto.setLastName(user.getLastName());
+		model.addAttribute("user", dto);
+        model.addAttribute("projects", projectRepository.findByUsers_Id(userId));
+	}
 
 }

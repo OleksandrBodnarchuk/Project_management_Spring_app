@@ -12,5 +12,10 @@ public class LoginController {
 	public String loginPage() {
 		return "login-page";
 	}
+
+    @GetMapping("/403")
+    public String error403() {
+        return "/error/403";
+    }
 	
 }

@@ -1,179 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-<meta charset="utf-8">
-<title th:text="*{dto.firstName} +' '+ *{dto.lastName}">Home</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link
-	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
-	rel="stylesheet">
-<style type="text/css">
-.body {
-	background: #eee;
-	margin-top: 20px;
-	background-color: #f2f6fc;
-	color: #69707a;
-}
-
-.pic {
-	width: 180px;
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-bottom: -10px;
-}
-
-.panel {
-	position: initial;
-	background-image:
-		url("https://www.motionstock.net/wp-content/uploads/2019/11/Matrix-Digital-Rain-1200x675.jpg");
-}
-
-.name {
-	position: absolute;
-	padding-left: 200px;
-	font-size: 30px;
-}
-
-.dropdown {
-	position: absolute;
-}
-
-.change {
-	position: relative;
-	bottom: 20px;
-	padding: 1px;
-	color: white;
-	text-decoration: none;
-}
-
-.change:hover {
-	text-decoration: none;
-	background-color: black;
-	color: white;
-}
-
-.img-account-profile {
-	height: 10rem;
-}
-
-.rounded-circle {
-	border-radius: 50% !important;
-}
-
-.card {
-	box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50/ 15%);
-}
-
-.card .card-header {
-	font-weight: 500;
-}
-
-.card-header:first-child {
-	border-radius: 0.35rem 0.35rem 0 0;
-}
-
-.card-header {
-	padding: 1rem 1.35rem;
-	margin-bottom: 0;
-	background-color: rgba(33, 40, 50, 0.03);
-	border-bottom: 1px solid rgba(33, 40, 50, 0.125);
-}
-
-.form-control, .dataTable-input {
-	display: block;
-	width: 100%;
-	padding: 0.875rem 1.125rem;
-	font-size: 0.875rem;
-	font-weight: 400;
-	line-height: 1;
-	color: #69707a;
-	background-color: #fff;
-	background-clip: padding-box;
-	border: 1px solid #c5ccd6;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	border-radius: 0.35rem;
-	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-.nav-borders .nav-link.active {
-	color: #0061f2;
-	border-bottom-color: #0061f2;
-}
-
-.nav-borders .nav-link {
-	color: #69707a;
-	border-bottom-width: 0.125rem;
-	border-bottom-style: solid;
-	border-bottom-color: transparent;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-	padding-left: 0;
-	padding-right: 0;
-	margin-left: 1rem;
-	margin-right: 1rem;
-}
-
-.btn-danger-soft {
-	color: #000;
-	background-color: #f1e0e3;
-	border-color: #f1e0e3;
-}
-
-.error {
-	color: red;
-}
-</style>
-</head>
+<head th:replace="~{fragments/header :: header-css}"/>
 <body>
-	<nav class="navbar navbar-inverse container" role="navigation">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" th:href="@{/users}">Profile</a>
-			</div>
-
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a class="dropdown-toggle"
-						data-toggle="dropdown" th:text="${dto.firstName}">Username <b
-							class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a type="button" class="btn btn-default"
-								th:href="@{/logout}"><span
-									class="glyphicon glyphicon-log-out"> Logout </span></a></li>
-						</ul></li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
+	<div th:replace="~{fragments/header :: navbar}"></div>
 
 	<div class="container bootstrap snippets bootdey">
 		<div class="row well">
 			<div class=".container-md px-4 mt-4">
 				<!-- Account page navigation-->
 				<nav class="nav nav-borders">
-					<a class="nav-link active ms-0"
-						href="#">
-						Profile Information</a> 
-					<a class="nav-link"
-						th:href="@{/users/{id}/security (id = ${dto.accountId})}">Security</a> 
+					<a class="nav-link active ms-0" href="#"> Profile Information</a> <a
+						class="nav-link"
+						th:href="@{/users/{id}/security (id = ${user.accountId})}">Security</a>
 					<a class="nav-link"
 						href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
 						target="__blank">Notifications</a>
-				</nav><br>
+				</nav>
+				<br>
 				<!-- Success message -->
 				<div th:if="${param.success}">
 					<div class="alert alert-info">Profile udpated</div>
@@ -206,47 +50,53 @@
 							<div class="card-header">
 								<h3 align="center">Account Details</h3>
 							</div>
-							<div class="card-body"><br>
-								<form th:action="@{/users/update}" th:object=${dto} method="post">
+							<div class="card-body">
+								<br>
+								<form th:action="@{/users/update}" th:object=${user}
+									method="post">
 									<input type="hidden" th:field="*{accountId}" id="accountId">
 									<!-- Form Group (status)-->
 									<div class="mb-3">
 										<label class="medium mb-1" for="inputStatus">Your
-											status (will appear to other users on the site)</label> 
-											<input class="form-control" id="inputStatus" type="text" 
-											th:field=*{status}
-											placeholder="What do you think?">
+											status (will appear to other users on the site)</label> <input
+											class="form-control" id="inputStatus" type="text"
+											th:field=*{status} placeholder="What do you think?">
 									</div>
 									<!-- Form Row-->
 									<div class="row gx-3 mb-3">
 										<!-- Form Group (first name)-->
 										<div class="col-md-6">
-											<label class="medium mb-1" for="firstName">First name</label> 
+											<label class="medium mb-1" for="firstName">First name</label>
 											<input class="form-control" id="firstName"
-												th:field=*{firstName}
-												type="text" placeholder="Enter your first name">
-											<p class="error" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
+												th:field=*{firstName} type="text"
+												placeholder="Enter your first name">
+											<p class="error"
+												th:each="error: ${#fields.errors('firstName')}"
+												th:text="${error}">Validation error</p>
 										</div>
 										<!-- Form Group (last name)-->
 										<div class="col-md-6">
-											<label class="medium mb-1" for="lastName">Last name</label> 
-											<input class="form-control" id="lastName"
-												th:field=*{lastName}
+											<label class="medium mb-1" for="lastName">Last name</label> <input
+												class="form-control" id="lastName" th:field=*{lastName}
 												type="text" placeholder="Enter your last name">
-											<p class="error" th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
+											<p class="error"
+												th:each="error: ${#fields.errors('lastName')}"
+												th:text="${error}">Validation error</p>
 										</div>
 									</div>
 									<!-- Form Group (email address)-->
 									<div class="mb-3">
-										<label class="medium mb-1" for="email">Email address</label> 
-											<input class="form-control" id="email"
-											th:field="*{email}"
+										<label class="medium mb-1" for="email">Email address</label> <input
+											class="form-control" id="email" th:field="*{email}"
 											type="email" placeholder="Enter your email address">
-											<p class="error" th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</p>
-									</div><br>
+										<p class="error" th:each="error: ${#fields.errors('email')}"
+											th:text="${error}">Validation error</p>
+									</div>
+									<br>
 									<!-- Save changes button-->
 									<br>
-									<button class="btn btn-primary" type="submit">Save changes</button>
+									<button class="btn btn-primary" type="submit">Save
+										changes</button>
 								</form>
 							</div>
 						</div>

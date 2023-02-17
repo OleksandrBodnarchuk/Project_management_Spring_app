@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 			dto.setFirstName(user.getLastName());
 			dto.setLastName(user.getLastName());
 			dto.setEmail(user.getAccount().getEmail());
-			model.addAttribute("dto", dto);
+			model.addAttribute("user", dto);
 		}
 	}
 

@@ -64,14 +64,14 @@ public class TaskServiceImpl implements  TaskService{
 		
 		model.addAttribute("createdTasks", createdTasks);
 		model.addAttribute("assignedTasks", assignedTasks);
-        model.addAttribute("user", user);
+        model.addAttribute("user", dto);
 	}
 
-	private Set<Task> getCreatedTasksByUserId(long userId) {
+	public Set<Task> getCreatedTasksByUserId(long userId) {
 		return taskRepository.findAllByUserAddedId(userId);
 	}
 
-	private Set<Task> getAssignedTasksByUserId(long userId) {
+	public Set<Task> getAssignedTasksByUserId(long userId) {
 		return taskRepository.findAllByUserAssignedId(userId);
 		
 	}

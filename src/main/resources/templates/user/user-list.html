@@ -119,7 +119,7 @@
 			<td th:text="${user.first_name}"></td>
 			<td th:text="${user.last_name}"></td>
 			<td th:text="${user.email}"></td>
-			<td> <a th:href="@{/users/update/{id} (id=${user.account.accountId})}" class="btn btn-primary">Update User</a>
+			<td> <a th:href="@{/users/update/{id} (id=${user.accountId})}" class="btn btn-primary">Update User</a>
 				<a th:href="@{/users/{id}/delete (id=${user.id})}" class="btn btn-danger">Delete User</a>
 			</td>
 		</tr>

@@ -15,8 +15,11 @@ import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Controller
+@RequiredArgsConstructor
 public class ProjectController {
 	
 	private static final String PROJECTS_ENDPOINT = "/users/{userId}/projects";
@@ -25,16 +28,11 @@ public class ProjectController {
 	private final  ProjectService projectService;
 	private final  UserService userService;
 
-	public ProjectController(ProjectService projectService, UserService userService) {
-		this.projectService = projectService;
-		this.userService = userService;
-	}
 
 	@GetMapping(PROJECTS_ENDPOINT)
     public String projectList(@PathVariable("userId") long userId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
-		model.addAttribute("user", userService.getUserById(userId));
-        model.addAttribute("projects", projectService.getAllProjectsByUserId(userId));
+		projectService.fillDtoProjectsModel(userId, model);
         return "project/project_list";
     }
 
