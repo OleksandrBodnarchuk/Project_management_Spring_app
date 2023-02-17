@@ -1,5 +1,7 @@
 package com.javawwa25.app.springboot.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.javawwa25.app.springboot.models.Account;
@@ -24,6 +26,11 @@ public class AccountServiceImpl implements AccountService {
 			account.setAccountId(++nextId);	
 		}
 		return accountRepository.save(account);
+	}
+
+	@Override
+	public Optional<Account> findByUsername(String username) {
+		return accountRepository.findByEmail(username);
 	}
 
 }

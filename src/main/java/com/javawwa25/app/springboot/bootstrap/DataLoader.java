@@ -11,12 +11,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.models.Account;
+import com.javawwa25.app.springboot.models.Authority;
 import com.javawwa25.app.springboot.models.Priority;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Status;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.TaskType;
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.services.AccountService;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.StatusService;
@@ -35,16 +37,19 @@ public class DataLoader implements CommandLineRunner{
 	private final TaskTypeService taskTypeService;
 	private final TaskService taskService;
 	private final StatusService statusService;
+	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
 	
 	public DataLoader(UserService userService, ProjectService projectService, PasswordEncoder passwordEncoder,
-			TaskTypeService taskTypeService, TaskService taskService, StatusService statusService, AccountService accountService) {
+			TaskTypeService taskTypeService, TaskService taskService, StatusService statusService,
+			AccountService accountService, AuthorityRepository authorityRepository) {
 		this.userService = userService;
 		this.projectService = projectService;
 		this.passwordEncoder = passwordEncoder;
 		this.taskTypeService = taskTypeService;
 		this.taskService = taskService;
 		this.statusService = statusService;
+		this.authorityRepository = authorityRepository;
 		this.accountService = accountService;
 	}
 
@@ -93,13 +98,16 @@ public class DataLoader implements CommandLineRunner{
 		projectService.save(pythonProject);
 		projectService.save(javaProject);
 		
+		Authority admin = authorityRepository.save(Authority.builder().role("ADMIN").build());
+		Authority user = authorityRepository.save(Authority.builder().role("USER").build());
+		
 		LOG.debug("[SAVING ACCOUNT 2]");
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
 							.registrationDate(LocalDate.now())
 							.lastActiveDate(null)
-							.isAdmin(true)
+							.authority(admin)
 							.build());
 		
 		User tempUser1 = userService.save(User.builder()
@@ -115,7 +123,7 @@ public class DataLoader implements CommandLineRunner{
 				.password(passwordEncoder.encode("tempUser2"))
 				.registrationDate(LocalDate.now())
 				.lastActiveDate(null)
-				.isAdmin(false)
+				.authority(user)
 				.build());
 		
 		User tempUser2 = userService.save(User.builder()
