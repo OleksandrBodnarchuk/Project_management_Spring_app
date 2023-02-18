@@ -30,8 +30,6 @@ import com.javawwa25.app.springboot.services.UserService;
 @ExtendWith(MockitoExtension.class)
 class ProjectControllerTest {
 
-	private static final String PROJECTS_ENDPOINT = "/users/{userId}/projects";
-	
 	@Mock
 	private Model model;
 	@Mock
@@ -53,11 +51,9 @@ class ProjectControllerTest {
 	@Test
 	void testProjectList() throws Exception {
 		String expectedTemplate = "project/project_list";
-		underTest.projectList(anyLong(), model);
-		verify(model, times(2)).addAttribute(anyString(), any());
-		verify(projectService, times(1)).getAllProjectsByUserId(anyLong());
-		verify(userService, times(1)).getUserById(anyLong());
-		mvc.perform(get(PROJECTS_ENDPOINT, 1))
+		underTest.projectList(model);
+		verify(projectService, times(1)).fillDtoProjectsModel(any());
+		mvc.perform(get("/projects"))
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name(expectedTemplate));
@@ -66,9 +62,9 @@ class ProjectControllerTest {
 	@Test
 	void testShowNewProjectForm() throws Exception {
 		String expectedTemplate = "project/new_project";
-		underTest.showNewProjectForm(anyLong(), model);
+		underTest.showNewProjectForm(model);
 		verify(model, times(2)).addAttribute(anyString(), any());
-		mvc.perform(get(PROJECTS_ENDPOINT+"/add", 1))
+		mvc.perform(get("/projects/add"))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name(expectedTemplate));
@@ -77,11 +73,10 @@ class ProjectControllerTest {
 	@Test
 	void testRedirectToProjectTasks() throws Exception {
 		int projectId = 1;
-		int userId = 1;
-		String expectedTemplate = "redirect:" + PROJECTS_ENDPOINT + "/" + projectId + "/tasks";
-		underTest.showNewProjectForm(anyLong(), model);
+		String expectedTemplate = "redirect: " + "/projects" + "/" + projectId + "/tasks";
+		underTest.showNewProjectForm(model);
 		verify(model, times(2)).addAttribute(anyString(), any());
-		mvc.perform(get(PROJECTS_ENDPOINT+"/{projectId}/tasks", userId, projectId))
+		mvc.perform(get("/projects/{projectId}/tasks", projectId))
 		.andDo(print())
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name(expectedTemplate));
@@ -91,12 +86,12 @@ class ProjectControllerTest {
 	void testSaveProject() throws Exception {
 		long userId = 1;
 		Project pythonProject = Project.builder().startDate(LocalDate.now()).name("Python").info("Description").build();
-		String expectedTemplate = "redirect:" + PROJECTS_ENDPOINT;
+		String expectedTemplate = "redirect: " + "/projects";
 		
-		underTest.saveProject(userId, pythonProject);
+		underTest.saveProject(pythonProject);
 		verify(projectService, times(1)).save(any());
 		
-		mvc.perform(post(PROJECTS_ENDPOINT + "/save", userId)
+		mvc.perform(post("/projects" + "/save", userId)
 				.flashAttr("project", pythonProject))
 		.andDo(print())
 		.andExpect(status().is3xxRedirection())
@@ -106,13 +101,12 @@ class ProjectControllerTest {
 	@Test
 	void testShowFormForUpdate() throws Exception {
 		String expectedTemplate = "project/update_project";
-		long userId = 1;
 		long projectId = 1;
 		
 		underTest.showFormForUpdate(projectId, model);
 		verify(projectService, times(1)).getProjectById(projectId);
 		
-		mvc.perform(get(PROJECTS_ENDPOINT + "/{projectId}/update", userId, projectId))
+		mvc.perform(get("/projects/{projectId}/update", projectId))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name(expectedTemplate));

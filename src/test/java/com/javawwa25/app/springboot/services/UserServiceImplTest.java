@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ class UserServiceImplTest {
 		SecurityContextHolder.setContext(context);
 		given(context.getAuthentication()).willReturn(new UsernamePasswordAuthenticationToken("email","password"));
 		given(underTest.findByEmail(anyString())).willReturn(user);
-		underTest.getLoggedUserId();
+		underTest.getLoggedUser();
 		verify(userRepository,times(1)).findByAccountEmail(anyString());
 	}
 	
@@ -176,22 +177,4 @@ class UserServiceImplTest {
 
 		verify(userRepository, never()).save(user);
 	}
-	
-	@Test
-	void testFillUserDtoModel() {
-		Model model = mock(Model.class);
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
-		underTest.fillUserDtoModel(user.getAccount().getAccountId(), model);
-		verify(model, times(1)).addAttribute(anyString(), any());
-	}
-
-	@Test
-	void testFillUserDtoModel_willThrow() {
-		Model model = mock(Model.class);
-		given(userRepository.findById(anyLong())).willReturn(Optional.of(user));
-		assertThrows(RuntimeException.class, () -> {
-			underTest.fillUserDtoModel(33, model);
-		});
-	}
-
 }

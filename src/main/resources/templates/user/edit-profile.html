@@ -12,7 +12,7 @@
 				<nav class="nav nav-borders">
 					<a class="nav-link active ms-0" href="#"> Profile Information</a> <a
 						class="nav-link"
-						th:href="@{/users/{id}/security (id = ${user.accountId})}">Security</a>
+						th:href="@{/user/security}">Security</a>
 					<a class="nav-link"
 						href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
 						target="__blank">Notifications</a>
@@ -52,13 +52,13 @@
 							</div>
 							<div class="card-body">
 								<br>
-								<form th:action="@{/users/update}" th:object=${user}
+								<form th:action="@{/user/update}" th:object=${user}
 									method="post">
 									<input type="hidden" th:field="*{accountId}" id="accountId">
 									<!-- Form Group (status)-->
 									<div class="mb-3">
 										<label class="medium mb-1" for="inputStatus">Your
-											status (will appear to other users on the site)</label> <input
+											status (will appear to other user on the site)</label> <input
 											class="form-control" id="inputStatus" type="text"
 											th:field=*{status} placeholder="What do you think?">
 									</div>

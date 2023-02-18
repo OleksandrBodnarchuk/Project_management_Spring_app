@@ -67,7 +67,7 @@
 					<span class="icon-bar"></span> 
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" th:href="@{/users}">Profile</a>
+				<a class="navbar-brand" th:href="@{/user}">Profile</a>
 			</div>
 			
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -78,7 +78,7 @@
 						<ul class="dropdown-menu">
 							<li>
 							<a type="button" class="btn btn-default"
-								th:href="@{/users/{id}/settings (id=${user.account.accountId})}">
+								th:href="@{/user/settings}">
 									<span class="glyphicon glyphicon-lock"></span>Settings
 							</a><br>
 							</li>

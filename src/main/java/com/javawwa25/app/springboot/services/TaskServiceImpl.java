@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
-import com.javawwa25.app.springboot.web.dto.UserDto;
 
 @Service
 public class TaskServiceImpl implements  TaskService{
@@ -51,20 +50,12 @@ public class TaskServiceImpl implements  TaskService{
     }
 
 	@Override
-	public void fillUserPageDtoModel(long userId, Model model) {
-		Set<Task> assignedTasks = getAssignedTasksByUserId(userId);
-		Set<Task> createdTasks = getCreatedTasksByUserId(userId);
-		
-		User user = userService.getUserById(userId);
-		UserDto dto = new UserDto();
-		dto.setAccountId(user.getAccount().getAccountId());
-		dto.setFirstName(user.getFirstName());
-		dto.setLastName(user.getLastName());
-		dto.setEmail(user.getAccount().getEmail());
-		
-		model.addAttribute("createdTasks", createdTasks);
-		model.addAttribute("assignedTasks", assignedTasks);
-        model.addAttribute("user", dto);
+	public void fillUserPageDtoModel(Model model) {
+		User user = userService.getLoggedUser();
+		long id = user.getId();
+		model.addAttribute("createdTasks", getCreatedTasksByUserId(id));
+		model.addAttribute("assignedTasks", getAssignedTasksByUserId(id));
+        model.addAttribute("user", userService.getLoggedUserDto());
 	}
 
 	public Set<Task> getCreatedTasksByUserId(long userId) {

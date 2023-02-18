@@ -70,35 +70,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Long getLoggedUserId() {
-		return findByEmail(SecurityUtil.getSessionUser()).getId();
+	public User getLoggedUser() {
+		return findByEmail(SecurityUtil.getSessionUser());
 	}
 
 	@Override
 	public void userLogged() {
-		User user = findByEmail(SecurityUtil.getSessionUser());
+		User user = getLoggedUser();
 		user.getAccount().setLastActiveDate(new Date());
 		this.save(user);
 	}
 
 	@Override
-	public void fillUserDtoModel(long userId, Model model) {
-		User user = getUserById(userId);
-		if (user.getAccount().getAccountId() != userId) {
-			throw new RuntimeException("Wrong user id");
-		} else {
-			UserDto dto = new UserDto();
-			dto.setAccountId(user.getAccount().getAccountId());
-			dto.setFirstName(user.getLastName());
-			dto.setLastName(user.getLastName());
-			dto.setEmail(user.getAccount().getEmail());
-			model.addAttribute("user", dto);
-		}
-	}
-
-	@Override
 	public void update(UserDto dto) {
-		User user = findByEmail(SecurityUtil.getSessionUser());
+		User user = getLoggedUser();
 		if(user.getAccount().getAccountId() != dto.getAccountId()) {
 			throw new RuntimeException("Id not match user id");
 		} else {
@@ -107,5 +92,33 @@ public class UserServiceImpl implements UserService {
 			user.getAccount().setEmail(dto.getEmail());
 			this.save(user);
 		}
+	}
+
+	@Override
+	public void fillUserDtoModel(Model model) {
+		UserDto dto = getLoggedUserDto();
+		model.addAttribute("user", dto);
+	}
+	
+	@Override
+	public void fillAllUsersForAdmin(Model model) {
+		UserDto dto = getLoggedUserDto();
+		model.addAttribute("user", dto);
+		model.addAttribute("userList", userRepository.findAll());
+	}
+	
+	@Override
+	public UserDto getLoggedUserDto() {
+		return setUserDetailsDto(getLoggedUser());
+
+	}
+	
+	private UserDto setUserDetailsDto(User user) {
+		UserDto dto = new UserDto();
+		dto.setAccountId(user.getAccount().getAccountId());
+		dto.setFirstName(user.getLastName());
+		dto.setLastName(user.getLastName());
+		dto.setEmail(user.getAccount().getEmail());
+		return dto;
 	}
 }

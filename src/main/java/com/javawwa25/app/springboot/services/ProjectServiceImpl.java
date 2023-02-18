@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
@@ -27,6 +26,8 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public void save(Project project) {
+    	// TODO: add user 
+    	// TODO: add create date
         this.projectRepository.save(project);
     }
 
@@ -49,15 +50,10 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
 	@Override
-	public void fillDtoProjectsModel(long userId, Model model) {
-		User user = userService.getUserById(userId);
-		UserDto dto = new UserDto();
-		dto.setAccountId(user.getAccount().getAccountId());
-		dto.setEmail(user.getAccount().getEmail());
-		dto.setFirstName(user.getFirstName());
-		dto.setLastName(user.getLastName());
+	public void fillDtoProjectsModel(Model model) {
+		UserDto dto = userService.getLoggedUserDto();
 		model.addAttribute("user", dto);
-        model.addAttribute("projects", projectRepository.findByUsers_Id(userId));
+        model.addAttribute("projects", projectRepository.findByUsers_Id(userService.getLoggedUser().getId()));
 	}
 
 }

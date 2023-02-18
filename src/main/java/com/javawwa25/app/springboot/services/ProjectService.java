@@ -19,5 +19,5 @@ public interface ProjectService {
 
 	List<Project> getAllProjectsByUserId(long user_id);
 
-	void fillDtoProjectsModel(long userId, Model model);
+	void fillDtoProjectsModel(Model model);
 }

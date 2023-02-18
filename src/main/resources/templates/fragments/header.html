@@ -141,15 +141,16 @@ body {
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active">
-							<a th:href="@{/users}">Profile</a>
+						<li>
+							<a th:href="@{/user}">Profile</a>
 						</li>
 						<li>
-							<a th:href="@{/users/{id}/projects (id=${user.accountId})}">Projects</a>
+							<a th:href="@{/projects}">Projects</a>
 						</li>
 						<li sec:authorize="hasAuthority('ADMIN')">
-							<a th:href="@{/admin/{id}/users (id=${user.accountId})}">Users</a>
+							<a th:href="@{/admin}">Administration</a>
 						</li>
+						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown"><a
@@ -157,7 +158,7 @@ body {
 							data-toggle="dropdown"> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a type="button" class="btn btn-default"
-									th:href="@{/users/{id}/settings (id=${user.accountId})}"> <span
+									th:href="@{/user/settings}"> <span
 										class="glyphicon glyphicon-lock"></span>Settings
 								</a><br></li>
 								<li><a type="button" class="btn btn-default"

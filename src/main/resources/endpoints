@@ -28,3 +28,8 @@ TaskController
 /users/{userId}/projects/{projectId}/tasks/{taskId}/update
 /users/{userId}/projects/{projectId}/tasks/{taskId}/moveNext
 /users/{userId}/projects/{projectId}/tasks/{taskId}/movePrevious
+
+AdminController
+/admin
+/admin/{userId}/users
+/admin/{userId}/projects

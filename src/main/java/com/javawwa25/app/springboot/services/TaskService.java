@@ -18,7 +18,7 @@ public interface TaskService {
 
 	void deleteTaskById(long id);
 
-	void fillUserPageDtoModel(long userId, Model model);
+	void fillUserPageDtoModel(Model model);
 
 	Set<Task> getCreatedTasksByUserId(long userId);
 

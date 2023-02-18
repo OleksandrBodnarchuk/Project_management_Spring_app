@@ -21,11 +21,16 @@ public interface UserService {
 
 	User findByEmail(String email);
 
-	Long getLoggedUserId();
+	User getLoggedUser();
 
 	void userLogged();
 
-	void fillUserDtoModel(long userId, Model model);
-
 	void update(UserDto dto);
+
+	void fillAllUsersForAdmin(Model model);
+	
+	void fillUserDtoModel(Model model);
+	
+	UserDto getLoggedUserDto();
+	
 }
