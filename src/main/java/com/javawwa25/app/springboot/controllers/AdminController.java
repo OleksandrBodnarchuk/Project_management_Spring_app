@@ -29,17 +29,17 @@ public class AdminController {
     public String adminUsers(Model model) {
     	userService.fillUserDtoModel(model);
     	userService.fillAllUsersForAdmin(model);
-    	return "admin/users_page";
+    	return "admin/users";
     	
     }
     
-    @GetMapping("/{userId}/projects")
-    public String adminProjects(@PathVariable("userId") long userId, Model model) {
+    @GetMapping("/projects")
+    public String adminProjects(Model model) {
     /* TODO:
      * add user
      * add projects
      * */ 
-    	return "admin/users_page";
+    	return "admin/projects";
     	
     }
     

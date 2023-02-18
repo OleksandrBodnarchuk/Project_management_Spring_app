@@ -6,30 +6,29 @@ RegistrationController
 /register/save
 
 UserController
-/users -[TBC]
+/users
 /users/new
 /users/update
-/users/{userId}
-/users/{userId}/delete
+/users/delete
 
 ProjectController
-/users/{userId}/projects
-/users/{userId}/projects/add
-/users/{userId}/projects/save
-/users/{userId}/projects/{projectId}
-/users/{userId}/projects/{projectId}/update
+/users/projects
+/users/projects/add
+/users/projects/save
+/users/projects/{projectId}
+/users/projects/{projectId}/update
 
 TaskController
-/users/{userId}/projects/tasks
-/users/{userId}/projects/{projectId}/tasks
-/users/{userId}/projects/{projectId}/tasks/new
-/users/{userId}/projects/{projectId}/tasks/save
-/users/{userId}/projects/{projectId}/tasks/{taskId}
-/users/{userId}/projects/{projectId}/tasks/{taskId}/update
-/users/{userId}/projects/{projectId}/tasks/{taskId}/moveNext
-/users/{userId}/projects/{projectId}/tasks/{taskId}/movePrevious
+/users/projects/tasks
+/users/projects/{projectId}/tasks
+/users/projects/{projectId}/tasks/new
+/users/projects/{projectId}/tasks/save
+/users/projects/{projectId}/tasks/{taskId}
+/users/projects/{projectId}/tasks/{taskId}/update
+/users/projects/{projectId}/tasks/{taskId}/moveNext
+/users/projects/{projectId}/tasks/{taskId}/movePrevious
 
 AdminController
 /admin
-/admin/{userId}/users
-/admin/{userId}/projects
+/admin/users
+/admin/projects
