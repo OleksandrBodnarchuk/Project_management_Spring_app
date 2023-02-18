@@ -3,6 +3,7 @@ package com.javawwa25.app.springboot.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +47,14 @@ public class UserController {
         User user = new User();
         model.addAttribute("user", user);
         return "user/new_user";
+    }
+    
+	@Secured({"ADMIN"})
+	@PostMapping("/save")
+    public String saveUser(@ModelAttribute("dto") UserDto dto) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveUser - called");
+        userService.save(dto);
+		return "redirect: /admin/users?success";
     }
     
     @GetMapping("/settings")

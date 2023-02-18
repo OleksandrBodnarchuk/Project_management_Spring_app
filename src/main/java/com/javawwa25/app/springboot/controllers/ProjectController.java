@@ -37,7 +37,7 @@ public class ProjectController {
     }
 
 	@Secured({"ADMIN"})
-	@GetMapping("/add")
+	@GetMapping("/new")
     public String showNewProjectForm(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
         model.addAttribute("user", userService.getLoggedUserDto());
@@ -56,7 +56,7 @@ public class ProjectController {
     public String saveProject(@ModelAttribute("project") Project project) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveProject - called");
         projectService.save(project);
-		return "redirect: /projects";
+		return "redirect: /admin/projects?success";
     }
 
 	@GetMapping("/{projectId}/update")

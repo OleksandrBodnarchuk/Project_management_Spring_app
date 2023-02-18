@@ -18,6 +18,8 @@ public interface UserService {
 	User saveRegister(UserRegistrationDto registrationDto);
 
 	User save(User user);
+	
+	User save(UserDto dto);
 
 	User findByEmail(String email);
 

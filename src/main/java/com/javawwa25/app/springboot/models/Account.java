@@ -1,7 +1,6 @@
 package com.javawwa25.app.springboot.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,8 +34,8 @@ public class Account extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDate registrationDate;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date lastActiveDate;
+	@DateTimeFormat(pattern = "yyyy-MM-ddHH:mm:ss")
+	private LocalDate lastActiveDate;
 
 	@Singular
 	@ManyToMany(cascade = CascadeType.MERGE)

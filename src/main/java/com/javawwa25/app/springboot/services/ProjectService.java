@@ -20,4 +20,6 @@ public interface ProjectService {
 	List<Project> getAllProjectsByUserId(long user_id);
 
 	void fillDtoProjectsModel(Model model);
+
+	void fillAllProjectsForAdmin(Model model);
 }

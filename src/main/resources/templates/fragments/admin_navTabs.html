@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<div class="row well" th:fragment="admin_nav">
+		<div class="container bootstrap snippets bootdey">
+			<div>
+				<ul class="nav nav-tabs">
+					<li><a th:href="@{/admin/projects}">Projects</a></li>
+					<li><a th:href="@{/admin/users}">Users</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

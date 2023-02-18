@@ -5,16 +5,7 @@
 <body>
 	<div th:replace="~{fragments/header :: navbar}"></div>
 	<div class="container bootstrap snippets bootdey">
-		<div class="row well">
-
-			<div class="container bootstrap snippets bootdey"></div>
-			<div>
-				<ul class="nav nav-tabs">
-					<li><a th:href="@{/admin/projects}">Projects</a></li>
-					<li><a th:href="@{/admin/users}">Users</a></li>
-				</ul>
-			</div>
-		</div>
+		<div th:replace="~{fragments/admin_navTabs :: admin_nav}"></div>
 	</div>
 </body>
 </html>

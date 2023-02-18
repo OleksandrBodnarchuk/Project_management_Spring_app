@@ -8,5 +8,4 @@ public interface AccountService {
 
 	Account save(Account account);
 	Optional<Account> findByUsername(String username);
-
 }

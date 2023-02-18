@@ -22,5 +22,7 @@ public class UserDto {
     @NotEmpty
     @ValidEmail(message = "Email invalid or exists")
 	private String email;
+	private boolean isAdmin;
+	private String password;
 
 }
