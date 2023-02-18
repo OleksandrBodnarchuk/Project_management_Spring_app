@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <div th:fragment="header-css">
 	<title th:text="*{user.firstName+' '+ user.lastName}">Projects</title>
@@ -137,27 +138,27 @@ body {
 		<nav class="navbar navbar-inverse container" role="navigation">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse"
-						data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" th:href="@{/users}">Profile</a> <a
-						class="navbar-brand"
-						th:href="@{/users/{id}/projects (id=${user.accountId})}">Projects</a>
-				</div>
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a th:href="@{/users}">Profile</a>
+						</li>
+						<li>
+							<a th:href="@{/users/{id}/projects (id=${user.accountId})}">Projects</a>
+						</li>
+						<li sec:authorize="hasAuthority('ADMIN')">
+							<a th:href="@{/admin/{id}/users (id=${user.accountId})}">Users</a>
+						</li>
+					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" th:text="${user.firstName}">Username <b
-								class="caret"></b></a>
+						<li class="dropdown"><a
+							class="dropdown-toggle glyphicon glyphicon-align-justify"
+							data-toggle="dropdown"> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a type="button" class="btn btn-default"
-									th:href="@{/users/{id}/settings (id=${user.accountId})}">
-										<span class="glyphicon glyphicon-lock"></span>Settings
+									th:href="@{/users/{id}/settings (id=${user.accountId})}"> <span
+										class="glyphicon glyphicon-lock"></span>Settings
 								</a><br></li>
 								<li><a type="button" class="btn btn-default"
 									th:href="@{/logout}"><span
