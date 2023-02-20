@@ -41,6 +41,10 @@ public interface UserService {
 
 	void fillAdminUserDtoModel(long id, Model model);
 
-	void updateUser(UserRegistrationDto dto);
+	void updateUser(UserDto dto);
+
+	void fillUserDtoEditModel(UserDto dto, Model model);
+	
+	void fillUserDtoEditModel(long id, Model model);
 	
 }

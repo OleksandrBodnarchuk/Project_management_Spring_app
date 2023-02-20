@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -46,23 +47,23 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public String adminUserPage(@PathVariable("id") long id, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
-    	userService.fillAdminUserDtoModel(id, model);
+    	userService.fillUserDtoEditModel(id, model);
     	return "admin/user_page";
     	
     }
     
     @PostMapping("/user/{id}")
-    public String adminEditUser(@ModelAttribute("dto") UserRegistrationDto dto, 
-    							@PathVariable("id") long id, BindingResult result, Model model) {
+    public String adminEditUser(@PathVariable("id") long id, @ModelAttribute("dto") @Valid UserDto dto, 
+    							BindingResult result, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST adminEditUser - called");
     	if (result.hasErrors()) {
     		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
-    		userService.fillUserDtoRegistrationModel(dto, model);
-			return "user/new_user";
+    		userService.fillUserDtoEditModel(dto, model);
+			return "admin/user_page";
 		}
     	
     	userService.updateUser(dto);
-		return "redirect:/admin/user/" + dto.getAccountId() + "?success";
+		return "redirect:/admin/user/" + id + "?success";
     	
     }
 

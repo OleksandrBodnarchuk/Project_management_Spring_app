@@ -9,23 +9,32 @@
 			<div th:replace="~{fragments/admin_user_navTabs :: admin_user_nav}"></div>
 
 			<!-- FORM -->
-			<form method="post" th:href="@{/admin/user/update}" th:object="${dto}">
-			<input type="hidden" th:field="*{accountId}" id="accountId">
+			<form method="post" th:href="@{/admin/user/update}"
+				th:object="${dto}">
+				<input type="hidden" th:field="*{accountId}" id="accountId">
 				<div class="splitcontentleft">
 					<fieldset class="box tabular">
 						<legend>User</legend>
 						<p>
 							<label for="user_mail">E-mail<span class="required">
 									*</span></label><input type="text" th:field="*{email}">
+									 <p class="error" th:each="error: ${#fields.errors('email')}" th:text="${error}">Validation error</p>
 						</p>
 						<p>
 							<label for="user_firstname">First Name<span
 								class="required"> *</span>
 							</label> <input type="text" th:field="*{firstName}">
+							 <p class="error" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
 						</p>
 						<p>
 							<label for="user_lastname">LastName<span class="required">*</span>
 							</label> <input type="text" th:field="*{lastName}">
+							 <p class="error" th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
+						</p>
+							<p>
+							<label for="admin">Is Admin</label> 
+							<input id="admin" type="checkbox" th:checked="*{isAdmin}" />
+							
 						</p>
 					</fieldset>
 				</div>
@@ -34,8 +43,8 @@
 					<fieldset class="box tabular">
 						<legend>Authentication</legend>
 						<p>
-							<label for="user_password">Password<span class="required">
-									*</span></label><input type="password">
+							<label for="generatePassword">Generate new password</label> 
+							<input id="generatePassword" type="checkbox" th:checked="*{generatePassword}" />
 						</p>
 					</fieldset>
 				</div>

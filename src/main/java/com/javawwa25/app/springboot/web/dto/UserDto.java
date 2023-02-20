@@ -3,8 +3,8 @@ package com.javawwa25.app.springboot.web.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.javawwa25.app.springboot.security.validators.ValidEmail;
-
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -23,12 +23,15 @@ public class UserDto {
 	private String lastName;
 	@NotNull
     @NotEmpty
-    @ValidEmail(message = "Email invalid or exists")
+    @Email(message = "Email invalid")
 	private String email;
 	private boolean isAdmin;
+	
+	@Min(message = "Minimum 8 symbols", value = 8)
 	private String password;
 	private LocalDate lastActiveDate;
 	private LocalDate registrationDate;
-	private List<ProjectDto> projects;
+	private List<ProjectDto> projects;   
+	private boolean generatePassword;
 
 }

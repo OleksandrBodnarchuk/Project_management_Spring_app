@@ -169,6 +169,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void fillUserDtoEditModel(UserDto dto, Model model) {
+		UserDto userDto = getLoggedUserDto();
+		model.addAttribute("user", userDto);
+		model.addAttribute("dto", dto);
+	}
+	@Override
 	public void fillAdminUserDtoModel(long accountId, Model model) {
 		UserDto userDto = getLoggedUserDto();
 		User byAccountId = userRepository.findByAccountAccountId(accountId);
@@ -198,11 +204,22 @@ public class UserServiceImpl implements UserService {
 
 	@Secured("ADMIN")
 	@Override
-	public void updateUser(UserRegistrationDto dto) {
+	public void updateUser(UserDto dto) {
 		User user = userRepository.findByAccountAccountId(Long.valueOf(dto.getAccountId()));
 		user.setFirstName(dto.getFirstName());
 		user.setLastName(dto.getLastName());
 		user.getAccount().setEmail(dto.getEmail());
+		if(dto.isGeneratePassword()) {
+			// TODO: generate new password
+		}
 		userRepository.save(user);
+	}
+
+	@Override
+	public void fillUserDtoEditModel(long id, Model model) {
+		UserDto userDto = getLoggedUserDto();
+		UserDto dto = setUserDetailsDto(userRepository.findByAccountAccountId(id));
+		model.addAttribute("user", userDto);
+		model.addAttribute("dto", dto);
 	}
 }
