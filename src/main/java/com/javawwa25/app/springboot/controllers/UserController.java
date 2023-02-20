@@ -45,7 +45,8 @@ public class UserController {
     @GetMapping("/new")
     public String showNewUserForm(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewUserForm - called");
-    	userService.fillUserDtoRegistrationModel(model);
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("dto", new UserRegistrationDto());
         return "user/new_user";
     }
     
@@ -55,7 +56,8 @@ public class UserController {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - called");
     	if (result.hasErrors()) {
     		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
-    		userService.fillUserDtoRegistrationModel(dto, model);
+    		model.addAttribute("user", userService.getLoggedUserDto());
+    		model.addAttribute("dto", dto);
 			return "user/new_user";
 		}
         userService.saveRegister(dto);
@@ -65,14 +67,14 @@ public class UserController {
     @GetMapping("/settings")
     public String userEditPage(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userEditPage - called");
-    	userService.fillUserDtoModel(model);
+    	model.addAttribute("user", userService.getLoggedUserDto());
         return "user/edit-profile";
     }
     
     @GetMapping("/security")
     public String userSecurity(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userSecurity - called");
-    	userService.fillUserDtoModel(model);
+    	model.addAttribute("user", userService.getLoggedUserDto());
         return "user/security-page";
     }
     

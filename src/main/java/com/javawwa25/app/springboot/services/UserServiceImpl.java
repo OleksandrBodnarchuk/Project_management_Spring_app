@@ -8,13 +8,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.Authority;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.AuthorityRepository;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
@@ -30,7 +28,6 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final AccountService accountService;
 	private final AuthorityRepository authorityRepository;
-	private final ProjectRepository projectRepository;
 	
 	@Override
 	public List<UserDto> getAllUserDtos() {
@@ -106,28 +103,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void fillUserDtoModel(Model model) {
-		UserDto dto = getLoggedUserDto();
-		model.addAttribute("user", dto);
-	}
-	
-	@Override
-	public void fillAllUsersForAdmin(Model model) {
-		UserDto dto = getLoggedUserDto();
-		model.addAttribute("user", dto);
-		model.addAttribute("userList", getAllUserDtos());
-	}
-	
-
-	@Override
 	public UserDto getLoggedUserDto() {
 		return setUserDetailsDto(getLoggedUser());
 
 	}
 	
+	@Override
+	public UserDto getUserDtoByAccountId(long id) {
+		User user = userRepository.findByAccountAccountId(id);
+		UserDto dto = setUserDetailsDto(user);
+		return dto;
+	}
+	
 	private UserDto setUserDetailsDto(User user) {
 		UserDto dto = new UserDto();
 		setUserDtoInfoDetails(user, dto);
+		dto.setProjects(user.getProjects().stream()
+				.map(project -> {
+			return ProjectDto.builder()
+					.id(project.getId())
+					.name(project.getName())
+					.build();
+		}).collect(Collectors.toList()));
 		return dto;
 	}
 
@@ -152,43 +149,6 @@ public class UserServiceImpl implements UserService {
 		return admin ? 
 				authorityRepository.save(Authority.builder().role("ADMIN").build()) : 
 					authorityRepository.save(Authority.builder().role("USER").build());
-	}
-
-	@Override
-	public void fillUserDtoRegistrationModel(Model model) {
-		UserDto dto = getLoggedUserDto();
-		model.addAttribute("user", dto);
-		model.addAttribute("dto", new UserRegistrationDto());
-	}
-
-	@Override
-	public void fillUserDtoRegistrationModel(UserRegistrationDto dto, Model model) {
-		UserDto userDto = getLoggedUserDto();
-		model.addAttribute("user", userDto);
-		model.addAttribute("dto", dto);
-	}
-
-	@Override
-	public void fillUserDtoEditModel(UserDto dto, Model model) {
-		UserDto userDto = getLoggedUserDto();
-		model.addAttribute("user", userDto);
-		model.addAttribute("dto", dto);
-	}
-	@Override
-	public void fillAdminUserDtoModel(long accountId, Model model) {
-		UserDto userDto = getLoggedUserDto();
-		User byAccountId = userRepository.findByAccountAccountId(accountId);
-		UserDto dto = new UserDto();
-		setUserDtoInfoDetails(byAccountId, dto);
-		dto.setProjects(
-				projectRepository.findByUsers_Id(byAccountId.getId()).stream()
-					.map(project -> {
-						return ProjectDto.builder().name(project.getName()).build();
-						})
-					.collect(Collectors.toList()));
-		
-		model.addAttribute("user", userDto);
-		model.addAttribute("dto", dto);
 	}
 
 	private void setUserDtoInfoDetails(User user, UserDto dto) {
@@ -216,10 +176,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void fillUserDtoEditModel(long id, Model model) {
-		UserDto userDto = getLoggedUserDto();
-		UserDto dto = setUserDetailsDto(userRepository.findByAccountAccountId(id));
-		model.addAttribute("user", userDto);
-		model.addAttribute("dto", dto);
+	public User getUserByAccountId(long id) {
+		return userRepository.findByAccountAccountId(id);
 	}
 }

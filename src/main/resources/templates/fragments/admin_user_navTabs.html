@@ -11,11 +11,11 @@
 		<div class="container-xl px-4 mt-4">
 			<nav class="nav nav-borders">
 				<a class="nav-link"
-					th:href="@{/admin/user/{id} (id=${user.accountId})}"> User</a> <a
+					th:href="@{/admin/user/{id} (id=${dto.accountId})}"> User</a> <a
 					class="nav-link"
-					th:href="@{/admin/user/{id}/groups (id=${user.accountId})}">Groups</a>
+					th:href="@{/admin/user/{id}/groups (id=${dto.accountId})}">Groups</a>
 				<a class="nav-link"
-					th:href="@{/admin/user/{id}/projects (id=${user.accountId})}">Projects</a>
+					th:href="@{/admin/user/{id}/projects (id=${dto.accountId})}">Projects</a>
 			</nav>
 		</div>
 	</div>

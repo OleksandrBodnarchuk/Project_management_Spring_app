@@ -49,7 +49,7 @@ class ProjectControllerTest {
 	void testProjectList() throws Exception {
 		String expectedTemplate = "project/project_list";
 		underTest.projectList(model);
-		verify(projectService, times(1)).fillDtoProjectsModel(any());
+		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get("/projects"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -82,7 +82,7 @@ class ProjectControllerTest {
 	@Test
 	void testSaveProject() throws Exception {
 		ProjectDto pythonProject = ProjectDto.builder().name("Python").info("Description").build();
-		String expectedTemplate = "redirect: /admin/projects?success";
+		String expectedTemplate = "redirect:/admin/projects?success";
 		
 		underTest.saveProject(pythonProject);
 		verify(projectService, times(1)).save(any());

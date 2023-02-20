@@ -108,28 +108,28 @@ class ProjectServiceImplTest {
 		verify(projectRepository, times(1)).deleteById(anyLong());
 	}
 
-	@Test
-	void testGetAllProjectsByUserId() {
-		given(projectRepository.findByUsers_Id(anyLong())).willReturn(projects);
-		List<Project> retrievedProjects = underTest.getAllProjectsByUserId(user.getId());
-		assertEquals(projects.size(), retrievedProjects.size());
-		assertTrue(retrievedProjects.get(0).getUsers().contains(user));
-	}
-
-	@Test
-	public void testFillDtoProjectsModel() {
-		given(userService.getLoggedUser()).willReturn(user);
-		underTest.fillDtoProjectsModel(model);
-		verify(userService, times(1)).getLoggedUserDto();
-		verify(model, times(2)).addAttribute(any(),any());
-		verify(projectRepository,times(1)).findByUsers_Id(anyLong());
-	}
-
-	@Test
-	public void testFillAllProjectsForAdmin() {
-		underTest.fillAllProjectsForAdmin(model);
-		verify(userService, times(1)).getLoggedUserDto();
-		verify(model, times(2)).addAttribute(any(),any());
-	}
+//	@Test
+//	void testGetAllProjectsByUserId() {
+//		given(projectRepository.findByUsers_Id(anyLong())).willReturn(projects);
+//		List<Project> retrievedProjects = underTest.getAllProjectsByUserId(user.getId());
+//		assertEquals(projects.size(), retrievedProjects.size());
+//		assertTrue(retrievedProjects.get(0).getUsers().contains(user));
+//	}
+//
+//	@Test
+//	public void testFillDtoProjectsModel() {
+//		given(userService.getLoggedUser()).willReturn(user);
+//		underTest.fillDtoProjectsModel(model);
+//		verify(userService, times(1)).getLoggedUserDto();
+//		verify(model, times(2)).addAttribute(any(),any());
+//		verify(projectRepository,times(1)).findByUsers_Id(anyLong());
+//	}
+//
+//	@Test
+//	public void testFillAllProjectsForAdmin() {
+//		underTest.fillAllProjectsForAdmin(model);
+//		verify(userService, times(1)).getLoggedUserDto();
+//		verify(model, times(2)).addAttribute(any(),any());
+//	}
 
 }

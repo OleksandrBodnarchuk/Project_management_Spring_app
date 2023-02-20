@@ -10,7 +10,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -80,7 +79,7 @@ class UserControllerTest {
 	void test_showNewUserForm() throws Exception {
 		String expectedTemplate = "user/new_user";
 		underTest.showNewUserForm(model);
-		verify(userService, times(1)).fillUserDtoRegistrationModel(any());
+		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get("/user/new")).andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name(expectedTemplate));
 	}
@@ -99,7 +98,6 @@ class UserControllerTest {
 	@Test
 	public void userEditPage() throws Exception {
 		String expectedTemplate = "user/edit-profile";
-		doNothing().when(userService).fillUserDtoModel(any());
 		mvc.perform(get("/user/settings"))
 			.andDo(print())
 			.andExpect(status().isOk())
@@ -109,8 +107,6 @@ class UserControllerTest {
 	@Test
 	public void userSecurity() throws Exception {
 		String expectedTemplate = "user/security-page";
-		doNothing().when(userService).fillUserDtoModel(any());
-
 		mvc.perform(get("/user/security"))
 			.andDo(print()).andExpect(status().isOk())
 			.andExpect(view().name(expectedTemplate));
@@ -138,7 +134,7 @@ class UserControllerTest {
 
 		String expected = "user/new_user";
 		String actual = underTest.saveUser(new UserRegistrationDto(), result, model);
-		verify(userService, times(1)).fillUserDtoRegistrationModel(any(), any());
+		verify(model, times(2)).addAttribute(any(), any());
 		verify(userService, never()).saveRegister(any());
 
 		assertEquals(expected, actual);

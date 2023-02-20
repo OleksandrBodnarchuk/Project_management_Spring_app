@@ -15,6 +15,7 @@ import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,9 @@ public class ProjectController {
 	@GetMapping
     public String projectList(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
-		projectService.fillDtoProjectsModel(model);
+		UserDto dto = userService.getLoggedUserDto();
+		model.addAttribute("user", dto);
+		model.addAttribute("projectList", projectService.getProjectDtosByAccountId(dto.getAccountId()));
         return "project/project_list";
     }
 
@@ -57,7 +60,7 @@ public class ProjectController {
     public String saveProject(@ModelAttribute("project") ProjectDto dto) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveProject - called");
         projectService.save(dto);
-		return "redirect: /admin/projects?success";
+		return "redirect:/admin/projects?success";
     }
 
 	@GetMapping("/{projectId}/update")

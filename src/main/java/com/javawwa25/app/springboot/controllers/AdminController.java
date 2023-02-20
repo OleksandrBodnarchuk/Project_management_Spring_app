@@ -1,5 +1,7 @@
 package com.javawwa25.app.springboot.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
 import jakarta.validation.Valid;
@@ -32,14 +36,15 @@ public class AdminController {
     @GetMapping
     public String adminPage(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminPage - called");
-    	userService.fillUserDtoModel(model);
+    	model.addAttribute("user", userService.getLoggedUserDto());
     	return "admin/admin_page";
     }
     
     @GetMapping("/users")
     public String adminUsers(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUsers - called");
-    	userService.fillAllUsersForAdmin(model);
+    	model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("userList", userService.getAllUserDtos());
     	return "admin/users";
     	
     }
@@ -47,7 +52,9 @@ public class AdminController {
     @GetMapping("/user/{id}")
     public String adminUserPage(@PathVariable("id") long id, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
-    	userService.fillUserDtoEditModel(id, model);
+		UserDto dto = userService.getUserDtoByAccountId(id);
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("dto", dto);
     	return "admin/user_page";
     	
     }
@@ -58,7 +65,8 @@ public class AdminController {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST adminEditUser - called");
     	if (result.hasErrors()) {
     		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
-    		userService.fillUserDtoEditModel(dto, model);
+    		model.addAttribute("user", userService.getLoggedUserDto());
+    		model.addAttribute("dto", dto);
 			return "admin/user_page";
 		}
     	
@@ -70,21 +78,44 @@ public class AdminController {
     @GetMapping("/user/{id}/groups")
     public  String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserGroupsPage - called");
-    	userService.fillAdminUserDtoModel(id, model);
     	return null;
     }
     
 	@GetMapping("/user/{id}/projects")
-	public String adminUserProjectsPage(@PathVariable("id") long id, Model model) {
+	public String adminUserProjectsPage(@PathVariable("id") long accountId, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectsPage - called");
-    	projectService.fillAllProjectsForAdmin(id, model);
+    	UserDto dto = userService.getUserDtoByAccountId(accountId);
+    	List<ProjectDto> projectList = projectService.getProjectDtosByAccountId(accountId);
+    	model.addAttribute("user", userService.getLoggedUserDto());
+    	model.addAttribute("dto", dto);
+    	model.addAttribute("projectList", projectList);
     	return "admin/user_project";
+	}
+	
+	@GetMapping("/user/{id}/projects/add")
+	public String adminUserProjectAddPage(@PathVariable("id") long accountId, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectAddPage - called");
+    	List<ProjectDto> projectList = projectService.getProjectsNotPartOf(accountId);
+    	UserDto dto = userService.getUserDtoByAccountId(accountId);
+    	model.addAttribute("user", userService.getLoggedUserDto());
+    	model.addAttribute("dto", dto);
+    	model.addAttribute("projectList", projectList);
+    	return "admin/user_project_add";
+	}
+	
+	@GetMapping("/user/{id}/assign/{projectId}")
+	public String adminAssignProjectUser(@PathVariable("id") long accountId, @PathVariable("projectId") long projectId, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminAssignProjectUser - called");
+    	projectService.assignProject(accountId, projectId);
+    	return "redirect:/admin/user/" + accountId + "/projects?success";
 	}
     
 	@GetMapping("/projects")
 	public String adminProjects(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminProjects - called");
-		projectService.fillAllProjectsForAdmin(model);
+		List<Project> projectList = projectService.getAllProjects();
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("projectList", projectList);
 		return "admin/projects";
 
 	}

@@ -22,7 +22,7 @@
 					<th><a>Created</a></th>
 				</tr>
 			</thead>
-			<tr th:each="project : ${projects}">
+			<tr th:each="project : ${projectList}">
 				<td><a th:text="${project.name}"
 					th:href="@{/project/{id}/tasks (id=${project.id})}">
 				</a></td>

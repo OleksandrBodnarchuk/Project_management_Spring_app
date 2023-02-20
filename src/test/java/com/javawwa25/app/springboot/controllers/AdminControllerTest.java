@@ -48,7 +48,7 @@ class AdminControllerTest {
 	void testAdminPage() throws Exception {
 		String expected = "admin/admin_page";
 		underTest.adminPage(model);
-		verify(userService, times(1)).fillUserDtoModel(any());
+		verify(model, times(1)).addAttribute(any(), any());
 		mvc.perform(get(PATH))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
@@ -58,7 +58,7 @@ class AdminControllerTest {
 	void testAdminUsers() throws Exception {
 		String expected = "admin/users";
 		underTest.adminUsers(model);
-		verify(userService, times(1)).fillAllUsersForAdmin(any());
+		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get(PATH + "/users"))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
@@ -68,7 +68,7 @@ class AdminControllerTest {
 	void testAdminProjects() throws Exception {
 		String expected = "admin/projects";
 		underTest.adminProjects(model);
-		verify(projectService, times(1)).fillAllProjectsForAdmin(model);
+		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get(PATH + "/projects"))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));

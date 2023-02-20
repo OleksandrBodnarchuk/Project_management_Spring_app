@@ -3,7 +3,6 @@ package com.javawwa25.app.springboot.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
@@ -18,11 +17,10 @@ public interface ProjectService {
 
 	void deleteProjectById(long id);
 
-	List<Project> getAllProjectsByUserId(long user_id);
+	List<ProjectDto> getProjectDtosByAccountId(long id);
+	
+	List<ProjectDto> getProjectsNotPartOf(long accountId);
 
-	void fillDtoProjectsModel(Model model);
+	void assignProject(long accountId, long projectId);
 
-	void fillAllProjectsForAdmin(Model model);
-
-	void fillAllProjectsForAdmin(long id, Model model);
 }
