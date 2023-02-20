@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,9 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
-import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectControllerTest {
@@ -63,7 +61,7 @@ class ProjectControllerTest {
 		String expectedTemplate = "project/new_project";
 		underTest.showNewProjectForm(model);
 		verify(model, times(2)).addAttribute(anyString(), any());
-		mvc.perform(get("/projects/add"))
+		mvc.perform(get("/projects/new"))
 		.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name(expectedTemplate));
@@ -83,14 +81,13 @@ class ProjectControllerTest {
 
 	@Test
 	void testSaveProject() throws Exception {
-		long userId = 1;
-		Project pythonProject = Project.builder().startDate(LocalDate.now()).name("Python").info("Description").build();
-		String expectedTemplate = "redirect: " + "/projects";
+		ProjectDto pythonProject = ProjectDto.builder().name("Python").info("Description").build();
+		String expectedTemplate = "redirect: /admin/projects?success";
 		
 		underTest.saveProject(pythonProject);
 		verify(projectService, times(1)).save(any());
 		
-		mvc.perform(post("/projects" + "/save", userId)
+		mvc.perform(post("/projects/save")
 				.flashAttr("project", pythonProject))
 		.andDo(print())
 		.andExpect(status().is3xxRedirection())

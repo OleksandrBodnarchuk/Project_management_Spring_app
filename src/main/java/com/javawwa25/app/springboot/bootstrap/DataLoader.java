@@ -19,8 +19,8 @@ import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.TaskType;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.AuthorityRepository;
+import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.services.AccountService;
-import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.StatusService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.TaskTypeService;
@@ -32,7 +32,7 @@ public class DataLoader implements CommandLineRunner{
 	private static final Logger LOG = LoggerFactory.getLogger(DataLoader.class);
 	
 	private final UserService userService;
-	private final ProjectService projectService;
+	private final ProjectRepository projectRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final TaskTypeService taskTypeService;
 	private final TaskService taskService;
@@ -40,11 +40,11 @@ public class DataLoader implements CommandLineRunner{
 	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
 	
-	public DataLoader(UserService userService, ProjectService projectService, PasswordEncoder passwordEncoder,
+	public DataLoader(UserService userService, ProjectRepository projectRepository, PasswordEncoder passwordEncoder,
 			TaskTypeService taskTypeService, TaskService taskService, StatusService statusService,
 			AccountService accountService, AuthorityRepository authorityRepository) {
 		this.userService = userService;
-		this.projectService = projectService;
+		this.projectRepository = projectRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.taskTypeService = taskTypeService;
 		this.taskService = taskService;
@@ -95,8 +95,8 @@ public class DataLoader implements CommandLineRunner{
 				.name("Python")
 				.info("Description")
 				.build();
-		projectService.save(pythonProject);
-		projectService.save(javaProject);
+		projectRepository.save(pythonProject);
+		projectRepository.save(javaProject);
 		
 		Authority admin = authorityRepository.save(Authority.builder().role("ADMIN").build());
 		Authority user = authorityRepository.save(Authority.builder().role("USER").build());

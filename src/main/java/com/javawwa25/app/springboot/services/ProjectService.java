@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 
 @Service
 public interface ProjectService {
 	List<Project> getAllProjects();
 
-	void save(Project project);
+	void save(ProjectDto dto);
 
 	Project getProjectById(long id);
 

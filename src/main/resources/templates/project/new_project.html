@@ -1,147 +1,28 @@
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:top="http://www.w3.org/1999/xhtml">
-<head>
-	<meta charset="utf-8">
-	<title>New Project Form</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
-
-
-		body{
-			background:#eee;
-		}
-		.pic
-		{
-			margin-top:50px;
-			width:120px;
-			margin-left:50px;
-			margin-bottom:-60px;
-		}
-
-		.panel
-		{
-			background-image:url("https://via.placeholder.com/800x100/FFB6C1/000000");
-		}
-
-		.name
-		{
-			position:absolute;
-			padding-left:200px;
-			font-size:30px;
-		}
-
-		.dropdown
-		{
-			position:absolute;
-		}
-
-		.change
-		{
-			position:relative;
-			bottom:20px;
-			padding:1px;
-			color:white;
-			text-decoration:none;
-		}
-
-
-		.change:hover
-		{
-			text-decoration:none;
-			background-color:black;
-			color:white;
-		}
-	</style>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
 <body>
-	<nav class="navbar navbar-inverse container" role="navigation">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> 
-					<span class="icon-bar"></span> 
-					<span class="icon-bar"></span> 
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" th:href="@{/user}">Profile</a>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div class="row well">
+			<h4>Add new project</h4>
+			<div class="col-md-12">
+				<form action="#" th:action="@{/project/save}" th:object="${project}"
+					method="POST">
+
+					<input type="text" th:field="*{name}" placeholder="Project Name"
+						class="form-control mb-4 col-4">
+
+					<textarea th:field="*{info}" placeholder="projectInfo"
+						class="form-control mb-4 col-4"></textarea>
+					<br>
+					<button type="submit" class="btn btn-primary btn-success">
+						<span class="glyphicon glyphicon-plus-sign"></span> Save Project
+					</button>
+				</form>
 			</div>
-			
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" th:text="${user.firstName}">Username <b
-							class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li>
-							<a type="button" class="btn btn-default"
-								th:href="@{/user/settings}">
-									<span class="glyphicon glyphicon-lock"></span>Settings
-							</a><br>
-							</li>
-							<li>
-								<a type="button" class="btn btn-default" th:href="@{/logout}"><span
-									class="glyphicon glyphicon-log-out"> Logout </span></a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid -->
-	</nav>
-	<br>
-
-<div class="container bootstrap snippets bootdey">
-	<div class="row well">
-		<div class="container">
-			<h3>Add new project</h3>
-			<form action="#" th:action="@{/project/saveProject}" th:object="${project}"
-				  method="POST">
-
-				<input type="text" th:field="*{name}"
-					   placeholder="Project Name" class="form-control mb-4 col-4">
-
-
-				<textarea th:field="*{info}"
-					   placeholder="projectInfo" class="form-control mb-4 col-4"></textarea>
-
-				<select name="priority" class="form-control mb-4 col-4" >
-					<option th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
-							th:value="${priority}" th:text="${priority.displayValue}"></option>
-				</select>
-
-				<!-- START DATE
-				<input type="date" name="date" th:field="${project.project_startDate}"
-					   placeholder="startDate" class="form-control mb-4 col-4"> -->
-
-				<input type="date" name="date" th:field="${project.endDate}"
-					   placeholder="endDate"  class="form-control mb-4 col-4">
-				<br>
-				<button type="submit" class="btn btn-primary btn-success"><span
-						class="glyphicon glyphicon-plus-sign"></span> Save Project </button>
-			</form>
 		</div>
 	</div>
-</div>
-
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-
-
-
-	$(function () {
-		$('#myTab a:last').tab('show')
-	})
-
-
-</script>
-
 </body>
 </html>
-<body>
-

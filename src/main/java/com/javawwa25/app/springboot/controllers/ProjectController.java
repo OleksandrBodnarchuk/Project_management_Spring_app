@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +42,7 @@ public class ProjectController {
     public String showNewProjectForm(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
         model.addAttribute("user", userService.getLoggedUserDto());
-        model.addAttribute("project", new Project());
+        model.addAttribute("project", ProjectDto.builder().build());
         return "project/new_project";
     }
 	
@@ -53,15 +54,14 @@ public class ProjectController {
 
 	@Secured({"ADMIN"})
 	@PostMapping("/save")
-    public String saveProject(@ModelAttribute("project") Project project) {
+    public String saveProject(@ModelAttribute("project") ProjectDto dto) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveProject - called");
-        projectService.save(project);
+        projectService.save(dto);
 		return "redirect: /admin/projects?success";
     }
 
 	@GetMapping("/{projectId}/update")
     public String showFormForUpdate(@PathVariable(value = "projectId") long projectId, Model model) {
-
         // get project from the service
         Project project = projectService.getProjectById(projectId);
         // set project as a model attribute to pre-populate the form

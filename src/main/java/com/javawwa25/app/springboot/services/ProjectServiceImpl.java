@@ -1,5 +1,6 @@
 package com.javawwa25.app.springboot.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
@@ -30,11 +32,14 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void save(Project project) {
+    public void save(ProjectDto dto) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - save - called");
-    	// TODO: add user 
-    	// TODO: add create date
-        this.projectRepository.save(project);
+		this.projectRepository
+				.save(Project.builder()
+						.name(dto.getName())
+						.info(dto.getInfo())
+						.created(LocalDate.now())
+						.build());
     }
 
     @Override

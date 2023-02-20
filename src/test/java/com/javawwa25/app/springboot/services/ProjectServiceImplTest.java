@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -21,14 +22,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceImplTest {
 	
+	@Mock
+	private Model model;
 	@Mock
 	private UserService userService;
 	@Mock
@@ -72,9 +77,8 @@ class ProjectServiceImplTest {
 
 	@Test
 	void testSave() {
-		Project project = projects.get(0);
-		underTest.save(project);
-		verify(projectRepository, times(1)).save(project);
+		underTest.save(ProjectDto.builder().build());
+		verify(projectRepository, times(1)).save(any());
 	}
 
 	@Test
@@ -112,15 +116,20 @@ class ProjectServiceImplTest {
 		assertTrue(retrievedProjects.get(0).getUsers().contains(user));
 	}
 
-//	@Test
-//	void testFillUserProjects() {
-//		Model model = mock(ConcurrentModel.class, "myModel");
-//		
-//		given(userService.getUserById(user.getId())).willReturn(user);
-//		given(projectRepository.findAllUserProjects(anyLong())).willReturn(projects);
-//		
-//		underTest.fillUserPageDtoModel(user.getId(), model);
-//		verify(model, times(2)).addAttribute(anyString(), any());
-//	}
+	@Test
+	public void testFillDtoProjectsModel() {
+		given(userService.getLoggedUser()).willReturn(user);
+		underTest.fillDtoProjectsModel(model);
+		verify(userService, times(1)).getLoggedUserDto();
+		verify(model, times(2)).addAttribute(any(),any());
+		verify(projectRepository,times(1)).findByUsers_Id(anyLong());
+	}
+
+	@Test
+	public void testFillAllProjectsForAdmin() {
+		underTest.fillAllProjectsForAdmin(model);
+		verify(userService, times(1)).getLoggedUserDto();
+		verify(model, times(2)).addAttribute(any(),any());
+	}
 
 }

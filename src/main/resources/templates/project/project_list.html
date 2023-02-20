@@ -7,9 +7,10 @@
 	<br>
 	<div class="container bootstrap snippets bootdey">
 		<div class="row well" sec:authorize="hasAuthority('ADMIN')">
-			<a th:href="@{/users/{userId}/projects/add (userId=${user.accountId})}"
+			<a th:href="@{/projects/new}"
 				class="btn btn-primary btn-success"> <span
-				class="glyphicon glyphicon-plus-sign"></span> Add new Project
+				class="glyphicon glyphicon-plus-sign">
+				</span> Add new Project
 			</a>
 		</div>
 		<br>
@@ -18,15 +19,15 @@
 				<tr>
 					<th><a>Project Name</a></th>
 					<th><a>Project description</a></th>
-					<th><a> Start Date</a></th>
+					<th><a>Created</a></th>
 				</tr>
 			</thead>
 			<tr th:each="project : ${projects}">
 				<td><a th:text="${project.name}"
-					th:href="@{/projects/{id}/tasks/user/{userId}(id=${project.id}, userId=${user.accountId})}">
+					th:href="@{/project/{id}/tasks (id=${project.id})}">
 				</a></td>
 				<td th:text="${project.info}"></td>
-				<td th:text="${project.startDate}"></td>
+				<td th:text="${project.createdAt}"></td>
 			</tr>
 		</table>
 	</div>
