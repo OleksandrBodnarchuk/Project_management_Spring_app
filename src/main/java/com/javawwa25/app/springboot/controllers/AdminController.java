@@ -73,11 +73,12 @@ public class AdminController {
     	userService.fillAdminUserDtoModel(id, model);
     	return null;
     }
+    
 	@GetMapping("/user/{id}/projects")
 	public String adminUserProjectsPage(@PathVariable("id") long id, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectsPage - called");
-    	userService.fillAdminUserDtoModel(id, model);
-    	return null;
+    	projectService.fillAllProjectsForAdmin(id, model);
+    	return "admin/user_project";
 	}
     
 	@GetMapping("/projects")

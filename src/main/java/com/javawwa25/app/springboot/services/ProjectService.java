@@ -23,4 +23,6 @@ public interface ProjectService {
 	void fillDtoProjectsModel(Model model);
 
 	void fillAllProjectsForAdmin(Model model);
+
+	void fillAllProjectsForAdmin(long id, Model model);
 }

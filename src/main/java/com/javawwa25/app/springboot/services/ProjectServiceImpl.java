@@ -78,4 +78,10 @@ public class ProjectServiceImpl implements ProjectService{
 		model.addAttribute("projectList", getAllProjects());
 	}
 
+	@Override
+	public void fillAllProjectsForAdmin(long id, Model model) {
+		userService.fillUserDtoEditModel(id, model);
+		model.addAttribute("projectList", getAllProjects());
+	}
+
 }
