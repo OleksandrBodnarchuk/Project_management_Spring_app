@@ -5,12 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,16 +50,31 @@ public class AdminController {
     	return "admin/user_page";
     	
     }
+    
+    @PostMapping("/user/{id}")
+    public String adminEditUser(@ModelAttribute("dto") UserRegistrationDto dto, 
+    							@PathVariable("id") long id, BindingResult result, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST adminEditUser - called");
+    	if (result.hasErrors()) {
+    		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
+    		userService.fillUserDtoRegistrationModel(dto, model);
+			return "user/new_user";
+		}
+    	
+    	userService.updateUser(dto);
+		return "redirect:/admin/user/" + dto.getAccountId() + "?success";
+    	
+    }
 
-    @GetMapping("/user/{id}/groups}")
-    String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
+    @GetMapping("/user/{id}/groups")
+    public  String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserGroupsPage - called");
     	userService.fillAdminUserDtoModel(id, model);
     	return null;
     }
-	@GetMapping("/user/{id}/projects}")
-	String adminUserProjectsPage(@PathVariable("id") long id, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
+	@GetMapping("/user/{id}/projects")
+	public String adminUserProjectsPage(@PathVariable("id") long id, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectsPage - called");
     	userService.fillAdminUserDtoModel(id, model);
     	return null;
 	}

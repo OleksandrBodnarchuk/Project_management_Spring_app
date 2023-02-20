@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
- 	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <div th:fragment="header-css">
 	<title th:text="*{user.firstName+' '+ user.lastName}">Projects</title>
@@ -10,6 +10,23 @@
 		href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
 		rel="stylesheet">
 	<style type="text/css">
+.box {
+	padding: 15px;
+	background: #fafafa;
+	border: solid 1px #e0e2e3;
+	border-radius: 3px;
+}
+
+.splitcontentright {
+    flex: 1;
+    margin-left: 5px;
+}
+
+.splitcontentleft {
+	flex: 1;
+	margin-right: 5px;
+}
+
 body {
 	background: #eee;
 }
@@ -141,16 +158,11 @@ body {
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li>
-							<a th:href="@{/user}">Profile</a>
-						</li>
-						<li>
-							<a th:href="@{/projects}">Projects</a>
-						</li>
-						<li sec:authorize="hasAuthority('ADMIN')">
-							<a th:href="@{/admin}">Administration</a>
-						</li>
-						
+						<li><a th:href="@{/user}">Profile</a></li>
+						<li><a th:href="@{/projects}">Projects</a></li>
+						<li sec:authorize="hasAuthority('ADMIN')"><a
+							th:href="@{/admin}">Administration</a></li>
+
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown"><a

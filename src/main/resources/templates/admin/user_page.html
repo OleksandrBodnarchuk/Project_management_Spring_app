@@ -5,8 +5,48 @@
 <body>
 	<div th:replace="~{fragments/header :: navbar}"></div>
 	<div class="container bootstrap snippets bootdey">
-		<div th:replace="~{fragments/admin_user_navTabs :: admin_user_nav}"></div>
+		<div class="row well">
+			<div th:replace="~{fragments/admin_user_navTabs :: admin_user_nav}"></div>
+
+			<!-- FORM -->
+			<form method="post" th:href="@{/admin/user/update}" th:object="${dto}">
+			<input type="hidden" th:field="*{accountId}" id="accountId">
+				<div class="splitcontentleft">
+					<fieldset class="box tabular">
+						<legend>User</legend>
+						<p>
+							<label for="user_mail">E-mail<span class="required">
+									*</span></label><input type="text" th:field="*{email}">
+						</p>
+						<p>
+							<label for="user_firstname">First Name<span
+								class="required"> *</span>
+							</label> <input type="text" th:field="*{firstName}">
+						</p>
+						<p>
+							<label for="user_lastname">LastName<span class="required">*</span>
+							</label> <input type="text" th:field="*{lastName}">
+						</p>
+					</fieldset>
+				</div>
+				<br>
+				<div class="splitcontentleft">
+					<fieldset class="box tabular">
+						<legend>Authentication</legend>
+						<p>
+							<label for="user_password">Password<span class="required">
+									*</span></label><input type="password">
+						</p>
+					</fieldset>
+				</div>
+				<br>
+				<div class="col-md-6 col-md-offset-3">
+					<input type="submit" name="submit" id="submit"
+						class="form-control btn btn-primary" value="Save">
+				</div>
+			</form>
+			<!-- FORM END-->
+		</div>
 	</div>
-	
 </body>
 </html>

@@ -34,6 +34,8 @@ public class SecurityConfiguration {
 							antMatcher("/css/**"),
 							antMatcher("/js/**"))
 					.permitAll()
+					.requestMatchers(antMatcher("/admin/*"), antMatcher("/admin"))
+						.hasAuthority("ADMIN")
            .anyRequest().authenticated()
            .and()
            .formLogin(form -> form

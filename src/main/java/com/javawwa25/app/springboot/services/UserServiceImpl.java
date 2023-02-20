@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -193,5 +194,15 @@ public class UserServiceImpl implements UserService {
 				.anyMatch(authority -> authority.getRole().equals("ADMIN")));
 		dto.setLastActiveDate(user.getAccount().getLastActiveDate());
 		dto.setRegistrationDate(user.getAccount().getRegistrationDate());
+	}
+
+	@Secured("ADMIN")
+	@Override
+	public void updateUser(UserRegistrationDto dto) {
+		User user = userRepository.findByAccountAccountId(Long.valueOf(dto.getAccountId()));
+		user.setFirstName(dto.getFirstName());
+		user.setLastName(dto.getLastName());
+		user.getAccount().setEmail(dto.getEmail());
+		userRepository.save(user);
 	}
 }
