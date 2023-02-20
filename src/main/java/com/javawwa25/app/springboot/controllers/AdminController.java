@@ -46,6 +46,19 @@ public class AdminController {
     	return "admin/user_page";
     	
     }
+
+    @GetMapping("/user/{id}/groups}")
+    String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
+    	userService.fillAdminUserDtoModel(id, model);
+    	return null;
+    }
+	@GetMapping("/user/{id}/projects}")
+	String adminUserProjectsPage(@PathVariable("id") long id, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
+    	userService.fillAdminUserDtoModel(id, model);
+    	return null;
+	}
     
 	@GetMapping("/projects")
 	public String adminProjects(Model model) {
