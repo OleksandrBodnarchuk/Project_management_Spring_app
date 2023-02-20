@@ -39,9 +39,11 @@
 							<tr th:each="user : ${userList}">
 								<td th:text="${user.firstName}"></td>
 								<td th:text="${user.lastName}"></td>
-								<td th:text="${user.account.email}"></td>
-								<td th:text="${user.account.registrationDate}"></td>
-								<td th:text="${user.account.lastActiveDate}"></td>
+								<td>
+									<a th:href="@{/admin/user/{id} (id=${user.accountId})}" th:text="${user.email}"></a>
+								</td>
+								<td th:text="${user.registrationDate}"></td>
+								<td th:text="${user.lastActiveDate}"></td>
 								<td>1 , 2 , 3</td>
 							</tr>
 						</tbody>

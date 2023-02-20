@@ -91,7 +91,7 @@ class UserServiceImplTest {
 	@Test
 	void testGetAllUsers() {
 		given(userRepository.findAll()).willReturn(users);
-		List<User> allUsers = underTest.getAllUsers();
+		List<UserDto> allUsers = underTest.getAllUserDtos();
 		assertEquals(users.size(), allUsers.size());
 	}
 

@@ -3,7 +3,6 @@ package com.javawwa25.app.springboot.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -11,6 +10,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -29,10 +29,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.security.validators.EmailValidator;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
+
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
@@ -45,6 +48,10 @@ class UserControllerTest {
 	private ProjectService projectService;
 	@Mock
 	private TaskService taskService;
+	@Mock
+	private BindingResult result;
+	@Mock 
+	private EmailValidator emailValidator;
 
 	@InjectMocks
 	private UserController underTest;
@@ -73,7 +80,7 @@ class UserControllerTest {
 	void test_showNewUserForm() throws Exception {
 		String expectedTemplate = "user/new_user";
 		underTest.showNewUserForm(model);
-		verify(model, times(1)).addAttribute(eq("user"), any());
+		verify(userService, times(1)).fillUserDtoRegistrationModel(any());
 		mvc.perform(get("/user/new")).andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name(expectedTemplate));
 	}
@@ -119,6 +126,20 @@ class UserControllerTest {
 		String actual = underTest.updateUser(new UserDto(), result, model);
 		verify(model, times(1)).addAttribute(anyString(), any());
 		verify(userService, never()).update(any());
+
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testSaveUser_hasErrors() {
+		BindingResult result = mock(BindException.class);
+		result.addError(new ObjectError("TEMP", "TEMP"));
+		given(result.hasErrors()).willReturn(true);
+
+		String expected = "user/new_user";
+		String actual = underTest.saveUser(new UserRegistrationDto(), result, model);
+		verify(userService, times(1)).fillUserDtoRegistrationModel(any(), any());
+		verify(userService, never()).saveRegister(any());
 
 		assertEquals(expected, actual);
 	}

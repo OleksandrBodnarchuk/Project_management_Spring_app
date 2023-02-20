@@ -1,5 +1,8 @@
 package com.javawwa25.app.springboot.web.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.javawwa25.app.springboot.security.validators.ValidEmail;
 
 import jakarta.validation.constraints.NotEmpty;
@@ -24,5 +27,8 @@ public class UserDto {
 	private String email;
 	private boolean isAdmin;
 	private String password;
+	private LocalDate lastActiveDate;
+	private LocalDate registrationDate;
+	private List<ProjectDto> projects;
 
 }

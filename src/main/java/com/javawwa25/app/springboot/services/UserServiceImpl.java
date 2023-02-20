@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,10 @@ import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.Authority;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.AuthorityRepository;
+import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
+import com.javawwa25.app.springboot.web.dto.ProjectDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
@@ -26,10 +29,17 @@ public class UserServiceImpl implements UserService {
 	private final PasswordEncoder passwordEncoder;
 	private final AccountService accountService;
 	private final AuthorityRepository authorityRepository;
-
+	private final ProjectRepository projectRepository;
+	
 	@Override
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public List<UserDto> getAllUserDtos() {
+		return userRepository.findAll().stream()
+				.map(user -> {
+					UserDto dto = new UserDto();
+					setUserDtoInfoDetails(user, dto);
+					return dto;
+					})
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -104,7 +114,7 @@ public class UserServiceImpl implements UserService {
 	public void fillAllUsersForAdmin(Model model) {
 		UserDto dto = getLoggedUserDto();
 		model.addAttribute("user", dto);
-		model.addAttribute("userList", getAllUsers());
+		model.addAttribute("userList", getAllUserDtos());
 	}
 	
 
@@ -116,10 +126,7 @@ public class UserServiceImpl implements UserService {
 	
 	private UserDto setUserDetailsDto(User user) {
 		UserDto dto = new UserDto();
-		dto.setAccountId(user.getAccount().getAccountId());
-		dto.setFirstName(user.getLastName());
-		dto.setLastName(user.getLastName());
-		dto.setEmail(user.getAccount().getEmail());
+		setUserDtoInfoDetails(user, dto);
 		return dto;
 	}
 
@@ -158,5 +165,33 @@ public class UserServiceImpl implements UserService {
 		UserDto userDto = getLoggedUserDto();
 		model.addAttribute("user", userDto);
 		model.addAttribute("dto", dto);
+	}
+
+	@Override
+	public void fillAdminUserDtoModel(long accountId, Model model) {
+		UserDto userDto = getLoggedUserDto();
+		User byAccountId = userRepository.findByAccountAccountId(accountId);
+		UserDto dto = new UserDto();
+		setUserDtoInfoDetails(byAccountId, dto);
+		dto.setProjects(
+				projectRepository.findByUsers_Id(byAccountId.getId()).stream()
+					.map(project -> {
+						return ProjectDto.builder().name(project.getName()).build();
+						})
+					.collect(Collectors.toList()));
+		
+		model.addAttribute("user", userDto);
+		model.addAttribute("dto", dto);
+	}
+
+	private void setUserDtoInfoDetails(User user, UserDto dto) {
+		dto.setAccountId(user.getAccount().getAccountId());
+		dto.setEmail(user.getAccount().getEmail());
+		dto.setFirstName(user.getFirstName());
+		dto.setLastName(user.getLastName());
+		dto.setAdmin(user.getAccount().getAuthorities().stream()
+				.anyMatch(authority -> authority.getRole().equals("ADMIN")));
+		dto.setLastActiveDate(user.getAccount().getLastActiveDate());
+		dto.setRegistrationDate(user.getAccount().getRegistrationDate());
 	}
 }

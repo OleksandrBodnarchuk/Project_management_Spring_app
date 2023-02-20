@@ -1,7 +1,8 @@
 package com.javawwa25.app.springboot.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
+import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
 @ExtendWith(MockitoExtension.class)
 class AdminControllerTest {
@@ -27,6 +29,9 @@ class AdminControllerTest {
 	
 	@Mock
 	private UserService userService;
+	
+	@Mock
+	private ProjectService projectService;
 	
 	@InjectMocks
 	private AdminController underTest;
@@ -42,7 +47,8 @@ class AdminControllerTest {
 	@Test
 	void testAdminPage() throws Exception {
 		String expected = "admin/admin_page";
-		doNothing().when(userService).fillUserDtoModel(any());
+		underTest.adminPage(model);
+		verify(userService, times(1)).fillUserDtoModel(any());
 		mvc.perform(get(PATH))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
@@ -51,8 +57,8 @@ class AdminControllerTest {
 	@Test
 	void testAdminUsers() throws Exception {
 		String expected = "admin/users";
-		doNothing().when(userService).fillUserDtoModel(any());
-		doNothing().when(userService).fillAllUsersForAdmin(any());
+		underTest.adminUsers(model);
+		verify(userService, times(1)).fillAllUsersForAdmin(any());
 		mvc.perform(get(PATH + "/users"))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
@@ -61,6 +67,8 @@ class AdminControllerTest {
 	@Test
 	void testAdminProjects() throws Exception {
 		String expected = "admin/projects";
+		underTest.adminProjects(model);
+		verify(projectService, times(1)).fillAllProjectsForAdmin(model);
 		mvc.perform(get(PATH + "/projects"))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));

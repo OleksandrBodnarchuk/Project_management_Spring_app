@@ -9,7 +9,7 @@ import com.javawwa25.app.springboot.web.dto.UserDto;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 public interface UserService {
-	List<User> getAllUsers();
+	List<UserDto> getAllUserDtos();
 
 	User getUserById(long id);
 
@@ -38,5 +38,7 @@ public interface UserService {
 	UserDto getLoggedUserDto();
 
 	void fillUserDtoRegistrationModel(UserRegistrationDto dto, Model model);
+
+	void fillAdminUserDtoModel(long id, Model model);
 	
 }

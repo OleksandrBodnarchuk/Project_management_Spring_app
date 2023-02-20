@@ -21,6 +21,7 @@ import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 
 @Controller
 @RequestMapping("/tasks")
@@ -78,7 +79,7 @@ public class IssueController {
 			@PathVariable(value = "projectId") long projectId, @PathVariable(value = "taskId") long taskId,
 			Model model) {
 		Task task = taskService.getTaskById(taskId);
-		List<User> userList = userService.getAllUsers();
+		List<UserDto> userList = userService.getAllUserDtos();
 		model.addAttribute("userList", userList);
 		model.addAttribute("task", task);
 		return "/task/update_task";

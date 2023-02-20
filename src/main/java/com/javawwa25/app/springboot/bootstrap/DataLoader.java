@@ -57,7 +57,7 @@ public class DataLoader implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - Running DB initialization.");
-		int count = userService.getAllUsers().size();
+		int count = userService.getAllUserDtos().size();
 		if (count == 0) {
 			loadData();
 		}

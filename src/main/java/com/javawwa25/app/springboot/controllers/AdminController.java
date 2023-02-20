@@ -6,6 +6,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.javawwa25.app.springboot.services.ProjectService;
@@ -35,6 +36,14 @@ public class AdminController {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUsers - called");
     	userService.fillAllUsersForAdmin(model);
     	return "admin/users";
+    	
+    }
+    
+    @GetMapping("/user/{id}")
+    public String adminUserPage(@PathVariable("id") long id, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
+    	userService.fillAdminUserDtoModel(id, model);
+    	return "admin/user_page";
     	
     }
     
