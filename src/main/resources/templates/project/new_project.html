@@ -8,7 +8,7 @@
 		<div class="row well">
 			<h4>Add new project</h4>
 			<div class="col-md-12">
-				<form action="#" th:action="@{/project/save}" th:object="${project}"
+				<form action="#" th:action="@{/projects/save}" th:object="${project}"
 					method="POST">
 
 					<input type="text" th:field="*{name}" placeholder="Project Name"

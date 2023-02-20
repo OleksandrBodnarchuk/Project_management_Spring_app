@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.Authority;
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.UserDto;
@@ -23,6 +25,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final AccountService accountService;
+	private final AuthorityRepository authorityRepository;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -50,19 +53,20 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByAccountEmail(email);
 	}
 
+	@Transactional
 	@Override
 	public User saveRegister(UserRegistrationDto dto) {
-		User user = new User();
-		user.setFirstName(dto.getFirstName());
-		user.setLastName(dto.getLastName());
-		Account account = new Account();
-		account.setEmail(dto.getEmail());
-		account.setPassword(passwordEncoder.encode(dto.getPassword()));
-		account.setRegistrationDate(LocalDate.now());
-		accountService.save(account);
-
-		user.setAccount(account);
-		return userRepository.save(user);
+		Account account = accountService.save(Account.builder()
+								.authority(setAuthority(dto.isAdmin()))
+								.email(dto.getEmail())
+								.password(passwordEncoder.encode(dto.getPassword()))
+								.registrationDate(LocalDate.now())
+								.build());
+		return userRepository.save(User.builder()
+				.firstName(dto.getFirstName())		
+				.lastName(dto.getLastName())
+				.account(account)
+				.build());
 	}
 
 	@Override
@@ -121,24 +125,38 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(UserDto dto) {
+		Account account = accountService.save(
+				Account.builder()
+				.authority(setAuthority(dto.isAdmin()))
+				.email(dto.getEmail())
+				.password(passwordEncoder.encode(dto.getPassword()))
+				.registrationDate(LocalDate.now())
+				.build());
 		User user = User.builder()
 						.firstName(dto.getFirstName())		
 						.lastName(dto.getLastName())
-						.account(accountService.save(
-								Account.builder()
-								.authority(setAuthority(dto.isAdmin()))
-								.email(dto.getEmail())
-								.password(passwordEncoder.encode(dto.getPassword()))
-								.registrationDate(LocalDate.now())
-								.build()))
+						.account(account)
 						.build();
-		userRepository.save(user);
-		return null;
+		return userRepository.save(user);
 	}
 
 	private Authority setAuthority(boolean admin) {
 		return admin ? 
-				Authority.builder().role("ADMIN").build() : 
-				Authority.builder().role("USER").build();
+				authorityRepository.save(Authority.builder().role("ADMIN").build()) : 
+					authorityRepository.save(Authority.builder().role("USER").build());
+	}
+
+	@Override
+	public void fillUserDtoRegistrationModel(Model model) {
+		UserDto dto = getLoggedUserDto();
+		model.addAttribute("user", dto);
+		model.addAttribute("dto", new UserRegistrationDto());
+	}
+
+	@Override
+	public void fillUserDtoRegistrationModel(UserRegistrationDto dto, Model model) {
+		UserDto userDto = getLoggedUserDto();
+		model.addAttribute("user", userDto);
+		model.addAttribute("dto", dto);
 	}
 }

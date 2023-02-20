@@ -33,6 +33,10 @@ public interface UserService {
 	
 	void fillUserDtoModel(Model model);
 	
+	void fillUserDtoRegistrationModel(Model model);
+	
 	UserDto getLoggedUserDto();
+
+	void fillUserDtoRegistrationModel(UserRegistrationDto dto, Model model);
 	
 }

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 import jakarta.validation.Valid;
 
@@ -41,20 +41,25 @@ public class UserController {
     	return "user/user-page";
     }
     
+    @Secured({"ADMIN"})
     @GetMapping("/new")
     public String showNewUserForm(Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewUserForm - called");
-        User user = new User();
-        model.addAttribute("user", user);
+    	userService.fillUserDtoRegistrationModel(model);
         return "user/new_user";
     }
     
 	@Secured({"ADMIN"})
 	@PostMapping("/save")
-    public String saveUser(@ModelAttribute("dto") UserDto dto) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveUser - called");
-        userService.save(dto);
-		return "redirect: /admin/users?success";
+    public String saveUser(@ModelAttribute("dto") @Valid UserRegistrationDto dto, BindingResult result, Model model) {
+    	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - called");
+    	if (result.hasErrors()) {
+    		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
+    		userService.fillUserDtoRegistrationModel(dto, model);
+			return "user/new_user";
+		}
+        userService.saveRegister(dto);
+		return "redirect:/admin/users?success";
     }
     
     @GetMapping("/settings")
