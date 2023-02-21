@@ -54,9 +54,14 @@ class IssueControllerTest {
 	@Test
 	void testCreateTask() throws Exception {
 		String expected = "/task/new_task";
-		mvc.perform(get("/tasks/project/{id}/new", 1))
+		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());
+		mvc.perform(get(TASK_ENDPOINT + "/new", 1))
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
+		
+		String actual = underTest.createTask(1l, model);
+		verify(model, times(3)).addAttribute(any(), any());
+		assertEquals(expected, actual);
 	}
 
 	@Test

@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javawwa25.app.springboot.models.Priority;
-import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
 import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.web.dto.TaskDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 
 @Controller
@@ -49,15 +48,11 @@ public class IssueController {
 	}
 	
 	@GetMapping(TASK_ENDPOINT + "/new")
-	public String createTask(@PathVariable(value = "projectId") long projectId,
-			@PathVariable(value = "userId") long userId, Model model) {
+	public String createTask(@PathVariable(value = "projectId") long projectId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createTask - called");
-		Task task = new Task();
-		Project project = projectService.getProjectById(projectId);
-		User user = userService.getUserById(userId);
-		model.addAttribute("user", user);
-		model.addAttribute("project", project);
-		model.addAttribute("task", task);
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("task", TaskDto.builder().build());
 		return "/task/new_task";
 	}
 	

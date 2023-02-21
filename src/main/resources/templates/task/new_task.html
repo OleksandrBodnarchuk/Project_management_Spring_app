@@ -1,128 +1,96 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:>
-<head>
-    <meta charset="utf-8">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div class="row well">
+			<h4>Add new Task</h4>
+			<div class="col-md-12">
+				<div id="all_attributes">
 
-    <title>New Task</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+					<p>
+						<label for="issue_project_id">Project<span
+							class="required"> *</span>
+						</label> <input type="text">
+					</p>
 
-    <style type="text/css">
+					<p>
+						<label for="issue_tracker_id">Task type<span
+							class="required"> *</span></label> <select>
+							<option>Task</option>
+							<option>Bug</option>
+						</select>
 
+					</p>
 
-        body {
-            background: #eee;
-        }
+					<p>
+						<label for="issue_subject">Name<span class="required">
+								*</span></label> <input size="80" maxlength="255" type="text" value="">
+					</p>
 
-        .pic {
-            margin-top: 50px;
-            width: 120px;
-            margin-left: 50px;
-            margin-bottom: -60px;
-        }
+					<p>
+						<label for="issue_description">Description</label> <span
+							class="required">*</span>
+						<textarea cols="60" accesskey="e" class="wiki-edit" rows="10"
+							data-auto-complete="true" name="issue[description]"
+							id="issue_description" placeholder="Leave a comment"></textarea>
+					</p>
 
-        .panel {
-            background-image: url("https://via.placeholder.com/800x100/FFB6C1/000000");
-        }
+					<div id="attributes" class="attributes">
+						<div class="splitcontent">
+							<div class="splitcontentleft">
+								<p>
+									<label for="issue_status_id">Status<span
+										class="required"> *</span></label> <select><option
+											selected="selected" value="1">New</option></select>
+								</p>
+								<p>
+									<label for="issue_priority_id">Priority<span
+										class="required"> *</span></label> <select name="issue[priority_id]"
+										id="issue_priority_id"><option value="1">Low</option>
+										<option selected="selected" value="2">Medium</option>
+										<option value="3">High</option>
+									</select>
+								</p>
 
-        .name {
-            position: absolute;
-            padding-left: 200px;
-            font-size: 30px;
-        }
+								<p>
+									<label for="issue_assigned_to_id">Assigned to</label><select
+										name="issue[assigned_to_id]" id="issue_assigned_to_id">
+										<option>Me</option>
+										<optgroup label="Groups">
+											<option>TEST Group</option>
+										</optgroup>
+									</select> <a class="assign-to-me-link" href="#" data-id="1432">Assign
+										to me</a>
+								</p>
 
-        .dropdown {
-            position: absolute;
-        }
+							</div>
 
-        .change {
-            position: relative;
-            bottom: 20px;
-            padding: 1px;
-            color: white;
-            text-decoration: none;
-        }
+							<p id="start_date_area">
+								<label for="issue_start_date">Date start</label><input size="10"
+									value="2023-02-21" type="date" name="issue[start_date]"
+									id="issue_start_date" class="date">
+							</p>
 
+							<p id="due_date_area">
+								<label for="issue_due_date">Date end</label><input size="10"
+									type="date" name="issue[due_date]" id="issue_due_date"
+									class="date">
+							</p>
 
-        .change:hover {
-            text-decoration: none;
-            background-color: black;
-            color: white;
-        }
-    </style>
-</head>
-<body style="">
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<nav class="navbar navbar-inverse container" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" th:href="@{/user}">Profile</a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<p>
+								<label for="issue_estimated_hours">Estimated time</label><input
+									size="3" value="" type="text" name="issue[estimated_hours]"
+									id="issue_estimated_hours"> h
+							</p>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Username <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li align="center" class="well">
-                            <div><img class="img-responsive" style="padding:2%;"
-                                      src="https://bootdey.com/img/Content/avatar/avatar1.png"><a class="change"
-                                                                                                  href="">Change
-                                Picture</a></div>
-                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-lock"></span>
-                                Security</a>
-                            <a href="#" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-log-out"></span>
-                                Logout</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container bootstrap snippets bootdey">
-    <div class="row well">
-        <div class="container">
-    <h3>Add new task</h3>
-    <form th:action="@{/tasks/save/project/{id}(id=${project.id})}" th:object="${task}"
-          method="POST" class="row">
-
-        <label>
-            <input type="text" th:field="*{name}"
-                   placeholder="Task Name" class="form-control mb-4 col-4">
-        </label>
-<br>
-          <label>
-            <textarea  th:field="*{description}"
-                      placeholder="Description" class="form-control mb-4 col-4"></textarea>
-        </label>
-<br> 
-        <label>
-            <select name="priority" class="form-control mb-4 col-4">
-                <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
-                        th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
-            </select>
-        </label>
-
-        <br>
-        <button type="submit" class="btn btn-primary btn-success"><span
-                class="glyphicon glyphicon-plus-sign"></span> Save Task </button>
-
-    </form>
-
-    <!-- WARNING -->
-    <a th:href="@{/user}"> Back to Profile</a>
-        </div>
-
-    </div>
-</div>
-
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
