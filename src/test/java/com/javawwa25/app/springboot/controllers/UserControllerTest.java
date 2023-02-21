@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -13,6 +12,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.security.validators.EmailValidator;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
@@ -64,12 +64,12 @@ class UserControllerTest {
 	}
 
 	@Test
-	void test_showUserPage() throws Exception {
+	void testUserPage() throws Exception {
 		String expectedTemplate = "user/user-page";
-		doNothing().when(taskService).fillUserPageDtoModel(model);
-
+		given(taskService.getCreatedTasksForUser()).willReturn(Set.of());
+		given(taskService.getAssignedTasksForUser()).willReturn(Set.of());
+		given(userService.getLoggedUserDto()).willReturn(new UserDto());	
 		underTest.userPage(model);
-		verify(taskService, times(1)).fillUserPageDtoModel(model);
 
 		mvc.perform(get("/user")).andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name(expectedTemplate));
@@ -81,17 +81,6 @@ class UserControllerTest {
 		underTest.showNewUserForm(model);
 		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get("/user/new")).andDo(print()).andExpect(status().isOk())
-				.andExpect(view().name(expectedTemplate));
-	}
-
-	@Test
-	void test_userLoggedIn() throws Exception {
-		User user = new User();
-		user.setId(1L);
-		String expectedTemplate = "user/user-page";
-		doNothing().when(userService).userLogged();
-		doNothing().when(taskService).fillUserPageDtoModel(any());
-		mvc.perform(get("/user")).andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name(expectedTemplate));
 	}
 

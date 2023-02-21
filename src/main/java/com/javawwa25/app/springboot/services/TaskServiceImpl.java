@@ -5,23 +5,19 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.TaskRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements  TaskService{
 
    private final TaskRepository taskRepository;
    private final UserService userService;
-
-	public TaskServiceImpl(TaskRepository taskRepository, UserService userService) {
-		this.taskRepository = taskRepository;
-		this.userService = userService;
-	}
-
+   
 	@Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -48,22 +44,15 @@ public class TaskServiceImpl implements  TaskService{
     public void deleteTaskById(long id) {
         this.taskRepository.deleteById(id);
     }
-
-	@Override
-	public void fillUserPageDtoModel(Model model) {
-		User user = userService.getLoggedUser();
-		long id = user.getId();
-		model.addAttribute("createdTasks", getCreatedTasksByUserId(id));
-		model.addAttribute("assignedTasks", getAssignedTasksByUserId(id));
-        model.addAttribute("user", userService.getLoggedUserDto());
+    
+    @Override
+	public Set<Task> getCreatedTasksForUser() {
+		return taskRepository.findAllByUserAddedId(userService.getLoggedUser().getId());
 	}
 
-	public Set<Task> getCreatedTasksByUserId(long userId) {
-		return taskRepository.findAllByUserAddedId(userId);
-	}
-
-	public Set<Task> getAssignedTasksByUserId(long userId) {
-		return taskRepository.findAllByUserAssignedId(userId);
+    @Override
+	public Set<Task> getAssignedTasksForUser() {
+		return taskRepository.findAllByUserAssignedId(userService.getLoggedUser().getId());
 		
 	}
 

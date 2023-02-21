@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import com.javawwa25.app.springboot.models.Task;
 
@@ -18,10 +17,8 @@ public interface TaskService {
 
 	void deleteTaskById(long id);
 
-	void fillUserPageDtoModel(Model model);
+	Set<Task> getAssignedTasksForUser();
 
-	Set<Task> getCreatedTasksByUserId(long userId);
-
-	Set<Task> getAssignedTasksByUserId(long userId);
+	Set<Task> getCreatedTasksForUser();
 
 }
