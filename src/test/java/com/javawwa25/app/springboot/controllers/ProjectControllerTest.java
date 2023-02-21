@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.UserService;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectControllerTest {
@@ -48,6 +50,9 @@ class ProjectControllerTest {
 	@Test
 	void testProjectList() throws Exception {
 		String expectedTemplate = "project/project_list";
+		UserDto dto = new UserDto();
+		dto.setAccountId(123465);
+		when(userService.getLoggedUserDto()).thenReturn(dto);
 		underTest.projectList(model);
 		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get("/projects"))
