@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.web.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.validation.constraints.Email;
@@ -29,8 +29,8 @@ public class UserDto {
 	
 	@Min(message = "Minimum 8 symbols", value = 8)
 	private String password;
-	private LocalDate lastActiveDate;
-	private LocalDate registrationDate;
+	private Date lastActiveDate;
+	private Date registrationDate;
 	private List<ProjectDto> projects;   
 	private boolean generatePassword;
 

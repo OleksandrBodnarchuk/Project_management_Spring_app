@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.models;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,12 +18,12 @@ import lombok.Setter;
 public class Job extends BaseEntity {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDate startDate; // creation date
+	private Date startDate; // creation date
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDate endDate; // close date
+	private Date endDate; // close date
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDate createdAt;
+	private Date createdAt;
 
 }

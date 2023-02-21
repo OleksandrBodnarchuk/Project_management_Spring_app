@@ -1,7 +1,7 @@
 package com.javawwa25.app.springboot.bootstrap;
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,13 +85,13 @@ public class DataLoader implements CommandLineRunner{
 
 		LOG.debug("[SAVING PROJECTS]");
 		Project javaProject = Project.builder()
-				.created(LocalDate.now())
+				.created(new Date())
 				.name("Java")
 				.info("Description")
 				.build();
 		
 		Project pythonProject = Project.builder()
-				.created(LocalDate.now())
+				.created(new Date())
 				.name("Python")
 				.info("Description")
 				.build();
@@ -105,7 +105,7 @@ public class DataLoader implements CommandLineRunner{
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
-							.registrationDate(LocalDate.now())
+							.registrationDate(new Date())
 							.lastActiveDate(null)
 							.authority(admin)
 							.build());
@@ -121,7 +121,7 @@ public class DataLoader implements CommandLineRunner{
 		Account account2 = accountService.save(Account.builder()
 				.email("tempUser2@email.com")
 				.password(passwordEncoder.encode("tempUser2"))
-				.registrationDate(LocalDate.now())
+				.registrationDate(new Date())
 				.lastActiveDate(null)
 				.authority(user)
 				.build());
@@ -140,7 +140,7 @@ public class DataLoader implements CommandLineRunner{
 		linkUserWithProject(javaProject, tempUser1);
 		
 		Task task1 = Task.builder()
-				.createdAt(LocalDate.now())
+				.createdAt(new Date())
 				.description("Error 500 fix")
 				.name("TASK 1 - NAME")
 				.priority(Priority.HIGH)
@@ -152,7 +152,7 @@ public class DataLoader implements CommandLineRunner{
 				.build();
 		
 		Task task2 = Task.builder()
-				.createdAt(LocalDate.now())
+				.createdAt(new Date())
 				.description("Error 500 fix")
 				.name("TASK 2 - NAME")
 				.priority(Priority.HIGH)

@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.models;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +47,7 @@ public class Project extends Job {
 	private Set<Task> tasks;
 	
 	@Builder
-	public Project(LocalDate startDate, LocalDate endDate, LocalDate created, String name, String info, Set<User> users,
+	public Project(Date startDate, Date endDate, Date created, String name, String info, Set<User> users,
 			Set<Task> tasks) {
 		super(startDate, endDate, created);
 		this.name = name;

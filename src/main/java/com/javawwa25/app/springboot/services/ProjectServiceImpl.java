@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.services;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public void save(ProjectDto dto) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - save - called");
 		this.projectRepository
-				.save(Project.builder().name(dto.getName()).info(dto.getInfo()).created(LocalDate.now()).build());
+				.save(Project.builder().name(dto.getName()).info(dto.getInfo()).created(new Date()).build());
 	}
 
 	@Override

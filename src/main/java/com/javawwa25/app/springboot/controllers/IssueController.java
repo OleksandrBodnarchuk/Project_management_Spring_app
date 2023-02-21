@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.controllers;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class IssueController {
 			@PathVariable(value = "projectId") long projectId,
 			@RequestParam("priority") Priority priority, @ModelAttribute("task") Task task) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveTask - called");
-		task.setCreatedAt(LocalDate.now());
+		task.setCreatedAt(new Date());
 		task.setPriority(priority);
 		task.setProject(projectService.getProjectById(projectId));
 		task.setUserAdded(userService.getUserById(userId));

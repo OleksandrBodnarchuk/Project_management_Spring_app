@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.services;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 								.authority(setAuthority(dto.isAdmin()))
 								.email(dto.getEmail())
 								.password(passwordEncoder.encode(dto.getPassword()))
-								.registrationDate(LocalDate.now())
+								.registrationDate(new Date())
 								.build());
 		return userRepository.save(User.builder()
 				.firstName(dto.getFirstName())		
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void userLogged() {
 		User user = getLoggedUser();
-		user.getAccount().setLastActiveDate(LocalDate.now());
+		user.getAccount().setLastActiveDate(new Date());
 		this.save(user);
 	}
 
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 				.authority(setAuthority(dto.isAdmin()))
 				.email(dto.getEmail())
 				.password(passwordEncoder.encode(dto.getPassword()))
-				.registrationDate(LocalDate.now())
+				.registrationDate(new Date())
 				.build());
 		User user = User.builder()
 						.firstName(dto.getFirstName())		

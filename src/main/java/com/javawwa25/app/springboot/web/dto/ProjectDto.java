@@ -1,6 +1,6 @@
 package com.javawwa25.app.springboot.web.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,5 +22,5 @@ public class ProjectDto {
     @NotEmpty
 	private String info;
 	@Nullable
-	private LocalDate createdAt;
+	private Date createdAt;
 }

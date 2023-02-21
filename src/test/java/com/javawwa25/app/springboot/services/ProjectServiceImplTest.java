@@ -10,8 +10,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -48,7 +48,7 @@ class ProjectServiceImplTest {
 	public void setUp() {
 		user.setId(1L);
 		Project javaProject = Project.builder()
-				.startDate(LocalDate.now())
+				.startDate(new Date())
 				.name("Java")
 				.info("Description")
 				.build();
@@ -56,7 +56,7 @@ class ProjectServiceImplTest {
 		javaProject.setUsers(Set.of(user));
 		
 		Project pythonProject = Project.builder()
-				.startDate(LocalDate.now())
+				.startDate(new Date())
 				.name("Python")
 				.info("Description")
 				.build();
