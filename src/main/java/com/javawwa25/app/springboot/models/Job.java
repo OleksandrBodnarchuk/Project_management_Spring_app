@@ -25,5 +25,7 @@ public class Job extends BaseEntity {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createdAt;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date modificationDate;
 
 }

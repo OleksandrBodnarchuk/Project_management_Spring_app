@@ -50,7 +50,7 @@ class ProjectControllerTest {
 	@Test
 	void testProjectList() throws Exception {
 		String expectedTemplate = "project/project_list";
-		UserDto dto = new UserDto();
+		UserDto dto = UserDto.builder().build();
 		dto.setAccountId(123465);
 		when(userService.getLoggedUserDto()).thenReturn(dto);
 		underTest.projectList(model);
@@ -75,7 +75,7 @@ class ProjectControllerTest {
 	@Test
 	void testRedirectToProjectTasks() throws Exception {
 		int projectId = 1;
-		String expectedTemplate = "redirect: " + "/projects" + "/" + projectId + "/tasks";
+		String expectedTemplate = "redirect:/tasks/projects/" + projectId;
 		underTest.showNewProjectForm(model);
 		verify(model, times(2)).addAttribute(anyString(), any());
 		mvc.perform(get("/projects/{projectId}/tasks", projectId))

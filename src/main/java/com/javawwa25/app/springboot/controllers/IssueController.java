@@ -27,7 +27,7 @@ import com.javawwa25.app.springboot.web.dto.UserDto;
 @RequestMapping("/tasks")
 public class IssueController {
 
-	private final static String TASK_ENDPOINT = "/users/{userId}/projects/{projectId}/tasks";
+	private final static String TASK_ENDPOINT = "/projects/{projectId}";
 	private final static Logger LOG = LoggerFactory.getLogger(IssueController.class);
 
 	private final TaskService taskService;
@@ -40,6 +40,14 @@ public class IssueController {
 		this.userService = userService;
 	}
 
+	@GetMapping(TASK_ENDPOINT)
+	public String projectAllTasks(@PathVariable("projectId") long projectId, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET findAllProjectTasks - called");
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("project", projectService.getProjectDtoById(projectId));
+		return "/task/task-list";
+	}
+	
 	@GetMapping(TASK_ENDPOINT + "/new")
 	public String createTask(@PathVariable(value = "projectId") long projectId,
 			@PathVariable(value = "userId") long userId, Model model) {
@@ -52,7 +60,7 @@ public class IssueController {
 		model.addAttribute("task", task);
 		return "/task/new_task";
 	}
-
+	
 	@PostMapping(TASK_ENDPOINT + "/save")
 	public String saveTask(@PathVariable(value = "userId") long userId,
 			@PathVariable(value = "projectId") long projectId,
@@ -102,16 +110,5 @@ public class IssueController {
 		taskService.saveTask(task);
 		return "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
 	}
-	@GetMapping(TASK_ENDPOINT)
-	public String allTasks(@PathVariable("projectId") long projectId, @PathVariable("userId") long userId,
-			Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET findAllProjectTasks - called");
-		User user = userService.getUserById(userId);
-		Project project = projectService.getProjectById(projectId);
-		model.addAttribute("user", user);
-		model.addAttribute("project", project);
-		return "/task/task-list";
-	}
-	
 
 }

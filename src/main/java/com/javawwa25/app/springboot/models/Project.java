@@ -47,9 +47,9 @@ public class Project extends Job {
 	private Set<Task> tasks;
 	
 	@Builder
-	public Project(Date startDate, Date endDate, Date created, String name, String info, Set<User> users,
-			Set<Task> tasks) {
-		super(startDate, endDate, created);
+	public Project(Date startDate, Date endDate, Date createdAt, Date modificationDate, String name, String info,
+			Set<User> users, Set<Task> tasks) {
+		super(startDate, endDate, createdAt, modificationDate);
 		this.name = name;
 		this.info = info;
 		this.users = users;

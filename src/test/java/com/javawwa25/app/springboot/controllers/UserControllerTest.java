@@ -68,7 +68,7 @@ class UserControllerTest {
 		String expectedTemplate = "user/user-page";
 		given(taskService.getCreatedTasksForUser()).willReturn(Set.of());
 		given(taskService.getAssignedTasksForUser()).willReturn(Set.of());
-		given(userService.getLoggedUserDto()).willReturn(new UserDto());	
+		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());	
 		underTest.userPage(model);
 
 		mvc.perform(get("/user")).andDo(print()).andExpect(status().isOk())
@@ -108,7 +108,7 @@ class UserControllerTest {
 		given(result.hasErrors()).willReturn(true);
 
 		String expected = "user/edit-profile";
-		String actual = underTest.updateUser(new UserDto(), result, model);
+		String actual = underTest.updateUser(UserDto.builder().build(), result, model);
 		verify(model, times(1)).addAttribute(anyString(), any());
 		verify(userService, never()).update(any());
 

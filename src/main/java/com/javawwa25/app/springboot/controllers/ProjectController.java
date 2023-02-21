@@ -52,7 +52,13 @@ public class ProjectController {
 	@GetMapping("/{projectId}/tasks")
 	public String redirectToProjectTasks(@PathVariable("projectId") long projectId) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET redirectToProjectTasks - called");
-		return "redirect: /projects/" + projectId + "/tasks";
+		return "redirect:/tasks/projects/" + projectId;
+	}
+	
+	@GetMapping("/{id}/tasks/new")
+	public String createProjectTask(@PathVariable("id") long projectId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createProjectTask - called");
+		return "redirect:/tasks/project/" + projectId + "/new";
 	}
 
 	@Secured({"ADMIN"})

@@ -38,7 +38,7 @@ public class UserController {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET userLoggedIn - called");
     	userService.userLogged();
 		model.addAttribute("createdTasks", taskService.getCreatedTasksForUser());
-		model.addAttribute("assignedTasks",taskService.getAssignedTasksForUser());
+		model.addAttribute("assignedTasks", taskService.getAssignedTasksForUser());
         model.addAttribute("user", userService.getLoggedUserDto());
     	return "user/user-page";
     }

@@ -1,6 +1,7 @@
 package com.javawwa25.app.springboot.web.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,4 +24,5 @@ public class ProjectDto {
 	private String info;
 	@Nullable
 	private Date createdAt;
+	private Set<TaskDto> tasks;
 }

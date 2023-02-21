@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -9,9 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.javawwa25.app.springboot.models.Project;
+import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
+import com.javawwa25.app.springboot.web.dto.TaskDto;
+import com.javawwa25.app.springboot.web.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +38,8 @@ public class ProjectServiceImpl implements ProjectService {
 	public void save(ProjectDto dto) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - save - called");
 		this.projectRepository
-				.save(Project.builder().name(dto.getName()).info(dto.getInfo()).created(new Date()).build());
+				.save(Project.builder().name(dto.getName())
+						.info(dto.getInfo()).createdAt(new Date()).build());
 	}
 
 	@Override
@@ -87,4 +92,67 @@ public class ProjectServiceImpl implements ProjectService {
 		projectRepository.save(project);
 	}
 
+	@Override
+	public Set<Task> getProjectTasks(long projectId) {
+		return getProjectById(projectId).getTasks();
+	}
+
+	@Override
+	public ProjectDto getProjectDtoById(long projectId) {
+		Project project = getProjectById(projectId);
+		ProjectDto dto = ProjectDto.builder()
+			.name(project.getName())
+			.id(projectId)
+			.tasks(project.getTasks().stream().map(task -> {
+				return TaskDto.builder()
+					.id(task.getId())
+					.name(task.getName())
+					.description(task.getDescription())
+					.priority(task.getPriority().value())
+					.type(task.getTaskType().getName())
+					.status(task.getStatus().getName())
+					.userAssigned(UserDto.builder()
+							.accountId(task.getUserAssigned().getAccount().getAccountId())
+							.firstName(task.getUserAssigned().getFirstName())
+							.lastName(task.getUserAssigned().getLastName())
+							.build())
+					.userAdded(UserDto.builder()
+							.accountId(task.getUserAdded().getAccount().getAccountId())
+							.firstName(task.getUserAdded().getFirstName())
+							.lastName(task.getUserAdded().getLastName())
+							.build())
+					.modificationDate(task.getModificationDate())
+					
+					.build();
+					}).collect(Collectors.toSet()))
+			.build();
+		
+		return dto;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

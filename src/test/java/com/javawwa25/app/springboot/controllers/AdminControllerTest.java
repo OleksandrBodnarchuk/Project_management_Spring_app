@@ -92,7 +92,7 @@ class AdminControllerTest {
 	void testAdminUserPage() throws Exception {
 		String expected = "admin/user_page";
 		String actual = underTest.adminUserPage(1l, model);
-		given(userService.getUserDtoByAccountId(anyLong())).willReturn(new UserDto());
+		given(userService.getUserDtoByAccountId(anyLong())).willReturn(UserDto.builder().build());
 		verify(model, times(2)).addAttribute(any(), any());
 		mvc.perform(get(PATH + "/user/{id}", 1l))
 			.andExpect(status().isOk())
@@ -104,7 +104,7 @@ class AdminControllerTest {
 	@Test
     public void testAdminEditUser() throws Exception {
 		String expected = "redirect:/admin/user/1?success";
-		UserDto dto = new UserDto();
+		UserDto dto = UserDto.builder().build();
 		dto.setFirstName("firstName");
 		dto.setLastName("lastName");
 		dto.setEmail("email@email.com");
@@ -117,7 +117,7 @@ class AdminControllerTest {
 	@Test
     public void testAdminEditUser_hasErrors() throws Exception {
 		String expected = "admin/user_page";
-		UserDto dto = new UserDto();
+		UserDto dto = UserDto.builder().build();
 		dto.setLastName("lastName");
 		dto.setEmail("email@email.com");
 		dto.setPassword("12345678");
@@ -137,8 +137,8 @@ class AdminControllerTest {
 	void testAdminUserProjectsPage() throws Exception {
 		String expected = "admin/user_project";
 		given(projectService.getProjectDtosByAccountId(anyLong())).willReturn(List.of());
-		given(userService.getUserDtoByAccountId(anyLong())).willReturn(new UserDto());
-		given(userService.getLoggedUserDto()).willReturn(new UserDto());
+		given(userService.getUserDtoByAccountId(anyLong())).willReturn(UserDto.builder().build());
+		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());
 		underTest.adminUserProjectsPage(1l, model);
 		verify(model, times(3)).addAttribute(any(), any());
 		
@@ -150,8 +150,8 @@ class AdminControllerTest {
 	void testAdminUserProjectAddPage() throws Exception {
 		String expected = "admin/user_project_add";
 		given(projectService.getProjectsNotPartOf(anyLong())).willReturn(List.of());
-		given(userService.getUserDtoByAccountId(anyLong())).willReturn(new UserDto());
-		given(userService.getLoggedUserDto()).willReturn(new UserDto());
+		given(userService.getUserDtoByAccountId(anyLong())).willReturn(UserDto.builder().build());
+		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());
 		underTest.adminUserProjectsPage(1l, model);
 		verify(model, times(3)).addAttribute(any(), any());
 		

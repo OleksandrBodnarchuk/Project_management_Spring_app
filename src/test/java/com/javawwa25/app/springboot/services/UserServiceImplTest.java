@@ -153,7 +153,7 @@ class UserServiceImplTest {
 		SecurityContextHolder.setContext(context);
 		given(context.getAuthentication()).willReturn(new UsernamePasswordAuthenticationToken("email","password"));
 		given(underTest.findByEmail(anyString())).willReturn(user);
-		UserDto dto = new UserDto();
+		UserDto dto = UserDto.builder().build();
 		dto.setAccountId(user.getAccount().getAccountId());
 		underTest.update(dto);
 		verify(userRepository, times(1)).save(user);
@@ -166,7 +166,7 @@ class UserServiceImplTest {
 		given(context.getAuthentication()).willReturn(new UsernamePasswordAuthenticationToken("email", "password"));
 		given(underTest.findByEmail(anyString())).willReturn(user);
 
-		UserDto userDto = new UserDto();
+		UserDto userDto = UserDto.builder().build();
 		userDto.setAccountId(23);
 
 		assertThrows(RuntimeException.class, () -> {

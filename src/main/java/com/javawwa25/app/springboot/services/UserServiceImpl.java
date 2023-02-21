@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> getAllUserDtos() {
 		return userRepository.findAll().stream()
 				.map(user -> {
-					UserDto dto = new UserDto();
+					UserDto dto = UserDto.builder().build();
 					setUserDtoInfoDetails(user, dto);
 					return dto;
 					})
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	private UserDto setUserDetailsDto(User user) {
-		UserDto dto = new UserDto();
+		UserDto dto = UserDto.builder().build();
 		setUserDtoInfoDetails(user, dto);
 		dto.setProjects(user.getProjects().stream()
 				.map(project -> {

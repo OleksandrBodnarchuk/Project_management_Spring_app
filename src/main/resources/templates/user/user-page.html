@@ -34,9 +34,13 @@
 									<td colspan="2">No Tasks Available</td>
 								</tr>
 								<tr th:each="task : ${createdTasks}">
-									<td><span th:text="${task.id}"> ID </span></td>
-									<td><span th:text="${task.project.name}"> Project </span></td>
-									<td><span th:text="${task.name}"> Name </span></td>
+									<td><a th:text="${task.id}"
+										th:href="@{/tasks/{id} (id=${task.id})}"></a></td>
+									<td><a th:text="${task.project.name}"
+										th:href="@{/projects/{id}/tasks (id=${task.project.id})}">
+											Project </a></td>
+									<td><a th:text="${task.name}"
+										th:href="@{/tasks/{id} (id=${task.id})}"> Name </a></td>
 									<td><span th:text="${task.status.name}"> Status </span></td>
 								</tr>
 							</tbody>

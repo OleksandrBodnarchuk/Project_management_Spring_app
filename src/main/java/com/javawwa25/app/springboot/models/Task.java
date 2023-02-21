@@ -53,9 +53,9 @@ public class Task extends Job {
 	private User userAdded;
 
 	@Builder
-	public Task(Date startDate, Date endDate, Date createdAt, String name, String description,
+	public Task(Date startDate, Date endDate, Date createdAt, Date modificationDate, String name, String description,
 			Priority priority, TaskType taskType, Status status, Project project, User userAssigned, User userAdded) {
-		super(startDate, endDate, createdAt);
+		super(startDate, endDate, createdAt, modificationDate);
 		this.name = name;
 		this.description = description;
 		this.priority = priority;

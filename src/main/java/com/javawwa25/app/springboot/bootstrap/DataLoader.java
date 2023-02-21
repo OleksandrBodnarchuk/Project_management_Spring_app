@@ -85,13 +85,13 @@ public class DataLoader implements CommandLineRunner{
 
 		LOG.debug("[SAVING PROJECTS]");
 		Project javaProject = Project.builder()
-				.created(new Date())
+				.createdAt(new Date())
 				.name("Java")
 				.info("Description")
 				.build();
 		
 		Project pythonProject = Project.builder()
-				.created(new Date())
+				.createdAt(new Date())
 				.name("Python")
 				.info("Description")
 				.build();
