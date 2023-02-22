@@ -34,7 +34,8 @@
 						</thead>
 						<tbody>
 							<tr th:each="project : ${projectList}">
-								<td th:text="${project.name}"></td>
+								<td><a th:text="${project.name}"
+									th:href="@{/projects/{id}/tasks (id=${project.id})}"> </a></td>
 								<td th:text="${project.createdAt}"></td>
 								<td>1 , 2 , 3</td>
 							</tr>
