@@ -17,6 +17,7 @@ import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.Status;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.TaskType;
+import com.javawwa25.app.springboot.models.Type;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
@@ -66,51 +67,15 @@ public class DataLoader implements CommandLineRunner{
 
 	private void loadData() {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
-		LOG.debug("[SAVING TASK TYPES]");
-		TaskType bug = new TaskType();
-		bug.setName("BUG");
-		taskTypeService.saveType(bug);
-		TaskType task = new TaskType();
-		bug.setName("TASK");
-		taskTypeService.saveType(task);
-		// SAVING TASK STATUSES PER TYPE		
-		Status newStatus = Status.builder().name("NEW").taskType(bug).build();
-		Status inProgressStatus = Status.builder().name("IN_PROGRESS").taskType(bug).build();
-		Status qaStatus = Status.builder().name("QA").taskType(bug).build();
-		Status doneStatus = Status.builder().name("DONE").taskType(bug).build();
-		statusService.saveStatus(newStatus);
-		statusService.saveStatus(inProgressStatus);
-		statusService.saveStatus(qaStatus);
-		statusService.saveStatus(doneStatus);
-
-		LOG.debug("[SAVING PROJECTS]");
-		Project javaProject = Project.builder()
-				.createdAt(new Date())
-				.name("Java")
-				.info("Description")
-				.build();
-		
-		Project pythonProject = Project.builder()
-				.createdAt(new Date())
-				.name("Python")
-				.info("Description")
-				.build();
-		projectRepository.save(pythonProject);
-		projectRepository.save(javaProject);
-		
-		Authority admin = authorityRepository.save(Authority.builder().role("ADMIN").build());
-		Authority user = authorityRepository.save(Authority.builder().role("USER").build());
-		
-		LOG.debug("[SAVING ACCOUNT 2]");
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
 							.registrationDate(new Date())
 							.lastActiveDate(null)
-							.authority(admin)
+							.authority(authorityRepository.save(Authority.builder().role("ADMIN").build()))
 							.build());
 		
-		User tempUser1 = userService.save(User.builder()
+		userService.save(User.builder()
 				.firstName("TempUser1")
 				.lastName("TempUser1")
 				.userStatus("Status is everything")
@@ -123,53 +88,16 @@ public class DataLoader implements CommandLineRunner{
 				.password(passwordEncoder.encode("tempUser2"))
 				.registrationDate(new Date())
 				.lastActiveDate(null)
-				.authority(user)
+				.authority(authorityRepository.save(Authority.builder().role("USER").build()))
 				.build());
 		
-		User tempUser2 = userService.save(User.builder()
+		userService.save(User.builder()
 				.firstName("TempUser2")
 				.lastName("TempUser2")
 				.userStatus("Status is everything")
 				.account(account2)
 				.build());
-		
-		LOG.debug("[SAVING USERS]");
-		LOG.debug("[LINKING PROJECTS WITH USERS]");
-		linkUserWithProject(pythonProject, tempUser1);
-		linkUserWithProject(pythonProject, tempUser2);
-		linkUserWithProject(javaProject, tempUser1);
-		
-		Task task1 = Task.builder()
-				.createdAt(new Date())
-				.description("Error 500 fix")
-				.name("TASK 1 - NAME")
-				.priority(Priority.HIGH)
-				.project(javaProject)
-				.taskType(bug)
-				.userAdded(tempUser1)
-				.userAssigned(tempUser2)
-				.status(inProgressStatus)
-				.build();
-		
-		Task task2 = Task.builder()
-				.createdAt(new Date())
-				.description("Error 500 fix")
-				.name("TASK 2 - NAME")
-				.priority(Priority.HIGH)
-				.project(javaProject)
-				.taskType(bug)
-				.userAdded(tempUser2)
-				.userAssigned(tempUser1)
-				.status(inProgressStatus)
-				.build();
-		taskService.saveTask(task1);
-		taskService.saveTask(task2);
-		
-	}
-
-	private void linkUserWithProject(Project project, User user) {
-		user.addProject(project);
-		project.addUser(user);
+	
 	}
 
 }

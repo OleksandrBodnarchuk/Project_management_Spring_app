@@ -9,7 +9,7 @@
 		<div class="row well">
 			<h3>Tasks</h3>
 			<br>
-			<div>
+			<div sec:authorize="hasAuthority('ADMIN')">
 				<a th:href="@{/tasks/projects/{id}/new (id=${project.id})}"
 					class="btn btn-primary btn-success"> <span
 					class="glyphicon glyphicon-plus-sign"></span> Add new Task

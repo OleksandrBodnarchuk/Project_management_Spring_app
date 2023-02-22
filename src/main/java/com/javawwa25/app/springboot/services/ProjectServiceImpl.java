@@ -66,13 +66,18 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectDto> getProjectsNotPartOf(long accountId) {
 		User user = userService.getUserByAccountId(accountId);
-		return projectRepository
-				.findNotUsers(user.getProjects().stream()
-						.map(Project::getId)
-						.collect(Collectors.toList()))
-				.stream()
-				.map(this::mapProjectToDto)
-				.collect(Collectors.toList());
+		if(user.getProjects().isEmpty()) {
+			return projectRepository.findAll().stream()
+					.map(this::mapProjectToDto)
+					.collect(Collectors.toList());
+		} else {
+			return projectRepository
+					.findNotUsers(user.getProjects().stream()
+							.map(Project::getId)
+							.collect(Collectors.toList())).stream()
+					.map(this::mapProjectToDto)
+					.collect(Collectors.toList());
+		}
 	}
 
 	private ProjectDto mapProjectToDto(Project p) {
@@ -109,7 +114,7 @@ public class ProjectServiceImpl implements ProjectService {
 					.name(task.getName())
 					.description(task.getDescription())
 					.priority(task.getPriority().value())
-					.type(task.getTaskType().getName())
+					.type(task.getTaskType().getName().toString())
 					.status(task.getStatus().getName())
 					.userAssigned(UserDto.builder()
 							.accountId(task.getUserAssigned().getAccount().getAccountId())

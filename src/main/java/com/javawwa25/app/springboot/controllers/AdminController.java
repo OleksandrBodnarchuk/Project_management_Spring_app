@@ -95,11 +95,9 @@ public class AdminController {
 	@GetMapping("/user/{id}/projects/add")
 	public String adminUserProjectAddPage(@PathVariable("id") long accountId, Model model) {
     	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectAddPage - called");
-    	List<ProjectDto> projectList = projectService.getProjectsNotPartOf(accountId);
-    	UserDto dto = userService.getUserDtoByAccountId(accountId);
     	model.addAttribute("user", userService.getLoggedUserDto());
-    	model.addAttribute("dto", dto);
-    	model.addAttribute("projectList", projectList);
+    	model.addAttribute("dto", userService.getUserDtoByAccountId(accountId));
+    	model.addAttribute("projectList", projectService.getProjectsNotPartOf(accountId));
     	return "admin/user_project_add";
 	}
 	

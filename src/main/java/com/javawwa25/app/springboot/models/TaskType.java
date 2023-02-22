@@ -5,6 +5,8 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,8 +21,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class TaskType extends BaseEntity {
-
-	private String name;
+	
+	@Enumerated(EnumType.STRING)
+	private Type name;
 	
 	@OneToMany(mappedBy = "taskType", 
 			   cascade = { CascadeType.DETACH,
