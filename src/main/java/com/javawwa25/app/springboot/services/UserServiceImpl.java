@@ -19,6 +19,7 @@ import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
 import com.javawwa25.app.springboot.web.dto.SimpleUserDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.web.dto.UserDtoName;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 import lombok.RequiredArgsConstructor;
@@ -185,5 +186,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Set<SimpleUserDto> getSimpleDtos() {
 		return userRepository.getUserDtoName();
+	}
+
+	@Override
+	public Set<UserDtoName> getDtoUserNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -41,7 +41,6 @@ public class TaskDto {
 	private Date createdAt;
 	@Nullable
 	private String estimated;
-	@Nullable
 	private long projectId;
 
 }
