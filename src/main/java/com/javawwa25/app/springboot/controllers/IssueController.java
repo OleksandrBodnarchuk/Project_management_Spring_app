@@ -1,6 +1,5 @@
 package com.javawwa25.app.springboot.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,9 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javawwa25.app.springboot.models.Priority;
 import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.services.ProjectService;
 import com.javawwa25.app.springboot.services.TaskService;
@@ -51,23 +48,19 @@ public class IssueController {
 	public String createTask(@PathVariable(value = "projectId") long projectId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createTask - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("projectName", projectService.getProjectNameById(projectId));
 		model.addAttribute("projectId", projectId);
+		model.addAttribute("users", userService.getDtoUserNames());
 		model.addAttribute("task", TaskDto.builder().build());
 		return "/task/new_task";
 	}
 	
-	@PostMapping(TASK_ENDPOINT + "/save")
-	public String saveTask(@PathVariable(value = "userId") long userId,
-			@PathVariable(value = "projectId") long projectId,
-			@RequestParam("priority") Priority priority, @ModelAttribute("task") Task task) {
+	@PostMapping(TASK_ENDPOINT + "/new")
+	public String saveTask(@PathVariable(value = "projectId") long projectId, @ModelAttribute("task") TaskDto dto) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveTask - called");
-		task.setCreatedAt(new Date());
-		task.setPriority(priority);
-		task.setProject(projectService.getProjectById(projectId));
-		task.setUserAdded(userService.getUserById(userId));
-
-		taskService.saveTask(task);
-		return "redirect:/users/" + userId;
+		dto.setProjectId(projectId);
+		taskService.saveTask(dto);
+		return "redirect:/tasks"+TASK_ENDPOINT+"?success";
 	}
 
 	@GetMapping(TASK_ENDPOINT + "/{taskId}")
@@ -93,16 +86,6 @@ public class IssueController {
 			@PathVariable(value = "projectId") long projectId,
 			@PathVariable(value = "taskId") long taskId) {
 		taskService.saveTask(null);
-		return "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
-	}
-
-
-	@GetMapping(TASK_ENDPOINT + "/{task_id}/movePrevious")
-	public String moveTaskToPreviousStep(@PathVariable(value = "userId") long userId,
-			@PathVariable(value = "projectId") long projectId,
-			@PathVariable(value = "taskId") long taskId) {
-		Task task = taskService.getTaskById(taskId);
-		taskService.saveTask(task);
 		return "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
 	}
 

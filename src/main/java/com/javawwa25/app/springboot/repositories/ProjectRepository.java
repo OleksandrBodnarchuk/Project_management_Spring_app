@@ -19,4 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 	@Query("SELECT p FROM Project p WHERE p.id NOT in (:id)")
 	List<Project> findNotUsers(@Param("id") List<Long> id);
 
+	@Query("SELECT p.name FROM Project p WHERE p.id = :id")
+	String findNameById(@Param("id") long id);
+
 }
