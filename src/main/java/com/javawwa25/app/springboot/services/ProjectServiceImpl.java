@@ -14,8 +14,6 @@ import com.javawwa25.app.springboot.models.Task;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
-import com.javawwa25.app.springboot.web.dto.TaskDto;
-import com.javawwa25.app.springboot.web.dto.UserDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -104,37 +102,27 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectDto getProjectDtoById(long projectId) {
-		Project project = getProjectById(projectId);
-		ProjectDto dto = ProjectDto.builder()
-			.name(project.getName())
-			.id(projectId)
-			.tasks(project.getTasks().stream().map(task -> {
-				UserDto assigned = UserDto.builder()
-						.accountId(task.getUserAssigned().getAccount().getAccountId())
-						.firstName(task.getUserAssigned().getFirstName())
-						.lastName(task.getUserAssigned().getLastName())
-						.build();
-				UserDto added = UserDto.builder()
-						.accountId(task.getUserAdded().getAccount().getAccountId())
-						.firstName(task.getUserAdded().getFirstName())
-						.lastName(task.getUserAdded().getLastName())
-						.build();
-				return TaskDto.builder()
-					.id(task.getId())
-					.name(task.getName())
-					.description(task.getDescription())
-					.priority(task.getPriority())
-					.type(task.getTaskType().getName())
-					.status(task.getStatus().getName())
-					.userAssigned(assigned)
-					.userAdded(added)
-					.modificationDate(task.getModificationDate())
-					
-					.build();
-					}).collect(Collectors.toSet()))
-			.build();
-		
-		return dto;
+//		Project project = getProjectById(projectId);
+//		ProjectDto dto = ProjectDto.builder()
+//			.name(project.getName())
+//			.id(projectId)
+//			.tasks(project.getTasks().stream().map(task -> {
+//				return TaskDto.builder()
+//					.id(task.getId())
+//					.name(task.getName())
+//					.description(task.getDescription())
+//					.priority(task.getPriority())
+//					.type(task.getTaskType().getName())
+//					.status(task.getStatus().getName())
+//					.userAssigned(UserDtoUtils.createSimpleUserDto(task.getUserAssigned()))
+//					.userAdded(UserDtoUtils.createSimpleUserDto(task.getUserAdded()))
+//					.modificationDate(task.getModificationDate())
+//					.build();
+//					}).collect(Collectors.toSet()))
+//			.build();
+//		
+//		return dto;
+		return null;
 	}
 
 	@Override
@@ -143,28 +131,3 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

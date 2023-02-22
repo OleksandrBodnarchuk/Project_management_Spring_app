@@ -30,8 +30,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.javawwa25.app.springboot.models.Account;
+import com.javawwa25.app.springboot.models.Authority;
 import com.javawwa25.app.springboot.models.Project;
 import com.javawwa25.app.springboot.models.User;
+import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.web.dto.UserDto;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
@@ -47,7 +49,8 @@ class UserServiceImplTest {
 	private UserRepository userRepository;
 	@Mock
 	private PasswordEncoder passwordEncoder;
-	
+	@Mock
+	private AuthorityRepository authorityRepository;
 	@InjectMocks
 	private UserServiceImpl underTest;
 	
@@ -62,11 +65,12 @@ class UserServiceImplTest {
 		account = new Account();
 		account.setAccountId(1L);
 		account.setEmail("accountEmail@email.com");
+		account.setAuthorities(Set.of(Authority.builder().role("ADMIN").build()));
 		user.setAccount(account);
 		
 		User user2 = new User();
 		user2.setId(2L);
-		
+		user2.setAccount(account);
 		Project javaProject = Project.builder()
 				.startDate(new Date())
 				.name("Java")

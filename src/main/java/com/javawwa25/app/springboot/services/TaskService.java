@@ -22,4 +22,6 @@ public interface TaskService {
 
 	Set<Task> getCreatedTasksForUser();
 
+	Set<Task> getAllTasksByProjectId(long projectId);
+
 }

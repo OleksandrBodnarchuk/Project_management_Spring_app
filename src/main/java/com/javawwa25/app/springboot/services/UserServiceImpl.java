@@ -17,8 +17,8 @@ import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
+import com.javawwa25.app.springboot.web.dto.SimpleUserDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
-import com.javawwa25.app.springboot.web.dto.UserDtoName;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 import lombok.RequiredArgsConstructor;
@@ -181,9 +181,9 @@ public class UserServiceImpl implements UserService {
 	public User getUserByAccountId(long id) {
 		return userRepository.findByAccountAccountId(id);
 	}
-
+	
 	@Override
-	public Set<UserDtoName> getDtoUserNames() {
+	public Set<SimpleUserDto> getSimpleDtos() {
 		return userRepository.getUserDtoName();
 	}
 }

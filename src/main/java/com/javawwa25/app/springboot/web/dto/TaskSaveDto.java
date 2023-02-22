@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TaskDto {
+public class TaskSaveDto {
 	@Nullable
 	private long id;
 	private String name;
@@ -23,10 +23,9 @@ public class TaskDto {
 	private Priority priority;
 	private Type type;
 	private String status;
-	private SimpleUserDto userAssigned;
-	private long userAssignedId;
+	private long userAssigned;
 	@Nullable
-	private SimpleUserDto userAdded;
+	private long userAdded;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Nullable
 	private Date startDate;

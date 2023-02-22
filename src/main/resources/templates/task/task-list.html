@@ -13,7 +13,7 @@
 					<div class="alert alert-info">Task created successfully</div>
 				</div>
 			<div sec:authorize="hasAuthority('ADMIN')">
-				<a th:href="@{/tasks/projects/{id}/new (id=${project.id})}"
+				<a th:href="@{/tasks/projects/{id}/new (id=${projectId})}"
 					class="btn btn-primary btn-success"> <span
 					class="glyphicon glyphicon-plus-sign"></span> Add new Task
 				</a>
@@ -32,11 +32,11 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="task : ${project.tasks}">
+					<tr th:each="task : ${taskList}">
 						<td th:text="${task.id}"></td>
-						<td th:text="${task.type}"></td>
+						<td th:text="${task.taskType.name}"></td>
 						<td th:text="${task.name}"></td>
-						<td th:text="${task.status}"></td>
+						<td th:text="${task.status.name}"></td>
 						<td th:text="${task.priority}"
 							th:if="${task.priority}=='High' ? 'color:red;':'color:blue;'"></td>
 						<td>progress here TBC</td>

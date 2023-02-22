@@ -12,13 +12,12 @@
 					<form method="post"
 						th:href="@{/tasks/projects/{projectId} (projectId=${projectId})}"
 						th:object="${task}">
-
 						<p>
 							<label for="issue_tracker_id">Task type<span
-								class="required"> *</span></label> <select>
+								class="required"> *</span></label> <select th:field="*{type}">
 								<option
 									th:each="type : ${T(com.javawwa25.app.springboot.models.Type).values()}"
-									th:field="*{type}" th:value="${type}" th:text="${type}" />
+									th:value="${type}" th:text="${type}" />
 							</select>
 
 						</p>
@@ -42,54 +41,51 @@
 								<div class="splitcontentleft">
 									<p>
 										<label for="issue_status_id">Status<span
-											class="required"> *</span></label>
-											<input th:field="*{status}" th:value="'New'">
+											class="required"> *</span></label> <input th:field="*{status}"
+											th:value="'New'">
 									</p>
 									<p>
 										<label for="issue_priority_id">Priority<span
 											class="required"> *</span></label> <select name="issue[priority_id]"
-											id="issue_priority_id"><option
+											th:field="*{priority}">
+											<option
 												th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
 												th:value="${priority}" th:text="${priority}" />
 										</select>
 									</p>
 
 									<p>
-										<label for="issue_assigned_to_id">Assigned to</label><select
-											name="issue[assigned_to_id]" id="issue_assigned_to_id">
-											<option>Me</option>
-											<optgroup label="Others">
+										<label for="issue_assigned_to_id">Assigned to</label> 
+										
+										<select	th:field="*{userAssignedId}">
 												<option th:each="user : ${users}"
-													th:value="${user.userName}" th:text="${user.userName}"></option>
-											</optgroup>
+													th:value="${user.accountId}"
+													th:text="${user.userName}">
+												</option>
 											<optgroup label="Groups">
-												<option>TEST Group</option>
+												<option value=-1>TEST Group</option>
 											</optgroup>
-										</select> <a class="assign-to-me-link" href="#" data-id="1432">Assign
-											to me</a>
+										</select> 
 									</p>
-
 								</div>
 
 								<p id="start_date_area">
 									<label for="issue_start_date">Date start</label><input
-										size="10"
-										th:field="*{startDate}"
-										type="date" name="issue[start_date]" id="issue_start_date"
-										class="date">
+										size="10" th:field="*{startDate}" type="date"
+										name="issue[start_date]" id="issue_start_date" class="date">
 								</p>
 
 								<p id="due_date_area">
 									<label for="issue_due_date">Date end</label><input size="10"
-									th:field="*{endDate}"
-										type="date" name="issue[due_date]" id="issue_due_date"
-										class="date">
+										th:field="*{endDate}" type="date" name="issue[due_date]"
+										id="issue_due_date" class="date">
 								</p>
 
 								<p>
 									<label for="issue_estimated_hours">Estimated time</label><input
-										size="3" th:field="*{estimated}" type="text" name="issue[estimated_hours]"
-										id="issue_estimated_hours"> h
+										size="3" th:field="*{estimated}" type="text"
+										name="issue[estimated_hours]" id="issue_estimated_hours">
+									h
 								</p>
 
 							</div>

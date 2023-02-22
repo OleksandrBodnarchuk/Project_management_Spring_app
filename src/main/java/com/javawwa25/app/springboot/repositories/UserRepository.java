@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.web.dto.UserDtoName;
+import com.javawwa25.app.springboot.web.dto.SimpleUserDto;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -15,6 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByAccountAccountId(long accountId);
 
-	@Query("SELECT u.id, CONCAT(u.firstName,' ',u.lastName) as userName FROM User u")
-	Set<UserDtoName> getUserDtoName();
+	@Query("SELECT new com.javawwa25.app.springboot.web.dto.SimpleUserDto(u.account.id, CONCAT (u.firstName,' ', u.lastName) as userName) FROM User u")
+	Set<SimpleUserDto> getUserDtoName();
 }

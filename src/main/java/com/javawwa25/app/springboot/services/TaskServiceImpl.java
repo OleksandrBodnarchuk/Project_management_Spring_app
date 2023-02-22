@@ -31,7 +31,7 @@ public class TaskServiceImpl implements  TaskService{
 
     @Override
     public void saveTask(TaskDto dto) {
-		Status status = Status.builder()
+    	Status status = Status.builder()
 				.name(dto.getStatus())
 				.build();
 		statusService.saveStatus(status);
@@ -41,6 +41,8 @@ public class TaskServiceImpl implements  TaskService{
 				.statuses(Set.of(status))
 				.build();
 		taskTypeService.saveType(taskType);
+		status.setTaskType(taskType);
+		statusService.saveStatus(status);
 		
 		this.taskRepository.save(Task.builder()
     		.name(dto.getName())
@@ -50,7 +52,7 @@ public class TaskServiceImpl implements  TaskService{
     		.status(status)
     		.startDate(dto.getStartDate())
     		.modificationDate(dto.getModificationDate())
-    		.userAssigned(userService.getUserByAccountId(dto.getUserAssigned().getAccountId()))
+    		.userAssigned(userService.getUserByAccountId(dto.getUserAssignedId()))
     		.userAdded(userService.getLoggedUser())
     		.endDate(dto.getEndDate())
     		.createdAt(dto.getCreatedAt())
@@ -84,6 +86,11 @@ public class TaskServiceImpl implements  TaskService{
 	public Set<Task> getAssignedTasksForUser() {
 		return taskRepository.findAllByUserAssignedId(userService.getLoggedUser().getId());
 		
+	}
+
+	@Override
+	public Set<Task> getAllTasksByProjectId(long projectId) {
+		return taskRepository.findAllByProjectId(projectId);
 	}
 
 

@@ -38,9 +38,11 @@ public class IssueController {
 
 	@GetMapping(TASK_ENDPOINT)
 	public String projectAllTasks(@PathVariable("projectId") long projectId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET findAllProjectTasks - called");
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectAllTasks - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
-		model.addAttribute("project", projectService.getProjectDtoById(projectId));
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("taskList", taskService.getAllTasksByProjectId(projectId));
+		
 		return "/task/task-list";
 	}
 	
@@ -50,7 +52,7 @@ public class IssueController {
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectName", projectService.getProjectNameById(projectId));
 		model.addAttribute("projectId", projectId);
-		model.addAttribute("users", userService.getDtoUserNames());
+		model.addAttribute("users", userService.getSimpleDtos());
 		model.addAttribute("task", TaskDto.builder().build());
 		return "/task/new_task";
 	}
