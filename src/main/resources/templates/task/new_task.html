@@ -12,18 +12,13 @@
 					<form method="post"
 						th:href="@{/tasks/projects/{projectId} (projectId=${projectId})}"
 						th:object="${task}">
-						<p>
-							<label for="issue_project_id">Project<span
-								class="required"> *</span>
-							</label> <input type="text" th:text="${projectName}" readonly>
-						</p>
 
 						<p>
 							<label for="issue_tracker_id">Task type<span
 								class="required"> *</span></label> <select>
 								<option
 									th:each="type : ${T(com.javawwa25.app.springboot.models.Type).values()}"
-									th:value="${type}" th:text="${type}" />
+									th:field="*{type}" th:value="${type}" th:text="${type}" />
 							</select>
 
 						</p>
