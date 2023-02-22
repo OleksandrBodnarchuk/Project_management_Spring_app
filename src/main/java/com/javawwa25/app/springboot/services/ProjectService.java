@@ -17,6 +17,8 @@ public interface ProjectService {
 
 	Project getProjectById(long id);
 
+	String getProjectNameById(long id);
+	
 	void deleteProjectById(long id);
 
 	List<ProjectDto> getProjectDtosByAccountId(long id);

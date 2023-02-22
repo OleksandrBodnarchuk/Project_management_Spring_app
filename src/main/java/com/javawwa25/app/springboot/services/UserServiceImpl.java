@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.access.annotation.Secured;
@@ -17,6 +18,7 @@ import com.javawwa25.app.springboot.repositories.UserRepository;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.web.dto.ProjectDto;
 import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.web.dto.UserDtoName;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 import lombok.RequiredArgsConstructor;
@@ -178,5 +180,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserByAccountId(long id) {
 		return userRepository.findByAccountAccountId(id);
+	}
+
+	@Override
+	public Set<UserDtoName> getDtoUserNames() {
+		return userRepository.getUserDtoName();
 	}
 }

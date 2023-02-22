@@ -1,9 +1,11 @@
 package com.javawwa25.app.springboot.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.web.dto.UserDtoName;
 import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
 
 public interface UserService {
@@ -34,5 +36,7 @@ public interface UserService {
 	void updateUser(UserDto dto);
 
 	UserDto getUserDtoByAccountId(long accountId);
+
+	Set<UserDtoName> getDtoUserNames();
 	
 }

@@ -9,85 +9,101 @@
 			<h4>Add new Task</h4>
 			<div class="col-md-12">
 				<div id="all_attributes">
+					<form method="post"
+						th:href="@{/tasks/projects/{projectId} (projectId=${projectId})}"
+						th:object="${task}">
+						<p>
+							<label for="issue_project_id">Project<span
+								class="required"> *</span>
+							</label> <input type="text" th:text="${projectName}" readonly>
+						</p>
 
-					<p>
-						<label for="issue_project_id">Project<span
-							class="required"> *</span>
-						</label> <input type="text">
-					</p>
+						<p>
+							<label for="issue_tracker_id">Task type<span
+								class="required"> *</span></label> <select>
+								<option
+									th:each="type : ${T(com.javawwa25.app.springboot.models.Type).values()}"
+									th:value="${type}" th:text="${type}" />
+							</select>
 
-					<p>
-						<label for="issue_tracker_id">Task type<span
-							class="required"> *</span></label> <select>
-							<option>Task</option>
-							<option>Bug</option>
-						</select>
+						</p>
 
-					</p>
+						<p>
+							<label for="issue_subject">Name<span class="required">
+									*</span></label> <input size="80" maxlength="255" type="text"
+								th:field="*{name}">
+						</p>
 
-					<p>
-						<label for="issue_subject">Name<span class="required">
-								*</span></label> <input size="80" maxlength="255" type="text" value="">
-					</p>
+						<p>
+							<label for="issue_description">Description</label> <span
+								class="required">*</span>
+							<textarea cols="60" accesskey="e" class="wiki-edit" rows="10"
+								data-auto-complete="true" placeholder="Leave a comment"
+								th:field="*{description}"></textarea>
+						</p>
 
-					<p>
-						<label for="issue_description">Description</label> <span
-							class="required">*</span>
-						<textarea cols="60" accesskey="e" class="wiki-edit" rows="10"
-							data-auto-complete="true" name="issue[description]"
-							id="issue_description" placeholder="Leave a comment"></textarea>
-					</p>
+						<div id="attributes" class="attributes">
+							<div class="splitcontent">
+								<div class="splitcontentleft">
+									<p>
+										<label for="issue_status_id">Status<span
+											class="required"> *</span></label>
+											<input th:field="*{status}" th:value="'New'">
+									</p>
+									<p>
+										<label for="issue_priority_id">Priority<span
+											class="required"> *</span></label> <select name="issue[priority_id]"
+											id="issue_priority_id"><option
+												th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+												th:value="${priority}" th:text="${priority}" />
+										</select>
+									</p>
 
-					<div id="attributes" class="attributes">
-						<div class="splitcontent">
-							<div class="splitcontentleft">
-								<p>
-									<label for="issue_status_id">Status<span
-										class="required"> *</span></label> <select><option
-											selected="selected" value="1">New</option></select>
+									<p>
+										<label for="issue_assigned_to_id">Assigned to</label><select
+											name="issue[assigned_to_id]" id="issue_assigned_to_id">
+											<option>Me</option>
+											<optgroup label="Others">
+												<option th:each="user : ${users}"
+													th:value="${user.userName}" th:text="${user.userName}"></option>
+											</optgroup>
+											<optgroup label="Groups">
+												<option>TEST Group</option>
+											</optgroup>
+										</select> <a class="assign-to-me-link" href="#" data-id="1432">Assign
+											to me</a>
+									</p>
+
+								</div>
+
+								<p id="start_date_area">
+									<label for="issue_start_date">Date start</label><input
+										size="10"
+										th:field="*{startDate}"
+										type="date" name="issue[start_date]" id="issue_start_date"
+										class="date">
 								</p>
-								<p>
-									<label for="issue_priority_id">Priority<span
-										class="required"> *</span></label> <select name="issue[priority_id]"
-										id="issue_priority_id"><option value="1">Low</option>
-										<option selected="selected" value="2">Medium</option>
-										<option value="3">High</option>
-									</select>
+
+								<p id="due_date_area">
+									<label for="issue_due_date">Date end</label><input size="10"
+									th:field="*{endDate}"
+										type="date" name="issue[due_date]" id="issue_due_date"
+										class="date">
 								</p>
 
 								<p>
-									<label for="issue_assigned_to_id">Assigned to</label><select
-										name="issue[assigned_to_id]" id="issue_assigned_to_id">
-										<option>Me</option>
-										<optgroup label="Groups">
-											<option>TEST Group</option>
-										</optgroup>
-									</select> <a class="assign-to-me-link" href="#" data-id="1432">Assign
-										to me</a>
+									<label for="issue_estimated_hours">Estimated time</label><input
+										size="3" th:field="*{estimated}" type="text" name="issue[estimated_hours]"
+										id="issue_estimated_hours"> h
 								</p>
 
 							</div>
-
-							<p id="start_date_area">
-								<label for="issue_start_date">Date start</label><input size="10"
-									value="2023-02-21" type="date" name="issue[start_date]"
-									id="issue_start_date" class="date">
-							</p>
-
-							<p id="due_date_area">
-								<label for="issue_due_date">Date end</label><input size="10"
-									type="date" name="issue[due_date]" id="issue_due_date"
-									class="date">
-							</p>
-
-							<p>
-								<label for="issue_estimated_hours">Estimated time</label><input
-									size="3" value="" type="text" name="issue[estimated_hours]"
-									id="issue_estimated_hours"> h
-							</p>
-
 						</div>
-					</div>
+						<br>
+						<button type="submit" class="btn btn-primary btn-success">
+							<span class="glyphicon glyphicon-plus-sign"></span> Save Task
+						</button>
+					</form>
 				</div>
 			</div>
 		</div>

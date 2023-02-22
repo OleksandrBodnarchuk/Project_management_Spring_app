@@ -12,22 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.models.Account;
 import com.javawwa25.app.springboot.models.Authority;
-import com.javawwa25.app.springboot.models.Priority;
 import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.Status;
-import com.javawwa25.app.springboot.models.Task;
-import com.javawwa25.app.springboot.models.TaskType;
-import com.javawwa25.app.springboot.models.Type;
 import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.repositories.AuthorityRepository;
 import com.javawwa25.app.springboot.repositories.ProjectRepository;
 import com.javawwa25.app.springboot.services.AccountService;
-import com.javawwa25.app.springboot.services.StatusService;
-import com.javawwa25.app.springboot.services.TaskService;
-import com.javawwa25.app.springboot.services.TaskTypeService;
 import com.javawwa25.app.springboot.services.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class DataLoader implements CommandLineRunner{
 
 	private static final Logger LOG = LoggerFactory.getLogger(DataLoader.class);
@@ -35,25 +30,9 @@ public class DataLoader implements CommandLineRunner{
 	private final UserService userService;
 	private final ProjectRepository projectRepository;
 	private final PasswordEncoder passwordEncoder;
-	private final TaskTypeService taskTypeService;
-	private final TaskService taskService;
-	private final StatusService statusService;
 	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
 	
-	public DataLoader(UserService userService, ProjectRepository projectRepository, PasswordEncoder passwordEncoder,
-			TaskTypeService taskTypeService, TaskService taskService, StatusService statusService,
-			AccountService accountService, AuthorityRepository authorityRepository) {
-		this.userService = userService;
-		this.projectRepository = projectRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.taskTypeService = taskTypeService;
-		this.taskService = taskService;
-		this.statusService = statusService;
-		this.authorityRepository = authorityRepository;
-		this.accountService = accountService;
-	}
-
 	@Transactional
 	@Override
 	public void run(String... args) throws Exception {
@@ -82,7 +61,6 @@ public class DataLoader implements CommandLineRunner{
 				.account(account1)
 				.build());
 		
-		LOG.debug("[SAVING ACCOUNT 2]");
 		Account account2 = accountService.save(Account.builder()
 				.email("tempUser2@email.com")
 				.password(passwordEncoder.encode("tempUser2"))
@@ -96,6 +74,12 @@ public class DataLoader implements CommandLineRunner{
 				.lastName("TempUser2")
 				.userStatus("Status is everything")
 				.account(account2)
+				.build());
+		
+		projectRepository.save(Project.builder()
+				.name("Project")
+				.createdAt(new Date())
+				.info("Description oth the proejct here")
 				.build());
 	
 	}

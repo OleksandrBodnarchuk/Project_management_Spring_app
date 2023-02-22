@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.web.dto;
 
 import java.util.Date;
 
+import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class TaskDto {
+	@Nullable
 	private long id;
 	private String name;
 	private String description;
@@ -22,5 +24,7 @@ public class TaskDto {
 	private Date modificationDate;
 	private Date endDate;
 	private Date createdAt;
+	private String estimated;
+	private long projectId;
 
 }
