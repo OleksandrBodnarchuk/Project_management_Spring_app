@@ -28,12 +28,13 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
+import com.javawwa25.app.springboot.task.service.TaskService;
+import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.security.validators.EmailValidator;
-import com.javawwa25.app.springboot.services.ProjectService;
-import com.javawwa25.app.springboot.services.TaskService;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.UserDto;
-import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.user.controller.UserController;
+import com.javawwa25.app.springboot.user.dto.UserDto;
+import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 
 @ExtendWith(MockitoExtension.class)

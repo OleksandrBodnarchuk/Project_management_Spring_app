@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.javawwa25.app.springboot.models.Account;
-import com.javawwa25.app.springboot.models.Authority;
-import com.javawwa25.app.springboot.services.AccountService;
+import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
 

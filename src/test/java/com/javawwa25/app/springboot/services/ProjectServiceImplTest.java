@@ -24,10 +24,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
 
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
-import com.javawwa25.app.springboot.web.dto.ProjectDto;
+import com.javawwa25.app.springboot.project.Project;
+import com.javawwa25.app.springboot.project.dto.ProjectDto;
+import com.javawwa25.app.springboot.project.repo.ProjectRepository;
+import com.javawwa25.app.springboot.project.service.ProjectServiceImpl;
+import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceImplTest {

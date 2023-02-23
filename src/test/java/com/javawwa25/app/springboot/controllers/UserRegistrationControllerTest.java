@@ -27,8 +27,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.security.validators.EmailValidator;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.user.controller.UserRegistrationController;
+import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class UserRegistrationControllerTest {

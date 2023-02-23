@@ -10,14 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.javawwa25.app.springboot.models.Account;
-import com.javawwa25.app.springboot.models.Authority;
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.repositories.AuthorityRepository;
-import com.javawwa25.app.springboot.repositories.ProjectRepository;
-import com.javawwa25.app.springboot.services.AccountService;
-import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
+import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.project.Project;
+import com.javawwa25.app.springboot.project.repo.ProjectRepository;
+import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 

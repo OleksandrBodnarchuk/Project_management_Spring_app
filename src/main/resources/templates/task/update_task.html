@@ -113,14 +113,14 @@
         <br>
         <label>
             <select name="priority" class="form-control mb-4 col-4">
-                <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+                <option th:each="priorityTask : ${T(com.javawwa25.app.springboot.issue.Priority).values()}"
                         th:value="${priorityTask}" th:text="${priorityTask.displayValue}"></option>
             </select>
         </label>
         <br>
         <label>
             <select name="progress" class="form-control mb-4 col-4">
-                <option th:each="progress : ${T(com.javawwa25.app.springboot.models.Progress).values()}"
+                <option th:each="progress : ${T(com.javawwa25.app.springboot.issue.Progress).values()}"
                         th:value="${progress}" th:text="${progress.displayValue}"></option>
             </select>
         </label>

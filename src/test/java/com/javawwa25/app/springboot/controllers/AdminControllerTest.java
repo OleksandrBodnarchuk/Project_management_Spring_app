@@ -29,9 +29,10 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
-import com.javawwa25.app.springboot.services.ProjectService;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.admin.AdminController;
+import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.user.dto.UserDto;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class AdminControllerTest {

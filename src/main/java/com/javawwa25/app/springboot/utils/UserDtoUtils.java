@@ -1,7 +1,7 @@
 package com.javawwa25.app.springboot.utils;
 
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.web.dto.SimpleUserDto;
+import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 
 public class UserDtoUtils {
 

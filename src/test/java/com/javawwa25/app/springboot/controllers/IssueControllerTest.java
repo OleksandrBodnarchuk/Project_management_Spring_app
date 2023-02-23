@@ -21,11 +21,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
-import com.javawwa25.app.springboot.services.ProjectService;
-import com.javawwa25.app.springboot.services.TaskService;
-import com.javawwa25.app.springboot.services.UserService;
-import com.javawwa25.app.springboot.web.dto.ProjectDto;
-import com.javawwa25.app.springboot.web.dto.UserDto;
+import com.javawwa25.app.springboot.project.dto.ProjectDto;
+import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.task.controller.TaskController;
+import com.javawwa25.app.springboot.task.service.TaskService;
+import com.javawwa25.app.springboot.user.dto.UserDto;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 @ExtendWith(MockitoExtension.class)
 class IssueControllerTest {
@@ -41,7 +42,7 @@ class IssueControllerTest {
 	private UserService userService;
 
 	@InjectMocks
-	private IssueController underTest;
+	private TaskController underTest;
 
 	private MockMvc mvc;
 

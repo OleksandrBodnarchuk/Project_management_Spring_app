@@ -16,7 +16,7 @@
 							<label for="issue_tracker_id">Task type<span
 								class="required"> *</span></label> <select th:field="*{type}">
 								<option
-									th:each="type : ${T(com.javawwa25.app.springboot.models.Type).values()}"
+									th:each="type : ${T(com.javawwa25.app.springboot.issue.Type).values()}"
 									th:value="${type}" th:text="${type}" />
 							</select>
 
@@ -49,7 +49,7 @@
 											class="required"> *</span></label> <select name="issue[priority_id]"
 											th:field="*{priority}">
 											<option
-												th:each="priority : ${T(com.javawwa25.app.springboot.models.Priority).values()}"
+												th:each="priority : ${T(com.javawwa25.app.springboot.issue.Priority).values()}"
 												th:value="${priority}" th:text="${priority}" />
 										</select>
 									</p>

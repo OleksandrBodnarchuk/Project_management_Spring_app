@@ -3,9 +3,9 @@ package com.javawwa25.app.springboot.security.validators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.javawwa25.app.springboot.models.User;
 import com.javawwa25.app.springboot.security.SecurityUtil;
-import com.javawwa25.app.springboot.services.UserService;
+import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

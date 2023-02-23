@@ -29,14 +29,17 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.javawwa25.app.springboot.models.Account;
-import com.javawwa25.app.springboot.models.Authority;
-import com.javawwa25.app.springboot.models.Project;
-import com.javawwa25.app.springboot.models.User;
-import com.javawwa25.app.springboot.repositories.AuthorityRepository;
-import com.javawwa25.app.springboot.repositories.UserRepository;
-import com.javawwa25.app.springboot.web.dto.UserDto;
-import com.javawwa25.app.springboot.web.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
+import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.project.Project;
+import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.dto.UserDto;
+import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
+import com.javawwa25.app.springboot.user.repo.UserRepository;
+import com.javawwa25.app.springboot.user.service.UserService;
+import com.javawwa25.app.springboot.user.service.UserServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
