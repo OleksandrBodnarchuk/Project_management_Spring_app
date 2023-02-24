@@ -3,7 +3,7 @@ package com.javawwa25.app.springboot.project.dto;
 import java.util.Date;
 import java.util.Set;
 
-import com.javawwa25.app.springboot.task.dto.TaskDto;
+import com.javawwa25.app.springboot.task.dto.ProjectTaskDetails;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,12 +19,12 @@ public class ProjectDto {
 	@Nullable
 	private long id;
 	@NotNull
-    @NotEmpty
-    private String name;
+	@NotEmpty
+	private String name;
 	@NotNull
-    @NotEmpty
+	@NotEmpty
 	private String info;
 	@Nullable
 	private Date createdAt;
-	private Set<TaskDto> tasks;
+	private Set<ProjectTaskDetails> tasks;
 }

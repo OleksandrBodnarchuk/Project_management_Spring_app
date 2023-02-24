@@ -59,14 +59,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:if="${project.tasks.empty}">
+							<!--tr th:if="${project.tasks.empty}">
 								<td colspan="4" align="center">No Tasks Available</td>
-							</tr>
+							</tr -->
 							<tr th:each="task : ${project.tasks}">
-								<td><a th:text="${task.type}"> Type </a></td>
-								<td><a th:text="'Open'"> Open </a></td>
-								<td><a th:text="''Closed'"> Closed </a></td>
-								<td><a th:text="'Total'"> Total </a></td>
+								<td><a th:text="${task.type}"
+									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id}, type=${task.type})}">
+										Type </a></td>
+								<td><a th:text="${task.open}"
+									th:href="@{/tasks/projects/{id}?type={type}&status=open (id=${project.id}, type=${task.type}, status=${task.open})}">
+										Open </a></td>
+								<td><a th:text="${task.closed}"
+									th:href="@{/tasks/projects/{id}?type={type}&status=closed (id=${project.id}, type=${task.type}, status=${task.closed})}">
+										Closed </a></td>
+								<td><a th:text="${task.open + task.closed}"
+									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id})}">
+										Total </a></td>
 							</tr>
 						</tbody>
 					</table>

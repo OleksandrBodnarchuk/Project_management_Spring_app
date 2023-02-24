@@ -92,11 +92,11 @@ public class DataLoader implements CommandLineRunner{
 		
 		List<Status> defaultStatuses = List.of(
 				new Status("NEW", 0), 
-				new Status("IN_PROGRESS", 1), 
-				new Status("QA", 2),
-				new Status("VERIFIED", 3), 
-				new Status("IMPLEMENTED", 4), 
-				new Status("CLOSED", 5));
+				new Status("IN_PROGRESS", 25), 
+				new Status("QA", 50),
+				new Status("VERIFIED", 60), 
+				new Status("IMPLEMENTED", 75), 
+				new Status("CLOSED", 100));
 		// statusRepository.saveAll(defaultStatuses);
 		
 		TaskType task = taskTypeService.saveType(TaskType.builder()

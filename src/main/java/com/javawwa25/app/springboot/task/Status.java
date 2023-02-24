@@ -26,14 +26,14 @@ public class Status extends BaseEntity {
 	private String name;
 
 	@Min(value = 0) // 0 = New
-	private Integer priority;
+	private Integer percentage;
 
 	@ManyToMany(mappedBy = "statuses")
 	private Set<TaskType> taskTypes;
 
-	public Status(String name, @Min(0) Integer priority) {
+	public Status(String name, @Min(0) Integer percentage) {
 		this.name = name;
-		this.priority = priority;
+		this.percentage = percentage;
 	}
 
 	public void addTaskType(TaskType type) {

@@ -20,7 +20,7 @@
 	<div class="row well" sec:authorize="hasAuthority('ADMIN')"
 		th:fragment="admin_add_task_btn">
 		<div th:if="${param.success}">
-			<div class="alert alert-info">Task created successfully</div>
+			<div class="alert alert-success">Task created successfully</div>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-success dropdown-toggle"

@@ -6,10 +6,11 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.project.repo.ProjectRepository;
 import com.javawwa25.app.springboot.task.Status;
 import com.javawwa25.app.springboot.task.Task;
 import com.javawwa25.app.springboot.task.TaskType;
+import com.javawwa25.app.springboot.task.dto.ProjectTaskDetails;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.task.repo.TaskRepository;
 import com.javawwa25.app.springboot.user.service.UserService;
@@ -22,10 +23,10 @@ public class TaskServiceImpl implements  TaskService{
 
    private final TaskRepository taskRepository;
    private final UserService userService;
-   private final ProjectService projectService;
    private final TaskTypeService taskTypeService;
    private final StatusService statusService;
-
+   private final ProjectRepository projectRepository;
+   
    @Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -48,7 +49,8 @@ public class TaskServiceImpl implements  TaskService{
     		.userAdded(userService.getLoggedUser())
     		.endDate(dto.getEndDate())
     		.createdAt(dto.getCreatedAt())
-    		.project(projectService.getProjectById(dto.getProjectId()))
+    		.project(projectRepository.findById(dto.getProjectId())
+    				.orElseThrow(() -> new RuntimeException("Project not found for id : " + dto.getProjectId())))
     		.build());
     }
 
@@ -88,6 +90,11 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public void save(Task task) {
 		taskRepository.save(task);
+	}
+
+	@Override
+	public Set<ProjectTaskDetails> getProjectTaskDetails(long projectId) {
+		return taskRepository.getProjectTaskDetails(projectId);
 	}
 
 }

@@ -60,7 +60,7 @@ public class TaskController {
 		dto.setProjectId(projectId);
 		taskService.saveTask(dto);
 		projectService.assignProject(dto.getUserAssignedId(), projectId);
-		return "redirect:/tasks"+TASK_ENDPOINT+"?success";
+		return "redirect:/projects/" + projectId + "?success";
 	}
 
 	@GetMapping(TASK_ENDPOINT + "/{taskId}")

@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import com.javawwa25.app.springboot.task.dto.ProjectTaskDetails;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.task.Task;
 
@@ -25,5 +26,7 @@ public interface TaskService {
 	Set<Task> getCreatedTasksForUser();
 
 	Set<Task> getAllTasksByProjectId(long projectId);
+
+	Set<ProjectTaskDetails> getProjectTaskDetails(long projectId);
 
 }
