@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+	<div th:fragment="userTable(tasks)">
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th><a>ID</a></th>
+					<th><a>Type</a></th>
+					<th><a>Project</a></th>
+					<th><a>Name</a></th>
+					<th><a>Status</a></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${tasks.empty}">
+					<td colspan="2">No Tasks Available</td>
+				</tr>
+				<tr th:each="task : ${tasks}">
+					<td><a th:text="${task.id}"
+						th:href="@{/tasks/{id} (id=${task.id})}"></a></td>
+					<td><a th:text="${task.type.name}"> Type </a></td>
+					<td><a th:text="${task.project.name}"
+						th:href="@{/projects/{id}/tasks (id=${task.project.id})}">
+							Project </a></td>
+					<td><a th:text="${task.name}"
+						th:href="@{/tasks/{id} (id=${task.id})}"> Name </a></td>
+					<td><span th:text="${task.status.name}"> Status </span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
