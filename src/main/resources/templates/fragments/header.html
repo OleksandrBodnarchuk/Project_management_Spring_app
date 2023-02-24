@@ -10,6 +10,26 @@
 		href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"
 		rel="stylesheet">
 	<style type="text/css">
+.parent {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.div1 {
+	grid-area: 1/1/4/4;
+}
+
+.div2 {
+	grid-area: 1/4/4/6;
+}
+
+.div3 {
+	grid-area: 4/1/6/4;
+}
+
 .box {
 	padding: 15px;
 	background: #fafafa;
@@ -18,8 +38,8 @@
 }
 
 .splitcontentright {
-    flex: 1;
-    margin-left: 5px;
+	flex: 1;
+	margin-left: 5px;
 }
 
 .splitcontentleft {

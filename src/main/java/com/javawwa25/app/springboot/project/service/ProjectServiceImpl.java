@@ -13,8 +13,10 @@ import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.repo.ProjectRepository;
 import com.javawwa25.app.springboot.task.Task;
+import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.service.UserService;
+import com.javawwa25.app.springboot.utils.UserDtoUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -103,27 +105,25 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectDto getProjectDtoById(long projectId) {
-//		Project project = getProjectById(projectId);
-//		ProjectDto dto = ProjectDto.builder()
-//			.name(project.getName())
-//			.id(projectId)
-//			.tasks(project.getTasks().stream().map(task -> {
-//				return TaskDto.builder()
-//					.id(task.getId())
-//					.name(task.getName())
-//					.description(task.getDescription())
-//					.priority(task.getPriority())
-//					.type(task.getTaskType().getName())
-//					.status(task.getStatus().getName())
-//					.userAssigned(UserDtoUtils.createSimpleUserDto(task.getUserAssigned()))
-//					.userAdded(UserDtoUtils.createSimpleUserDto(task.getUserAdded()))
-//					.modificationDate(task.getModificationDate())
-//					.build();
-//					}).collect(Collectors.toSet()))
-//			.build();
-//		
-//		return dto;
-		return null;
+		Project project = getProjectById(projectId);
+		ProjectDto dto = ProjectDto.builder()
+			.name(project.getName())
+			.id(projectId)
+			.tasks(project.getTasks().stream().map(task -> {
+				return TaskDto.builder()
+					.id(task.getId())
+					.name(task.getName())
+					.description(task.getDescription())
+					.priority(task.getPriority())
+					.type(task.getType().getName())
+					.status(task.getStatus().getName())
+					.userAssigned(UserDtoUtils.createSimpleUserDto(task.getUserAssigned()))
+					.userAdded(UserDtoUtils.createSimpleUserDto(task.getUserAdded()))
+					.modificationDate(task.getModificationDate())
+					.build();
+					}).collect(Collectors.toSet()))
+			.build();
+		return dto;
 	}
 
 	@Override

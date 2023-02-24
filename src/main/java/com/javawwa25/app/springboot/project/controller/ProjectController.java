@@ -39,6 +39,15 @@ public class ProjectController {
 		model.addAttribute("projectList", projectService.getProjectDtosByAccountId(dto.getAccountId()));
         return "project/project_list";
     }
+	
+	@GetMapping("/{projectId}")
+    public String projectPage(@PathVariable(value = "projectId") long projectId, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectPage - called");
+		UserDto dto = userService.getLoggedUserDto();
+		model.addAttribute("user", dto);
+		model.addAttribute("project", projectService.getProjectDtoById(projectId));
+        return "project/project_page";
+    }
 
 	@Secured({"ADMIN"})
 	@GetMapping("/new")
