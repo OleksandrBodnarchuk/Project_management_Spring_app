@@ -1,15 +1,15 @@
 package com.javawwa25.app.springboot.task;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.javawwa25.app.springboot.user.BaseEntity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,21 +23,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class TaskType extends BaseEntity {
-	
-	@Enumerated(EnumType.STRING)
-	private Type name;
-	
-	@OneToMany(mappedBy = "taskType", 
-			   cascade = { CascadeType.DETACH,
-	        		   	   CascadeType.MERGE,
-	        		   	   CascadeType.PERSIST,
-	        		   	   CascadeType.REFRESH })
+
+	private String name;
+
+	@ManyToMany
+	@JoinTable(name = "type_status", 
+			joinColumns = { @JoinColumn(name = "type") }, 
+			inverseJoinColumns = {
+			@JoinColumn(name = "status") })
 	private Set<Status> statuses;
-	
-	public void addStatuse(Status status) {
-		if (this.statuses == null) {
+
+	public void addStatus(Status status) {
+		if (Objects.isNull(this.statuses)) {
 			this.statuses = new HashSet<>();
 		}
 		this.statuses.add(status);
+		status.addTaskType(this);
 	}
 }

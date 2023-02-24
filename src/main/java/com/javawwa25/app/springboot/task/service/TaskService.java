@@ -12,8 +12,10 @@ import com.javawwa25.app.springboot.task.Task;
 public interface TaskService {
 	List<Task> getAllTasks();
 
-	void saveTask(TaskDto task);
+	void saveTask(TaskDto dto);
 
+	void save(Task task);
+	
 	Task getTaskById(long id);
 
 	void deleteTaskById(long id);

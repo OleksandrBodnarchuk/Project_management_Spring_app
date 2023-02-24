@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
 </head>
@@ -15,5 +16,31 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="row well" sec:authorize="hasAuthority('ADMIN')"
+		th:fragment="admin_add_task_btn">
+		<div th:if="${param.success}">
+			<div class="alert alert-info">Task created successfully</div>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-success dropdown-toggle"
+				data-toggle="dropdown">
+				Add new Task <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a
+					th:href="@{/tasks/projects/{id}/new?type={type} (id=${project==null} ? ${projectId} : ${project.id}, type=${'TASK'})}">Task</a>
+				</li>
+				<li><a
+					th:href="@{/tasks/projects/{id}/new?type={type} (id=${project==null} ? ${projectId} : ${project.id} , type=${'BUG'})}">Bug</a></li>
+				<li><a
+					th:href="@{/tasks/projects/{id}/new?type={type} (id=${project==null} ? ${projectId} : ${project.id}, type=${'REQUIREMENT'})}">Requirement</a></li>
+				<li><a
+					th:href="@{/tasks/projects/{id}/new?type={type} (id=${project==null} ? ${projectId} : ${project.id}, type=${'SUPPORT'})}">Support</a></li>
+			</ul>
+		</div>
+	</div>
+	<br>
+
 </body>
 </html>

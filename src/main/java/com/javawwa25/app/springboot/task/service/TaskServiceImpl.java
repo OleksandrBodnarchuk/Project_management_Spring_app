@@ -6,12 +6,12 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.javawwa25.app.springboot.task.dto.TaskDto;
-import com.javawwa25.app.springboot.task.repo.TaskRepository;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.task.Status;
 import com.javawwa25.app.springboot.task.Task;
 import com.javawwa25.app.springboot.task.TaskType;
+import com.javawwa25.app.springboot.task.dto.TaskDto;
+import com.javawwa25.app.springboot.task.repo.TaskRepository;
 import com.javawwa25.app.springboot.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,18 +33,8 @@ public class TaskServiceImpl implements  TaskService{
 
     @Override
     public void saveTask(TaskDto dto) {
-    	Status status = Status.builder()
-				.name(dto.getStatus())
-				.build();
-		statusService.saveStatus(status);
-		
-		TaskType taskType = TaskType.builder()
-				.name(dto.getType())
-				.statuses(Set.of(status))
-				.build();
-		taskTypeService.saveType(taskType);
-		status.setTaskType(taskType);
-		statusService.saveStatus(status);
+    	Status status = statusService.findByName("NEW");
+		TaskType taskType = taskTypeService.findByName(dto.getType());
 		
 		this.taskRepository.save(Task.builder()
     		.name(dto.getName())
@@ -95,5 +85,9 @@ public class TaskServiceImpl implements  TaskService{
 		return taskRepository.findAllByProjectId(projectId);
 	}
 
+	@Override
+	public void save(Task task) {
+		taskRepository.save(task);
+	}
 
 }

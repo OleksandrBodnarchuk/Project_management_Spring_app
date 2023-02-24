@@ -11,16 +11,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javawwa25.app.springboot.task.dto.TaskDto;
-import com.javawwa25.app.springboot.task.service.TaskService;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.task.Task;
+import com.javawwa25.app.springboot.task.dto.TaskDto;
+import com.javawwa25.app.springboot.task.service.TaskService;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
 	private final static String TASK_ENDPOINT = "/projects/{projectId}";
@@ -30,30 +34,23 @@ public class TaskController {
 	private final ProjectService projectService;
 	private final UserService userService;
 
-	public TaskController(TaskService taskService, ProjectService projectService, UserService userService) {
-		this.taskService = taskService;
-		this.projectService = projectService;
-		this.userService = userService;
-	}
-
 	@GetMapping(TASK_ENDPOINT)
 	public String projectAllTasks(@PathVariable("projectId") long projectId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectAllTasks - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("taskList", taskService.getAllTasksByProjectId(projectId));
-		
 		return "/task/task-list";
 	}
 	
 	@GetMapping(TASK_ENDPOINT + "/new")
-	public String createTask(@PathVariable(value = "projectId") long projectId, Model model) {
+	public String createTask(@RequestParam(value = "type") String type, @PathVariable(value = "projectId") long projectId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createTask - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectName", projectService.getProjectNameById(projectId));
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("users", userService.getSimpleDtos());
-		model.addAttribute("task", TaskDto.builder().build());
+		model.addAttribute("task", TaskDto.builder().type(type).build());
 		return "/task/new_task";
 	}
 	
@@ -62,6 +59,7 @@ public class TaskController {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveTask - called");
 		dto.setProjectId(projectId);
 		taskService.saveTask(dto);
+		projectService.assignProject(dto.getUserAssignedId(), projectId);
 		return "redirect:/tasks"+TASK_ENDPOINT+"?success";
 	}
 

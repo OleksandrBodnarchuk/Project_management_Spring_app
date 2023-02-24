@@ -5,4 +5,6 @@ import com.javawwa25.app.springboot.task.Status;
 public interface StatusService {
 
 	Status saveStatus(Status status);
+
+	Status findByName(String status);
 }

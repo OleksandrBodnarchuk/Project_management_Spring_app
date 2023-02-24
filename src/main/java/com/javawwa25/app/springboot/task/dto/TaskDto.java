@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.javawwa25.app.springboot.task.Priority;
-import com.javawwa25.app.springboot.task.Type;
 import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 
 import jakarta.annotation.Nullable;
@@ -22,7 +21,7 @@ public class TaskDto {
 	private String name;
 	private String description;
 	private Priority priority;
-	private Type type;
+	private String type;
 	private String status;
 	private SimpleUserDto userAssigned;
 	private long userAssignedId;

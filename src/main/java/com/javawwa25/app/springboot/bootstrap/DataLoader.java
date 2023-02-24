@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.bootstrap;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,10 @@ import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.repo.ProjectRepository;
+import com.javawwa25.app.springboot.task.Status;
+import com.javawwa25.app.springboot.task.TaskType;
+import com.javawwa25.app.springboot.task.repo.StatusRepository;
+import com.javawwa25.app.springboot.task.service.TaskTypeService;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.service.UserService;
 
@@ -32,6 +37,9 @@ public class DataLoader implements CommandLineRunner{
 	private final PasswordEncoder passwordEncoder;
 	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
+	private final TaskTypeService taskTypeService;
+	private final StatusRepository statusRepository;
+	
 	
 	@Transactional
 	@Override
@@ -81,7 +89,41 @@ public class DataLoader implements CommandLineRunner{
 				.createdAt(new Date())
 				.info("Description oth the proejct here")
 				.build());
-	
-	}
+		
+		List<Status> defaultStatuses = List.of(
+				new Status("NEW", 0), 
+				new Status("IN_PROGRESS", 1), 
+				new Status("QA", 2),
+				new Status("VERIFIED", 3), 
+				new Status("IMPLEMENTED", 4), 
+				new Status("CLOSED", 5));
+		// statusRepository.saveAll(defaultStatuses);
+		
+		TaskType task = taskTypeService.saveType(TaskType.builder()
+				.name("TASK")
+				.build());
+		
+		TaskType bug = taskTypeService.saveType(TaskType.builder()
+				.name("BUG")
+				.build());
+		
+		TaskType requirement = taskTypeService.saveType(TaskType.builder()
+				.name("REQUIREMENT")
+				.build());
+		
+		TaskType support = taskTypeService.saveType(TaskType.builder()
+				.name("SUPPORT")
+				.build());
 
+		for (Status status : defaultStatuses) {
+			task.addStatus(status);
+			statusRepository.save(status);
+			bug.addStatus(status);
+			statusRepository.save(status);
+			requirement.addStatus(status);
+			statusRepository.save(status);
+			support.addStatus(status);
+			statusRepository.save(status);
+		}
+	}
 }

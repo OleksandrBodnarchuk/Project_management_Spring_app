@@ -55,12 +55,6 @@ public class ProjectController {
 		return "redirect:/tasks/projects/" + projectId;
 	}
 	
-	@GetMapping("/{id}/tasks/new")
-	public String createProjectTask(@PathVariable("id") long projectId) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createProjectTask - called");
-		return "redirect:/tasks/project/" + projectId + "/new";
-	}
-
 	@Secured({"ADMIN"})
 	@PostMapping("/save")
     public String saveProject(@ModelAttribute("project") ProjectDto dto) {

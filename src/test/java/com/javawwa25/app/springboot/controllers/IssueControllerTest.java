@@ -60,7 +60,7 @@ class IssueControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name(expected));
 		
-		String actual = underTest.createTask(1l, model);
+		String actual = underTest.createTask("BUG", 1l, model);
 		verify(model, times(3)).addAttribute(any(), any());
 		assertEquals(expected, actual);
 	}

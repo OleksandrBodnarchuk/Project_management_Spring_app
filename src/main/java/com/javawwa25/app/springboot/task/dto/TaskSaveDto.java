@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.javawwa25.app.springboot.task.Priority;
-import com.javawwa25.app.springboot.task.Type;
 
 import jakarta.annotation.Nullable;
 import lombok.Builder;
@@ -21,7 +20,7 @@ public class TaskSaveDto {
 	private String name;
 	private String description;
 	private Priority priority;
-	private Type type;
+	private String type;
 	private String status;
 	private long userAssigned;
 	@Nullable

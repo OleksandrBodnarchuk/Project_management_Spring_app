@@ -37,9 +37,9 @@ public class Task extends Job {
 	
 	@OneToOne
 	@JoinColumn(name = "type_id")
-	private TaskType taskType;
+	private TaskType type;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "status_id")
 	private Status status;
 	
@@ -62,13 +62,11 @@ public class Task extends Job {
 		this.name = name;
 		this.description = description;
 		this.priority = priority;
-		this.taskType = taskType;
+		this.type = taskType;
 		this.status = status;
 		this.project = project;
 		this.userAssigned = userAssigned;
 		this.userAdded = userAdded;
 	}
-	
-	
 
 }
