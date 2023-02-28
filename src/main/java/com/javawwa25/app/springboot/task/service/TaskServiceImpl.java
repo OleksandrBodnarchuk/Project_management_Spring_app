@@ -1,5 +1,6 @@
 package com.javawwa25.app.springboot.task.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,67 +22,60 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImpl implements  TaskService{
+public class TaskServiceImpl implements TaskService {
 
-   private final TaskRepository taskRepository;
-   private final UserService userService;
-   private final TaskTypeService taskTypeService;
-   private final StatusService statusService;
-   private final ProjectRepository projectRepository;
-   
-   @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
-    }
+	private final TaskRepository taskRepository;
+	private final UserService userService;
+	private final TaskTypeService taskTypeService;
+	private final StatusService statusService;
+	private final ProjectRepository projectRepository;
 
-    @Override
-    public void saveTask(TaskDto dto) {
-    	Status status = statusService.findByName("NEW");
+	@Override
+	public List<Task> getAllTasks() {
+		return taskRepository.findAll();
+	}
+
+	@Override
+	public void saveTask(TaskDto dto) {
+		Status status = statusService.findByName("NEW");
 		TaskType taskType = taskTypeService.findByName(dto.getType());
-		
-		this.taskRepository.save(Task.builder()
-    		.name(dto.getName())
-    		.description(dto.getDescription())
-    		.priority(dto.getPriority())
-    		.taskType(taskType)
-    		.status(status)
-    		.startDate(dto.getStartDate())
-    		.modificationDate(dto.getModificationDate())
-    		.userAssigned(userService.getUserByAccountId(dto.getUserAssignedId()))
-    		.userAdded(userService.getLoggedUser())
-    		.endDate(dto.getEndDate())
-    		.createdAt(dto.getCreatedAt())
-    		.project(projectRepository.findById(dto.getProjectId())
-    				.orElseThrow(() -> new RuntimeException("Project not found for id : " + dto.getProjectId())))
-    		.build());
-    }
 
-    @Override
-    public Task getTaskById(long id) {
-        Optional<Task> optional = taskRepository.findById(id);
-        Task task = null;
-        if (optional.isPresent()) {
-            task = optional.get();
-        } else {
-            throw new RuntimeException("Task not found for id :: " + id);
-        }
-        return task;
-    }
+		this.taskRepository.save(Task.builder().name(dto.getName()).description(dto.getDescription())
+				.priority(dto.getPriority()).taskType(taskType).status(status).startDate(dto.getStartDate())
+				.modificationDate(dto.getModificationDate())
+				.userAssigned(userService.getUserByAccountId(dto.getUserAssignedId()))
+				.userAdded(userService.getLoggedUser()).endDate(dto.getEndDate()).createdAt(dto.getCreatedAt())
+				.project(projectRepository.findById(dto.getProjectId())
+						.orElseThrow(() -> new RuntimeException("Project not found for id : " + dto.getProjectId())))
+				.build());
+	}
 
-    @Override
-    public void deleteTaskById(long id) {
-        this.taskRepository.deleteById(id);
-    }
-    
-    @Override
+	@Override
+	public Task getTaskById(long id) {
+		Optional<Task> optional = taskRepository.findById(id);
+		Task task = null;
+		if (optional.isPresent()) {
+			task = optional.get();
+		} else {
+			throw new RuntimeException("Task not found for id :: " + id);
+		}
+		return task;
+	}
+
+	@Override
+	public void deleteTaskById(long id) {
+		this.taskRepository.deleteById(id);
+	}
+
+	@Override
 	public Set<Task> getCreatedTasksForUser() {
 		return taskRepository.findAllByUserAddedId(userService.getLoggedUser().getId());
 	}
 
-    @Override
+	@Override
 	public Set<Task> getAssignedTasksForUser() {
 		return taskRepository.findAllByUserAssignedId(userService.getLoggedUser().getId());
-		
+
 	}
 
 	@Override
@@ -100,10 +94,19 @@ public class TaskServiceImpl implements  TaskService{
 	}
 
 	@Override
-	public Set<TaskDto> getTypedTasksForProject(long projectId, String type) {
+	public Set<TaskDto> getTypedTasksForProject(long projectId, String type, String status) {
 		Set<Task> result;
+		Set<Status> statuses = new HashSet<>();
 		if (!type.equals("ALL")) {
-			result = taskRepository.findAllByProjectIdAndTypeName(projectId, type);
+			if (status == null) {
+				statuses = statusService.getAll();
+			} else if (status.toLowerCase().equals("open")) {
+				statuses = statusService.findOpenStatuses();
+			} else {
+				statuses = statusService.findClosedStatuses();
+			}
+			result = taskRepository.findAllByProjectIdAndTypeNameAndStatusNameIn(projectId, type,
+					statuses.stream().map(Status::getName).collect(Collectors.toSet()));
 		} else {
 			result = getAllTasksByProjectId(projectId);
 		}

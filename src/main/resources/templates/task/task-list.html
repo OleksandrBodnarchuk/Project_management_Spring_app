@@ -25,14 +25,14 @@
 				<tbody>
 					<tr th:each="task : ${taskList}">
 						<td th:text="${task.id}"></td>
-						<td th:text="${task.type.name}"></td>
+						<td th:text="${task.type}"></td>
 						<td th:text="${task.name}"></td>
-						<td th:text="${task.status.name}"></td>
+						<td th:text="${task.status}"></td>
 						<td th:text="${task.priority}"
 							th:if="${task.priority}=='High' ? 'color:red;':'color:blue;'"></td>
 						<td>progress here TBC</td>
 						<td
-							th:text="${task.userAssigned.firstName} + ' ' + ${task.userAssigned.lastName}"></td>
+							th:text="${task.userAssigned.userName}"></td>
 					</tr>
 				</tbody>
 			</table>

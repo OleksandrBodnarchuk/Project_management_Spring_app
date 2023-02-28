@@ -60,13 +60,14 @@ class TaskControllerTest {
 	void testProjectAllTasks() throws Exception {
 		String expected = "/task/task-list";
 		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());
-		given(taskService.getTypedTasksForProject(anyLong(),anyString())).willReturn(Set.of());
+		given(taskService.getTypedTasksForProject(anyLong(),anyString(), anyString())).willReturn(Set.of());
 		long projectId = 1l;
 		String type = "BUG";
-		String actual = underTest.projectAllTasks(type, projectId, model);
+		String status = "status";
+		String actual = underTest.projectAllTasks(type, status, projectId, model);
 		verify(model, times(3)).addAttribute(any(), any());
 		verify(userService, times(1)).getLoggedUserDto();
-		verify(taskService, times(1)).getTypedTasksForProject(projectId, type);
+		verify(taskService, times(1)).getTypedTasksForProject(projectId, type, status);
 		assertEquals(expected, actual);
 	}
 	

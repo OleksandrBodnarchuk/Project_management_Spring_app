@@ -32,6 +32,8 @@ class TaskServiceImplTest {
 
 	@Mock
 	private TaskRepository taskRepository;
+	@Mock
+	private StatusService statusService;
 	private Set<Task> tasks = fillTasks();
 	@InjectMocks
 	private TaskServiceImpl underTest;
@@ -40,16 +42,17 @@ class TaskServiceImplTest {
 	void testGetTypedTasksForProject_BUG() {
 		Set<Task> expected = tasks.stream().filter(task -> task.getType().getName().equals("BUG"))
 				.collect(Collectors.toSet());
-		given(taskRepository.findAllByProjectIdAndTypeName(anyLong(), any())).willReturn(expected);
+		given(taskRepository.findAllByProjectIdAndTypeNameAndStatusNameIn(anyLong(), any(), any()))
+				.willReturn(expected);
 
-		Set<TaskDto> actual = underTest.getTypedTasksForProject(1, "BUG");
+		Set<TaskDto> actual = underTest.getTypedTasksForProject(1, "BUG", "open");
 		assertEquals(expected.size(), actual.size());
+		verify(statusService, times(1)).findOpenStatuses();
 	}
-	
+
 	@Test
 	void testGetTypedTasksForProject_ALL() {
-		underTest.getTypedTasksForProject(1l, "ALL");
-		verify(taskRepository, never()).findAllByProjectIdAndTypeName(anyLong(), any());
+		underTest.getTypedTasksForProject(1l, "ALL", null);
 		verify(taskRepository, times(1)).findAllByProjectId(anyLong());
 	}
 

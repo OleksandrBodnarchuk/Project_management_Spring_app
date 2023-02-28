@@ -67,10 +67,10 @@
 									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id}, type=${task.type})}">
 										Type </a></td>
 								<td><a th:text="${task.open}"
-									th:href="@{/tasks/projects/{id}?type={type}&status=open (id=${project.id}, type=${task.type}, status=${task.open})}">
+									th:href="@{/tasks/projects/{id}?type={type}&status=open (id=${project.id}, type=${task.type})}">
 										Open </a></td>
 								<td><a th:text="${task.closed}"
-									th:href="@{/tasks/projects/{id}?type={type}&status=closed (id=${project.id}, type=${task.type}, status=${task.closed})}">
+									th:href="@{/tasks/projects/{id}?type={type}&status=closed (id=${project.id}, type=${task.type})}">
 										Closed </a></td>
 								<td><a th:text="${task.open + task.closed}"
 									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id}, type=${task.type})}">
