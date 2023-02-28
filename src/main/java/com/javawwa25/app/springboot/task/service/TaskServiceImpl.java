@@ -3,6 +3,7 @@ package com.javawwa25.app.springboot.task.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import com.javawwa25.app.springboot.task.dto.ProjectTaskDetails;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.task.repo.TaskRepository;
 import com.javawwa25.app.springboot.user.service.UserService;
+import com.javawwa25.app.springboot.utils.CommonUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -95,6 +97,17 @@ public class TaskServiceImpl implements  TaskService{
 	@Override
 	public Set<ProjectTaskDetails> getProjectTaskDetails(long projectId) {
 		return taskRepository.getProjectTaskDetails(projectId);
+	}
+
+	@Override
+	public Set<TaskDto> getTypedTasksForProject(long projectId, String type) {
+		Set<Task> result;
+		if (!type.equals("ALL")) {
+			result = taskRepository.findAllByProjectIdAndTypeName(projectId, type);
+		} else {
+			result = getAllTasksByProjectId(projectId);
+		}
+		return result.stream().map(CommonUtils::mapTaskToDto).collect(Collectors.toSet());
 	}
 
 }

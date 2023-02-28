@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
-import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.task.controller.TaskController;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
@@ -61,11 +60,13 @@ class TaskControllerTest {
 	void testProjectAllTasks() throws Exception {
 		String expected = "/task/task-list";
 		given(userService.getLoggedUserDto()).willReturn(UserDto.builder().build());
-		given(taskService.getAllTasksByProjectId(anyLong())).willReturn(Set.of());
-		String actual = underTest.projectAllTasks(1l, model);
+		given(taskService.getTypedTasksForProject(anyLong(),anyString())).willReturn(Set.of());
+		long projectId = 1l;
+		String type = "BUG";
+		String actual = underTest.projectAllTasks(type, projectId, model);
 		verify(model, times(3)).addAttribute(any(), any());
 		verify(userService, times(1)).getLoggedUserDto();
-		verify(taskService, times(1)).getAllTasksByProjectId(anyLong());
+		verify(taskService, times(1)).getTypedTasksForProject(projectId, type);
 		assertEquals(expected, actual);
 	}
 	

@@ -29,4 +29,6 @@ public interface TaskService {
 
 	Set<ProjectTaskDetails> getProjectTaskDetails(long projectId);
 
+	Set<TaskDto> getTypedTasksForProject(long projectId, String type);
+
 }

@@ -41,4 +41,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 			+ "FROM task_type tt")
 	Set<ProjectTaskDetails> getProjectTaskDetails(@Param(value = "projectId") long projectId);
 
+	Set<Task> findAllByProjectIdAndTypeName(long projectId, String type);
+
 }

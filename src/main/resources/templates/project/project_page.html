@@ -73,11 +73,14 @@
 									th:href="@{/tasks/projects/{id}?type={type}&status=closed (id=${project.id}, type=${task.type}, status=${task.closed})}">
 										Closed </a></td>
 								<td><a th:text="${task.open + task.closed}"
-									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id})}">
+									th:href="@{/tasks/projects/{id}?type={type} (id=${project.id}, type=${task.type})}">
 										Total </a></td>
 							</tr>
 						</tbody>
 					</table>
+					<div>
+						<a th:href="@{/tasks/projects/{id}?type=ALL (id=${project.id})}"> All tasks </a>
+					</div>
 				</div>
 			</div>
 		</div>

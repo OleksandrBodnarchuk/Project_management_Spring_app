@@ -35,11 +35,11 @@ public class TaskController {
 	private final UserService userService;
 
 	@GetMapping(TASK_ENDPOINT)
-	public String projectAllTasks(@PathVariable("projectId") long projectId, Model model) {
+	public String projectAllTasks(@RequestParam(value = "type") String type, @PathVariable("projectId") long projectId, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectAllTasks - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectId", projectId);
-		model.addAttribute("taskList", taskService.getAllTasksByProjectId(projectId));
+		model.addAttribute("taskList", taskService.getTypedTasksForProject(projectId, type));
 		return "/task/task-list";
 	}
 	
