@@ -30,7 +30,6 @@ public class ProjectController {
 	private final  ProjectService projectService;
 	private final  UserService userService;
 
-
 	@GetMapping
     public String projectList(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
