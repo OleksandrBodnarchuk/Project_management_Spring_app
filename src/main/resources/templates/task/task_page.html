@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div class="row well">
+			<fieldset>
+				<legend th:text=${task.name}>
+					Task name
+				</legend>
+				<table class="table user-view-table m-0">
+					<tbody>
+						<tr>
+							<td>Type:</td>
+							<td th:text="${task.type}">BUG</td>
+						</tr>
+						<tr>
+							<td>Status:</td>
+							<td th:text="${task.status}">Active</td>
+						</tr>
+						<tr>
+							<td>Priority:</td>
+							<td th:text="${task.priority}">Normal</td>
+						</tr>
+						<tr>
+							<td>Assigned to</td>
+							<td th:text="${task.userAssigned.userName}">Username</td>
+						</tr>
+						<tr>
+							<td>Start date</td>
+							<td th:text="${task.startDate}">01/23/2018 (15 days ago)</td>
+						</tr>
+						<tr>
+							<td>Latest activity:</td>
+							<td th:text="${task.modificationDate}">01/23/2018 (14 days
+								ago)</td>
+						</tr>
+						<tr>
+							<td>End date</td>
+							<td th:text="${task.endDate}">----</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+
+			<hr class="border-light m-0">
+			<fieldset>
+				<legend>Description</legend>
+				<span th:text="${task.description}">Lorem Ipsum is simply
+					dummy text of the printing and typesetting industry. Lorem Ipsum
+					has been the industry's standard dummy text ever since the 1500s,
+					when an unknown printer took a galley of type and scrambled it to
+					make a type specimen book. It has survived not only five centuries,
+					but also the leap into electronic typesetting, remaining
+					essentially unchanged. It was popularised in the 1960s with the
+					release of Letraset sheets containing Lorem Ipsum passages, and
+					more recently with desktop publishing software like Aldus PageMaker
+					including versions of Lorem Ipsum.</span>
+			</fieldset>
+			<div>
+				<ul class="nav nav-tabs">
+					<li><a>Comments</a></li>
+					<li><a>Changes</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -120,8 +120,20 @@ class TaskControllerTest {
 
 	@Test
 	void testShowTaskInfo() {
-		String expected = "/task/task-info";
-		fail("Not yet implemented");
+		String expected = "/task/task_page";
+		String actual = underTest.showTaskInfo(1l, model);
+		verify(model, times(2)).addAttribute(any(), any());
+		verify(taskService, times(1)).getTaskById(anyLong());
+		verify(userService, times(1)).getLoggedUserDto();
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testShowTaskInfo_Request() throws Exception {
+		String expected = "/task/task_page";
+		mvc.perform(get("/tasks/{taskId}", 1))
+		.andExpect(status().isOk())
+		.andExpect(view().name(expected));
 	}
 
 	@Test

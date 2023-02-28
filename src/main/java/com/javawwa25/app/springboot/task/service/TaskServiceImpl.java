@@ -113,4 +113,10 @@ public class TaskServiceImpl implements TaskService {
 		return result.stream().map(CommonUtils::mapTaskToDto).collect(Collectors.toSet());
 	}
 
+	@Override
+	public TaskDto getTaskDtoById(long taskId) {
+		Task task = this.getTaskById(taskId);
+		return CommonUtils.mapTaskToDto(task);
+	}
+
 }

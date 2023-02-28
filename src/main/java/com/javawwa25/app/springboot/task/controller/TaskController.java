@@ -64,11 +64,12 @@ public class TaskController {
 		return "redirect:/projects/" + projectId + "?success";
 	}
 
-	@GetMapping(TASK_ENDPOINT + "/{taskId}")
+	@GetMapping("/{taskId}")
 	public String showTaskInfo(@PathVariable(value = "taskId") long taskId, Model model) {
-		Task task = taskService.getTaskById(taskId);
-		model.addAttribute("task", task);
-		return "/task/task-info";
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showTaskInfo - called");
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("task", taskService.getTaskDtoById(taskId));
+		return "/task/task_page";
 	}
 
 	@GetMapping(TASK_ENDPOINT + "{taskId}/update")

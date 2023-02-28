@@ -31,4 +31,6 @@ public interface TaskService {
 
 	Set<TaskDto> getTypedTasksForProject(long projectId, String type, String status);
 
+	TaskDto getTaskDtoById(long taskId);
+
 }
