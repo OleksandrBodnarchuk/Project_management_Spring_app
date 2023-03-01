@@ -168,5 +168,24 @@ class AdminControllerTest {
 		mvc.perform(get(PATH + "/user/{id}/assign/{projectId}", 1,1)).andExpect(status().is3xxRedirection())
 				.andExpect(view().name(expected));
 	}
+	
+	@Test
+	public void testAdminGroups() {
+		String expected= "admin/groups";
+		String actual = underTest.adminGroups(model);
+		verify(model, times(1)).addAttribute(any(), any());
+		verify(userService, times(1)).getLoggedUserDto();
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testAdminGroups_Request() throws Exception {
+		String expected= "admin/groups";
+		mvc.perform(get(PATH + "/groups"))
+				.andExpect(status().isOk())
+		.andExpect(view().name(expected));
+	}
+	
+	
 
 }

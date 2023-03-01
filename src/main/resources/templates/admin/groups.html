@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div th:replace="~{fragments/admin_navTabs :: admin_nav}"></div>
+
+		<div class="row well">
+			<div class="container bootstrap snippets bootdey">
+				<h2>Groups</h2>
+
+				<div th:if="${param.success}">
+					<div class="alert alert-info">Group created successfully</div>
+				</div>
+
+				<!-- ADD PROJECT-->
+				<div sec:authorize="hasAuthority('ADMIN')">
+					<a th:href="@{/admin/groups/new}" class="btn btn-primary btn-success">
+						<span class="glyphicon glyphicon-plus-sign"></span> Add new
+						Group
+					</a>
+				</div>
+				<br>
+				<div class="col-md-12">
+					<table border="1" class="table table-striped table-responsive-md row well">
+						<thead>
+							<tr>
+								<th><a>Name</a></th>
+								<th><a>Users</a></th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>2</td>
+								<td>3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

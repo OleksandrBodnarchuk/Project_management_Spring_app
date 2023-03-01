@@ -115,6 +115,13 @@ public class AdminController {
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectList", projectList);
 		return "admin/projects";
+	}
+	
+	@GetMapping("/groups")
+	public String adminGroups(Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroups - called");
+		model.addAttribute("user", userService.getLoggedUserDto());
+		return "admin/groups";
 
 	}
     
