@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.javawwa25.app.springboot.group.GroupService;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
@@ -30,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdminController {
 	private final static Logger LOG = LoggerFactory.getLogger(AdminController.class);
-	
+	private final GroupService groupService;
     private final UserService userService;
     private final ProjectService projectService;
     
@@ -122,6 +123,7 @@ public class AdminController {
 	public String adminGroups(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroups - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("groupList", groupService.getAll());
 		return "admin/group/groups";
 
 	}
@@ -137,7 +139,7 @@ public class AdminController {
 	@PostMapping("/groups")
 	public String adminGroupSave(@ModelAttribute("group") GroupDto dto, Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupSave - called");
-		LOG.debug("SAVING GROUP: " + dto.getName());
+		groupService.save(dto);
 		return "redirect:/admin/groups?success";
 	}
     

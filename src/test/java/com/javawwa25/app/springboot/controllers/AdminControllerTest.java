@@ -30,6 +30,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.admin.AdminController;
+import com.javawwa25.app.springboot.group.GroupService;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
@@ -48,6 +49,9 @@ class AdminControllerTest {
 	
 	@Mock
 	private ProjectService projectService;
+	
+	@Mock
+	private GroupService groupService;
 	
 	@InjectMocks
 	private AdminController underTest;
@@ -174,8 +178,9 @@ class AdminControllerTest {
 	public void testAdminGroups() {
 		String expected= "admin/group/groups";
 		String actual = underTest.adminGroups(model);
-		verify(model, times(1)).addAttribute(any(), any());
+		verify(model, times(2)).addAttribute(any(), any());
 		verify(userService, times(1)).getLoggedUserDto();
+		verify(groupService, times(1)).getAll();
 		assertEquals(expected, actual);
 	}
 	
@@ -210,6 +215,7 @@ class AdminControllerTest {
 		GroupDto dto = new GroupDto();
 		dto.setName("GROUP_NAME");
 		String actual = underTest.adminGroupSave(dto, model);
+		verify(groupService, times(1)).save(any());
 		assertEquals(expected, actual);
 	}
 

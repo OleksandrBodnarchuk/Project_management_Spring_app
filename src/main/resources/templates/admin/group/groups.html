@@ -33,10 +33,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>2</td>
-								<td>3</td>
+							<tr th:each="group : ${groupList}">
+								<td><a th:text="${group.name}"></a></td>
+								<td><a># of Users</a></td>
+								<td><a>Delete</a></td>
 							</tr>
 						</tbody>
 					</table>
