@@ -23,12 +23,12 @@
 						<p>
 							<label for="user_firstname">First Name<span
 								class="required"> *</span>
-							</label> <input type="text" th:field="*{firstName}">
+							</label> <input id="user_firstname" type="text" th:field="*{firstName}">
 							 <p class="error" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p>
 						</p>
 						<p>
 							<label for="user_lastname">LastName<span class="required">*</span>
-							</label> <input type="text" th:field="*{lastName}">
+							</label> <input id="user_lastname" type="text" th:field="*{lastName}">
 							 <p class="error" th:each="error: ${#fields.errors('lastName')}" th:text="${error}">Validation error</p>
 						</p>
 							<p>
