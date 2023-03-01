@@ -31,6 +31,7 @@ import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.admin.AdminController;
 import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.UserService;
 
@@ -171,7 +172,7 @@ class AdminControllerTest {
 	
 	@Test
 	public void testAdminGroups() {
-		String expected= "admin/groups";
+		String expected= "admin/group/groups";
 		String actual = underTest.adminGroups(model);
 		verify(model, times(1)).addAttribute(any(), any());
 		verify(userService, times(1)).getLoggedUserDto();
@@ -180,12 +181,46 @@ class AdminControllerTest {
 	
 	@Test
 	public void testAdminGroups_Request() throws Exception {
-		String expected= "admin/groups";
+		String expected= "admin/group/groups";
 		mvc.perform(get(PATH + "/groups"))
 				.andExpect(status().isOk())
 		.andExpect(view().name(expected));
 	}
-	
-	
+
+	@Test
+	public void testAdminNewGroup() {
+		String expected=  "admin/group/group_new";
+		String actual = underTest.adminNewGroup(model);
+		verify(model, times(2)).addAttribute(any(), any());
+		verify(userService, times(1)).getLoggedUserDto();
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testAdminNewGroup_Request() throws Exception {
+		String expected=  "admin/group/group_new";
+		mvc.perform(get(PATH + "/groups/new"))
+		.andExpect(status().isOk())
+		.andExpect(view().name(expected));
+	}
+
+	@Test
+	public void testAdminGroupSave() {
+		String expected= "redirect:/admin/groups?success";
+		GroupDto dto = new GroupDto();
+		dto.setName("GROUP_NAME");
+		String actual = underTest.adminGroupSave(dto, model);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testAdminGroupSave_Request() throws Exception {
+		String expected= "redirect:/admin/groups?success";
+		GroupDto dto = new GroupDto();
+		dto.setName("GROUP_NAME");
+		mvc.perform(post(PATH + "/groups").flashAttr("dto", dto))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name(expected));
+	}
 
 }

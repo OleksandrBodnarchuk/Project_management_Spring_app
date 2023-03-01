@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.UserService;
 
@@ -121,8 +122,23 @@ public class AdminController {
 	public String adminGroups(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroups - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
-		return "admin/groups";
+		return "admin/group/groups";
 
+	}
+	
+	@GetMapping("/groups/new")
+	public String adminNewGroup(Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminNewGroup - called");
+		model.addAttribute("user", userService.getLoggedUserDto());
+		model.addAttribute("group", new GroupDto());
+		return "admin/group/group_new";
+	}
+	
+	@PostMapping("/groups")
+	public String adminGroupSave(@ModelAttribute("group") GroupDto dto, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupSave - called");
+		LOG.debug("SAVING GROUP: " + dto.getName());
+		return "redirect:/admin/groups?success";
 	}
     
 }
