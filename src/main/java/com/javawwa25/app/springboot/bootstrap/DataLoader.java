@@ -15,6 +15,8 @@ import com.javawwa25.app.springboot.account.Account;
 import com.javawwa25.app.springboot.account.Authority;
 import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.group.GroupRepository;
+import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.repo.ProjectRepository;
 import com.javawwa25.app.springboot.task.Status;
@@ -39,6 +41,7 @@ public class DataLoader implements CommandLineRunner{
 	private final AccountService accountService;
 	private final TaskTypeService taskTypeService;
 	private final StatusRepository statusRepository;
+	private final GroupRepository groupRepository;
 	
 	
 	@Transactional
@@ -54,6 +57,9 @@ public class DataLoader implements CommandLineRunner{
 
 	private void loadData() {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
+		
+	
+		
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
 							.password(passwordEncoder.encode("tempUser1"))
@@ -62,7 +68,7 @@ public class DataLoader implements CommandLineRunner{
 							.authority(authorityRepository.save(Authority.builder().role("ADMIN").build()))
 							.build());
 		
-		userService.save(User.builder()
+		User user2 = userService.save(User.builder()
 				.firstName("TempUser1")
 				.lastName("TempUser1")
 				.userStatus("Status is everything")
@@ -77,11 +83,17 @@ public class DataLoader implements CommandLineRunner{
 				.authority(authorityRepository.save(Authority.builder().role("USER").build()))
 				.build());
 		
-		userService.save(User.builder()
+		User user = userService.save(User.builder()
 				.firstName("TempUser2")
 				.lastName("TempUser2")
 				.userStatus("Status is everything")
 				.account(account2)
+				.build());
+		
+		groupRepository.save(UserGroup.builder()
+				.name("PM")
+				.user(user)
+				.user(user2)
 				.build());
 		
 		projectRepository.save(Project.builder()

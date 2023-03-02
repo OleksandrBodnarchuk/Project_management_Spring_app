@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,7 +44,7 @@ public class Project extends Job {
 							CascadeType.REFRESH })
 	@JoinTable(name = "users_projects", 
 			   joinColumns = @JoinColumn(name = "project_id"),
-			   inverseJoinColumns = @JoinColumn(name = "users_id"))
+			   inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> users;
 
 	// mapping tasks with project

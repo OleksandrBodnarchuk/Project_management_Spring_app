@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.project.Project;
 
 import jakarta.persistence.CascadeType;
@@ -43,6 +44,14 @@ public class User extends BaseEntity {
 							CascadeType.REFRESH }, 
 				mappedBy = "users")
 	private Set<Project> projects;
+	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = { CascadeType.DETACH, 
+						CascadeType.MERGE, 
+						CascadeType.PERSIST,
+						CascadeType.REFRESH }, 
+			mappedBy = "users")
+	private Set<UserGroup> groups;
 
 	/*
 	 * The best way to map a @OneToOne relationship is to use @MapsId. 
