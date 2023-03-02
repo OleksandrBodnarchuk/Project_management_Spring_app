@@ -7,6 +7,7 @@ import com.javawwa25.app.springboot.user.BaseEntity;
 import com.javawwa25.app.springboot.user.User;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -27,6 +28,7 @@ import lombok.Singular;
 @Builder
 public class UserGroup extends BaseEntity{
 	
+	@Column(unique = true, nullable = false)
 	private String name;
 	
 	@Singular

@@ -123,7 +123,7 @@ public class AdminController {
 	public String adminGroups(Model model) {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroups - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
-		model.addAttribute("groupList", groupService.getAll());
+		model.addAttribute("groupList", groupService.getSimpleGroupInfo());
 		return "admin/group/groups";
 
 	}
@@ -141,6 +141,13 @@ public class AdminController {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupSave - called");
 		groupService.save(dto);
 		return "redirect:/admin/groups?success";
+	}
+	
+	@GetMapping("/groups/{id}")
+	public String adminGroup(@PathVariable("id") long groupId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroup - called");
+		LOG.debug("GROUP ID: " + groupId);
+		return "redirect:/admin/groups"; // TODO: change
 	}
     
 }

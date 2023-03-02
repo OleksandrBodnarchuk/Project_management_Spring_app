@@ -18,7 +18,6 @@ import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.group.GroupRepository;
 import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.project.Project;
-import com.javawwa25.app.springboot.project.repo.ProjectRepository;
 import com.javawwa25.app.springboot.task.Status;
 import com.javawwa25.app.springboot.task.TaskType;
 import com.javawwa25.app.springboot.task.repo.StatusRepository;

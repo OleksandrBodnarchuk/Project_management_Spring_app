@@ -34,8 +34,9 @@
 						</thead>
 						<tbody>
 							<tr th:each="group : ${groupList}">
-								<td><a th:text="${group.name}"></a></td>
-								<td><a># of Users</a></td>
+								<td><a th:href="@{/admin/groups/{id} (id=${group.id})}"
+									th:text="${group.name}"></a></td>
+								<td  th:text="${group.userNumber}"># of Users</td>
 								<td><a>Delete</a></td>
 							</tr>
 						</tbody>

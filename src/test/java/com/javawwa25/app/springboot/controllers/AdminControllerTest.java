@@ -28,6 +28,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.javawwa25.app.springboot.admin.AdminController;
 import com.javawwa25.app.springboot.group.GroupService;
@@ -180,7 +182,7 @@ class AdminControllerTest {
 		String actual = underTest.adminGroups(model);
 		verify(model, times(2)).addAttribute(any(), any());
 		verify(userService, times(1)).getLoggedUserDto();
-		verify(groupService, times(1)).getAll();
+		verify(groupService, times(1)).getSimpleGroupInfo();
 		assertEquals(expected, actual);
 	}
 	
@@ -225,6 +227,21 @@ class AdminControllerTest {
 		GroupDto dto = new GroupDto();
 		dto.setName("GROUP_NAME");
 		mvc.perform(post(PATH + "/groups").flashAttr("dto", dto))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name(expected));
+	}
+	
+	@GetMapping("/groups/{id}")
+	public void adminGroup() {
+		String expected = "redirect:/admin/groups"; // TODO: change
+		String actual = underTest.adminGroup(1);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void adminGroup_Request() throws Exception {
+		String expected = "redirect:/admin/groups"; // TODO: change
+		mvc.perform(get(PATH + "/groups/{id}", 1))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name(expected));
 	}
