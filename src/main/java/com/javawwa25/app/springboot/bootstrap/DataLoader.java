@@ -35,7 +35,6 @@ public class DataLoader implements CommandLineRunner{
 	private static final Logger LOG = LoggerFactory.getLogger(DataLoader.class);
 	
 	private final UserService userService;
-	private final ProjectRepository projectRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
@@ -57,8 +56,6 @@ public class DataLoader implements CommandLineRunner{
 
 	private void loadData() {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
-		
-	
 		
 		Account account1 = accountService.save(Account.builder()
 							.email("tempUser1@email.com")
@@ -90,16 +87,20 @@ public class DataLoader implements CommandLineRunner{
 				.account(account2)
 				.build());
 		
+		Project project = Project.builder()
+				.name("Project")
+				.createdAt(new Date())
+				.info("Description oth the proejct here")
+				.build();
+		
+		project.addUser(user);
+		project.addUser(user2);
+		
 		groupRepository.save(UserGroup.builder()
 				.name("PM")
 				.user(user)
 				.user(user2)
-				.build());
-		
-		projectRepository.save(Project.builder()
-				.name("Project")
-				.createdAt(new Date())
-				.info("Description oth the proejct here")
+				.project(project)
 				.build());
 		
 		List<Status> defaultStatuses = List.of(
@@ -109,7 +110,6 @@ public class DataLoader implements CommandLineRunner{
 				new Status("VERIFIED", 60), 
 				new Status("IMPLEMENTED", 75), 
 				new Status("CLOSED", 100));
-		// statusRepository.saveAll(defaultStatuses);
 		
 		TaskType task = taskTypeService.saveType(TaskType.builder()
 				.name("TASK")

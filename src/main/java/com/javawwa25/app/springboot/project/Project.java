@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.task.Job;
 import com.javawwa25.app.springboot.task.Task;
 import com.javawwa25.app.springboot.user.User;
@@ -16,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,6 +50,14 @@ public class Project extends Job {
 	// mapping tasks with project
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "project")
 	private Set<Task> tasks;
+	
+	@ManyToMany(fetch = FetchType.LAZY, 
+			cascade = { CascadeType.DETACH, 
+						CascadeType.MERGE, 
+						CascadeType.PERSIST,
+						CascadeType.REFRESH }, 
+			mappedBy = "projects")
+	private Set<UserGroup> groups;
 	
 	@Builder
 	public Project(Date startDate, Date endDate, Date createdAt, Date modificationDate, String name, String info,

@@ -38,6 +38,5 @@ public class TaskType extends BaseEntity {
 			this.statuses = new HashSet<>();
 		}
 		this.statuses.add(status);
-		status.addTaskType(this);
 	}
 }

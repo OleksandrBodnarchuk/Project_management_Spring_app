@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.group;
 
 import java.util.Set;
 
+import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.user.BaseEntity;
 import com.javawwa25.app.springboot.user.User;
 
@@ -38,5 +39,16 @@ public class UserGroup extends BaseEntity{
 	   joinColumns = @JoinColumn(name = "group_id"),
 	   inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> users;
+	
+	@Singular
+	@ManyToMany(fetch = FetchType.EAGER, 
+			cascade = { CascadeType.DETACH, 
+						CascadeType.MERGE, 
+						CascadeType.PERSIST,
+						CascadeType.REFRESH })
+	@JoinTable(name = "groups_projects", 
+	   joinColumns = @JoinColumn(name = "group_id"),
+	   inverseJoinColumns = @JoinColumn(name = "project_id"))
+	private Set<Project> projects;
 
 }
