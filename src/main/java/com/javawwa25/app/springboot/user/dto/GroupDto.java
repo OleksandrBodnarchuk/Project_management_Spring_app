@@ -10,6 +10,6 @@ import lombok.Setter;
 public class GroupDto {
 	private long id;
 	private String name;
-	private Set<UserDto> users;
+	private Set<SimpleUserDto> users;
 	private Set<ProjectDto> projects;
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div class="row well">
+
+			<div class="col-md-12">
+				<div
+					th:replace="~{fragments/admin_navTabs :: groups_nav(${group.id})}"></div>
+
+				<form method="post" th:object=${group}>
+					<fieldset class="box tabular">
+						<legend>Group</legend>
+						<p>
+							<label for="group_name">Name<span class="required">
+									*</span></label><input type="text" th:field="*{name}">
+						</p>
+						<p class="error" th:each="error: ${#fields.errors('name')}"
+							th:text="${error}">Validation error</p>
+						<br>
+						<div class="col-md-6 col-md-offset-3">
+							<input type="submit" name="submit" id="submit"
+								class="form-control btn btn-primary" value="Save">
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

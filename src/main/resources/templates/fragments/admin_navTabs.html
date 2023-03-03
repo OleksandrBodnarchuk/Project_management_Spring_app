@@ -17,6 +17,27 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="row well" th:fragment="groups_nav(groupId)">
+		<div>
+			<div>
+				<ul class="nav nav-tabs">
+					<li><a th:href="@{/admin/groups/{groupId}/edit?tab=group (groupId=${groupId})}">Group</a></li>
+					<li><a th:href="@{/admin/groups/{groupId}/edit?tab=users (groupId=${groupId})}">Users</a></li>
+					<li><a th:href="@{/admin/groups/{groupId}/edit?tab=projects (groupId=${groupId})}">Projects</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row well"  th:fragment="admin_add_button(url, string)">
+		<div sec:authorize="hasAuthority('ADMIN')">
+			<a th:href="@{${url}}" class="btn btn-primary btn-success"> <span
+				class="glyphicon glyphicon-plus-sign"
+				th:text="' Add ' + ${string}"></span>
+			</a> <br>
+		</div>
+	</div>
 
 	<div class="row well" sec:authorize="hasAuthority('ADMIN')"
 		th:fragment="admin_add_task_btn">

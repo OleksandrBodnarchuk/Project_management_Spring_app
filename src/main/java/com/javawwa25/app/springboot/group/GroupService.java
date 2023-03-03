@@ -37,4 +37,11 @@ public class GroupService {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - getSimpleGroupInfo - called");
 		return groupRepository.getSimpleGroupInfo();
 	}
+
+	public GroupDto getGroupById(long groupId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - getGroupById - called");
+		return CommonUtils.mapGroupToDto(
+				groupRepository.findById(groupId)
+				.orElseThrow(() -> new RuntimeException("Group id is not valid.")));
+	}
 }

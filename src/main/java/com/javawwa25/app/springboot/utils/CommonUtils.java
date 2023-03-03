@@ -1,17 +1,21 @@
 package com.javawwa25.app.springboot.utils;
 
+import java.util.stream.Collectors;
+
 import com.javawwa25.app.springboot.group.UserGroup;
+import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.task.Task;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
+import com.javawwa25.app.springboot.user.dto.ProjectDto;
 import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 
 public class CommonUtils {
 
-	public static SimpleUserDto createSimpleUserDto(User userAssigned) {
-		return new SimpleUserDto(userAssigned.getAccount().getAccountId(),
-				userAssigned.getFirstName() + " " + userAssigned.getLastName());
+	public static SimpleUserDto createSimpleUserDto(User user) {
+		return new SimpleUserDto(user.getAccount().getAccountId(),
+				user.getFirstName() + " " + user.getLastName());
 	}
 
 	public static TaskDto mapTaskToDto(Task task) {
@@ -38,6 +42,15 @@ public class CommonUtils {
 		GroupDto dto = new GroupDto();
 		dto.setId(group.getId());
 		dto.setName(group.getName());
+		dto.setProjects(group.getProjects().stream().map(CommonUtils::mapProjectToDto).collect(Collectors.toSet()));
+		dto.setUsers(group.getUsers().stream().map(CommonUtils::createSimpleUserDto).collect(Collectors.toSet()));
+		return dto;
+	}
+	
+	public static ProjectDto mapProjectToDto(Project project) {
+		ProjectDto dto = new ProjectDto();
+		dto.setId(project.getId());
+		dto.setName(project.getName());
 		return dto;
 	}
 

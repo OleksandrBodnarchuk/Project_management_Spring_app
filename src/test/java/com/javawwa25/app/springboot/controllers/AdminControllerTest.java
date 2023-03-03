@@ -29,7 +29,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.javawwa25.app.springboot.admin.AdminController;
 import com.javawwa25.app.springboot.group.GroupService;
@@ -233,16 +232,16 @@ class AdminControllerTest {
 	
 	@GetMapping("/groups/{id}")
 	public void adminGroup() {
-		String expected = "redirect:/admin/groups"; // TODO: change
-		String actual = underTest.adminGroup(1);
+		String expected = "/admin/group_page"; 
+		String actual = underTest.adminGroup(null, 1, model);
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void adminGroup_Request() throws Exception {
-		String expected = "redirect:/admin/groups"; // TODO: change
-		mvc.perform(get(PATH + "/groups/{id}", 1))
-		.andExpect(status().is3xxRedirection())
+		String expected = "/admin/group/group_page"; 
+		mvc.perform(get(PATH + "/groups/{id}/edit", 1))
+		.andExpect(status().isOk())
 		.andExpect(view().name(expected));
 	}
 

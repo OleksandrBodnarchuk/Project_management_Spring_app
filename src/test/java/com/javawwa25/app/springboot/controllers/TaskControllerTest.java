@@ -1,7 +1,6 @@
 package com.javawwa25.app.springboot.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -123,7 +122,7 @@ class TaskControllerTest {
 		String expected = "/task/task_page";
 		String actual = underTest.showTaskInfo(1l, model);
 		verify(model, times(2)).addAttribute(any(), any());
-		verify(taskService, times(1)).getTaskById(anyLong());
+		verify(taskService, times(1)).getTaskDtoById(anyLong());
 		verify(userService, times(1)).getLoggedUserDto();
 		assertEquals(expected, actual);
 	}
@@ -134,27 +133,6 @@ class TaskControllerTest {
 		mvc.perform(get("/tasks/{taskId}", 1))
 		.andExpect(status().isOk())
 		.andExpect(view().name(expected));
-	}
-
-	@Test
-	void testUpdateTaskInBoard() {
-		String expected = "/task/update_task";
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testMoveTaskToNextStep() {
-		String expected;
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testMoveTaskToPreviousStep() {
-		long userId = 1l;
-		long projectId = 1l;
-		String expected = "redirect:/users/" + userId + "/projects/" + projectId + "/tasks";
-		;
-		fail("Not yet implemented");
 	}
 
 }

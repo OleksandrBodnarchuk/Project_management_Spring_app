@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div class="row well">
+
+			<div class="col-md-12">
+				<div
+					th:replace="~{fragments/admin_navTabs :: groups_nav(${group.id})}"></div>
+				<div
+					th:replace="~{fragments/admin_navTabs :: admin_add_button('/admin/groups/' + ${group.id} +'/projects/new','Project')}">
+				</div>
+				<br>
+
+				<fieldset class="box tabular">
+					<legend>Projects</legend>
+					<div class="col-md-12">
+						<table border="1"
+							class="table table-striped table-responsive-md row well">
+							<thead>
+								<tr>
+									<th><a>Project</a></th>
+									<th><a>Role</a></th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="project : ${group.projects}">
+									<td><a th:text="${project.name}"></a></td>
+									<td>ROLE TBC</td>
+									<td><a>Remove</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
