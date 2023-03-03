@@ -42,7 +42,7 @@ public class CommonUtils {
 		GroupDto dto = new GroupDto();
 		dto.setId(group.getId());
 		dto.setName(group.getName());
-		dto.setProjects(group.getProjects().stream().map(CommonUtils::mapProjectToDto).collect(Collectors.toSet()));
+		dto.setProjects(group.getProjects().stream().map(CommonUtils::mapProjectToDto).collect(Collectors.toSet()));	
 		dto.setUsers(group.getUsers().stream().map(CommonUtils::createSimpleUserDto).collect(Collectors.toSet()));
 		return dto;
 	}

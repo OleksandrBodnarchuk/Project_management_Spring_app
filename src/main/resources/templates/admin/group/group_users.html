@@ -10,6 +10,9 @@
 			<div class="col-md-12">
 				<div
 					th:replace="~{fragments/admin_navTabs :: groups_nav(${group.id})}"></div>
+				<div th:if="${param.success}">
+					<div class="alert alert-success">User added successfully</div>
+				</div>
 				<div
 					th:replace="~{fragments/admin_navTabs :: admin_add_button('/admin/groups/' + ${group.id} +'/users/new' ,'User')}">
 				</div>
@@ -29,8 +32,7 @@
 							</thead>
 							<tbody>
 								<tr th:each="user : ${group.users}">
-									<td><a									
-										th:text="${user.accountId}"></a></td>
+									<td><a th:text="${user.accountId}"></a></td>
 									<td th:text="${user.userName}"></td>
 									<td><a>Remove</a></td>
 								</tr>

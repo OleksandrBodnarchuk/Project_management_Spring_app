@@ -1,5 +1,7 @@
 package com.javawwa25.app.springboot.group;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.javawwa25.app.springboot.project.Project;
@@ -52,5 +54,12 @@ public class UserGroup extends BaseEntity{
 	   joinColumns = @JoinColumn(name = "group_id"),
 	   inverseJoinColumns = @JoinColumn(name = "project_id"))
 	private Set<Project> projects;
+	
+	public void addUser(User user) {
+		if(Objects.isNull(this.users)) {
+			this.users = new HashSet<>();
+		}
+		this.users.add(user);
+	}
 
 }

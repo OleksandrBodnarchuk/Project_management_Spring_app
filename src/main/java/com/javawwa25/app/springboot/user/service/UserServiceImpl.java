@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,9 @@ import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
-import com.javawwa25.app.springboot.user.dto.UserDtoName;
 import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
 import com.javawwa25.app.springboot.user.repo.UserRepository;
 
@@ -28,11 +30,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+	private final static Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final AccountService accountService;
 	private final AuthorityRepository authorityRepository;
-	
+
 	@Override
 	public List<UserDto> getAllUserDtos() {
 		return userRepository.findAll().stream()
@@ -47,12 +50,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(long id) {
 		return userRepository.findById(id).orElse(null);
-	}
-
-	@Override
-	public void deleteUserById(long id) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -185,13 +182,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Set<SimpleUserDto> getSimpleDtos() {
+	public List<SimpleUserDto> getSimpleDtos() {
 		return userRepository.getUserDtoName();
 	}
 
 	@Override
-	public Set<UserDtoName> getDtoUserNames() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SimpleUserDto> getAllUsersForGroup(GroupDto group) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET getAllUsersForGroup - called");
+		Set<SimpleUserDto> userDtos = group.getUsers();
+		if (userDtos != null && !userDtos.isEmpty()) {
+			Set<Long> accountIds = userDtos.stream().map(SimpleUserDto::getAccountId).collect(Collectors.toSet());
+			return userRepository.findByAccountAccountIdIn(accountIds);
+		} else {
+			return userRepository.getUserDtoName();
+		}
 	}
 }

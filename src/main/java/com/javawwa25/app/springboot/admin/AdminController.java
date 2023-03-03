@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javawwa25.app.springboot.group.GroupService;
+import com.javawwa25.app.springboot.group.dto.GroupUsersForm;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
@@ -158,8 +159,27 @@ public class AdminController {
 					String.format("/admin/group/group_%s", tab);
 		}
 		return "/admin/group/group_page";
-		 
 	}
+	
+	@GetMapping("/groups/{id}/users/new")
+	public String adminGroupNewUser(@PathVariable("id") long groupId, Model model) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupNewUser - called");
+		fillLoggedUserDto(model);
+		GroupDto group = groupService.getGroupById(groupId);
+		model.addAttribute("group", group);
+		GroupUsersForm wrapperForm = new GroupUsersForm();
+		wrapperForm.setUsers(userService.getAllUsersForGroup(group));
+		model.addAttribute("wrapper", wrapperForm);
+		return "/admin/group/users_new";
+	}
+	
+	@PostMapping("/groups/{id}/users/new")
+	public String saveGroupUsers(@PathVariable("id") long id, @ModelAttribute("wrapper") GroupUsersForm form) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveGroupUsers - called");		
+		groupService.assignUsers(id, form);
+		return "redirect:/admin/groups/" + id + "/edit";
+	}
+	
 	
 	private void fillLoggedUserDto(Model model) {
 		model.addAttribute("user", userService.getLoggedUserDto());
