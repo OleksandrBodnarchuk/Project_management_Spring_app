@@ -30,8 +30,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.javawwa25.app.springboot.admin.AdminController;
-import com.javawwa25.app.springboot.group.GroupService;
+import com.javawwa25.app.springboot.controller.AdminController;
+import com.javawwa25.app.springboot.group.service.GroupService;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;

@@ -1,4 +1,4 @@
-package com.javawwa25.app.springboot.user.controller;
+package com.javawwa25.app.springboot.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,7 +1,5 @@
-package com.javawwa25.app.springboot.project.controller;
+package com.javawwa25.app.springboot.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +23,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/projects")
 public class ProjectController {
 	
-	private final static Logger LOG = LoggerFactory.getLogger(ProjectController.class);
-	
 	private final  ProjectService projectService;
 	private final  UserService userService;
 
 	@GetMapping
     public String projectList(Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectList - called");
 		UserDto dto = userService.getLoggedUserDto();
 		model.addAttribute("user", dto);
 		model.addAttribute("projectList", projectService.getProjectDtosByAccountId(dto.getAccountId()));
@@ -41,7 +36,6 @@ public class ProjectController {
 	
 	@GetMapping("/{projectId}")
     public String projectPage(@PathVariable(value = "projectId") long projectId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectPage - called");
 		UserDto dto = userService.getLoggedUserDto();
 		model.addAttribute("user", dto);
 		model.addAttribute("project", projectService.getProjectDtoById(projectId));
@@ -51,7 +45,6 @@ public class ProjectController {
 	@Secured({"ADMIN"})
 	@GetMapping("/new")
     public String showNewProjectForm(Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showNewProjectForm - called");
         model.addAttribute("user", userService.getLoggedUserDto());
         model.addAttribute("project", ProjectDto.builder().build());
         return "project/new_project";
@@ -59,14 +52,12 @@ public class ProjectController {
 	
 	@GetMapping("/{projectId}/tasks")
 	public String redirectToProjectTasks(@PathVariable("projectId") long projectId) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET redirectToProjectTasks - called");
 		return "redirect:/tasks/projects/" + projectId;
 	}
 	
 	@Secured({"ADMIN"})
 	@PostMapping("/save")
     public String saveProject(@ModelAttribute("project") ProjectDto dto) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveProject - called");
         projectService.save(dto);
 		return "redirect:/admin/projects?success";
     }

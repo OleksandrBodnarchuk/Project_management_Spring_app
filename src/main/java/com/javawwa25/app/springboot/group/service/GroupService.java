@@ -1,4 +1,4 @@
-package com.javawwa25.app.springboot.group;
+package com.javawwa25.app.springboot.group.service;
 
 import java.util.Objects;
 import java.util.Set;
@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.group.dto.GroupUsersForm;
 import com.javawwa25.app.springboot.group.dto.SimpleGroupDto;
+import com.javawwa25.app.springboot.group.repo.GroupRepository;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.service.UserService;
@@ -26,7 +28,6 @@ public class GroupService {
 	private final UserService userService;
 
 	public GroupDto save(GroupDto dto) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - save - called");
 		UserGroup saved = groupRepository.save(CommonUtils.mapDtoToGroup(dto));
 		dto.setId(saved.getId());
 		return dto;
@@ -44,7 +45,6 @@ public class GroupService {
 	}
 
 	public GroupDto getGroupById(long groupId) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - getGroupById - called");
 		return CommonUtils.mapGroupToDto(
 				getByIdOrThrow(groupId));
 	}

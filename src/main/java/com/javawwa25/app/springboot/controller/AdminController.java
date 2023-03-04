@@ -1,10 +1,8 @@
-package com.javawwa25.app.springboot.admin;
+package com.javawwa25.app.springboot.controller;
 
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javawwa25.app.springboot.group.GroupService;
 import com.javawwa25.app.springboot.group.dto.GroupUsersForm;
+import com.javawwa25.app.springboot.group.service.GroupService;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
@@ -33,21 +31,18 @@ import lombok.RequiredArgsConstructor;
 @Secured("ADMIN")
 @RequiredArgsConstructor
 public class AdminController {
-	private final static Logger LOG = LoggerFactory.getLogger(AdminController.class);
 	private final GroupService groupService;
     private final UserService userService;
     private final ProjectService projectService;
     
     @GetMapping
     public String adminPage(Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminPage - called");
     	fillLoggedUserDto(model);
     	return "admin/admin_page";
     }
     
     @GetMapping("/users")
     public String adminUsers(Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUsers - called");
     	fillLoggedUserDto(model);
 		model.addAttribute("userList", userService.getAllUserDtos());
     	return "admin/users";
@@ -56,7 +51,6 @@ public class AdminController {
     
     @GetMapping("/user/{id}")
     public String adminUserPage(@PathVariable("id") long id, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserPage - called");
 		UserDto dto = userService.getUserDtoByAccountId(id);
 		fillLoggedUserDto(model);
 		model.addAttribute("dto", dto);
@@ -67,9 +61,7 @@ public class AdminController {
     @PostMapping("/user/{id}")
     public String adminEditUser(@PathVariable("id") long id, @ModelAttribute("dto") @Valid UserDto dto, 
     							BindingResult result, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - POST adminEditUser - called");
     	if (result.hasErrors()) {
-    		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveUser - ERROR in FORMS");
     		fillLoggedUserDto(model);
     		model.addAttribute("dto", dto);
 			return "admin/user_page";
@@ -82,13 +74,11 @@ public class AdminController {
 
     @GetMapping("/user/{id}/groups")
     public  String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserGroupsPage - called");
     	return null;
     }
     
 	@GetMapping("/user/{id}/projects")
 	public String adminUserProjectsPage(@PathVariable("id") long accountId, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectsPage - called");
     	UserDto dto = userService.getUserDtoByAccountId(accountId);
     	List<ProjectDto> projectList = projectService.getProjectDtosByAccountId(accountId);
     	fillLoggedUserDto(model);
@@ -99,7 +89,6 @@ public class AdminController {
 	
 	@GetMapping("/user/{id}/projects/add")
 	public String adminUserProjectAddPage(@PathVariable("id") long accountId, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminUserProjectAddPage - called");
     	fillLoggedUserDto(model);
     	model.addAttribute("dto", userService.getUserDtoByAccountId(accountId));
     	model.addAttribute("projectList", projectService.getProjectsNotPartOf(accountId));
@@ -108,14 +97,12 @@ public class AdminController {
 	
 	@GetMapping("/user/{id}/assign/{projectId}")
 	public String adminAssignProjectUser(@PathVariable("id") long accountId, @PathVariable("projectId") long projectId, Model model) {
-    	LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminAssignProjectUser - called");
     	projectService.assignProject(accountId, projectId);
     	return "redirect:/admin/user/" + accountId + "/projects?success";
 	}
     
 	@GetMapping("/projects")
 	public String adminProjects(Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminProjects - called");
 		List<Project> projectList = projectService.getAllProjects();
 		fillLoggedUserDto(model);
 		model.addAttribute("projectList", projectList);
@@ -124,7 +111,6 @@ public class AdminController {
 	
 	@GetMapping("/groups")
 	public String adminGroups(Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroups - called");
 		fillLoggedUserDto(model);
 		model.addAttribute("groupList", groupService.getSimpleGroupInfo());
 		return "admin/group/groups";
@@ -133,7 +119,6 @@ public class AdminController {
 	
 	@GetMapping("/groups/new")
 	public String adminNewGroup(Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminNewGroup - called");
 		fillLoggedUserDto(model);
 		model.addAttribute("group", new GroupDto());
 		return "admin/group/group_new";
@@ -142,7 +127,6 @@ public class AdminController {
 	
 	@PostMapping("/groups")
 	public String adminGroupSave(@ModelAttribute("group") GroupDto dto, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupSave - called");
 		groupService.save(dto);
 		return "redirect:/admin/groups?success";
 	}
@@ -150,7 +134,6 @@ public class AdminController {
 	@GetMapping("/groups/{id}/edit")
 	public String adminGroup(@RequestParam(value = "tab", required = false) String tab,
 			@PathVariable("id") long groupId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroup - called");
 		fillLoggedUserDto(model);
 		model.addAttribute("group", groupService.getGroupById(groupId));
 		if(StringUtils.isNotBlank(tab)) {
@@ -163,7 +146,6 @@ public class AdminController {
 	
 	@GetMapping("/groups/{id}/users/new")
 	public String adminGroupNewUser(@PathVariable("id") long groupId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET adminGroupNewUser - called");
 		fillLoggedUserDto(model);
 		GroupDto group = groupService.getGroupById(groupId);
 		model.addAttribute("group", group);
@@ -175,7 +157,6 @@ public class AdminController {
 	
 	@PostMapping("/groups/{id}/users/new")
 	public String saveGroupUsers(@PathVariable("id") long id, @ModelAttribute("wrapper") GroupUsersForm form) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET saveGroupUsers - called");		
 		groupService.assignUsers(id, form);
 		return "redirect:/admin/groups/" + id + "/edit";
 	}

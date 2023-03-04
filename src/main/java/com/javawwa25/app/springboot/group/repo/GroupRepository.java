@@ -1,10 +1,11 @@
-package com.javawwa25.app.springboot.group;
+package com.javawwa25.app.springboot.group.repo;
 
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.group.dto.SimpleGroupDto;
 
 public interface GroupRepository extends JpaRepository<UserGroup, Long> {

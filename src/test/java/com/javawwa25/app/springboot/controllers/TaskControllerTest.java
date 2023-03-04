@@ -24,8 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
+import com.javawwa25.app.springboot.controller.TaskController;
 import com.javawwa25.app.springboot.project.service.ProjectService;
-import com.javawwa25.app.springboot.task.controller.TaskController;
 import com.javawwa25.app.springboot.task.dto.TaskDto;
 import com.javawwa25.app.springboot.task.service.TaskService;
 import com.javawwa25.app.springboot.user.dto.UserDto;

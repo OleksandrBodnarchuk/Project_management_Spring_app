@@ -1,4 +1,4 @@
-package com.javawwa25.app.springboot.login;
+package com.javawwa25.app.springboot.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

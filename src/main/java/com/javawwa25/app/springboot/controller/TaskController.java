@@ -1,9 +1,7 @@
-package com.javawwa25.app.springboot.task.controller;
+package com.javawwa25.app.springboot.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +26,6 @@ import lombok.RequiredArgsConstructor;
 public class TaskController {
 
 	private final static String TASK_ENDPOINT = "/projects/{projectId}";
-	private final static Logger LOG = LoggerFactory.getLogger(TaskController.class);
-
 	private final TaskService taskService;
 	private final ProjectService projectService;
 	private final UserService userService;
@@ -37,7 +33,6 @@ public class TaskController {
 	@GetMapping(TASK_ENDPOINT)
 	public String projectAllTasks(@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "status", required = false) String status, @PathVariable("projectId") long projectId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET projectAllTasks - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("taskList", taskService.getTypedTasksForProject(projectId, type, status));
@@ -46,7 +41,6 @@ public class TaskController {
 	
 	@GetMapping(TASK_ENDPOINT + "/new")
 	public String createTask(@RequestParam(value = "type") String type, @PathVariable(value = "projectId") long projectId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET createTask - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("projectName", projectService.getProjectNameById(projectId));
 		model.addAttribute("projectId", projectId);
@@ -57,7 +51,6 @@ public class TaskController {
 	
 	@PostMapping(TASK_ENDPOINT + "/new")
 	public String saveTask(@PathVariable(value = "projectId") long projectId, @ModelAttribute("task") TaskDto dto) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - POST saveTask - called");
 		dto.setProjectId(projectId);
 		taskService.saveTask(dto);
 		projectService.assignProject(dto.getUserAssignedId(), projectId);
@@ -66,7 +59,6 @@ public class TaskController {
 
 	@GetMapping("/{taskId}")
 	public String showTaskInfo(@PathVariable(value = "taskId") long taskId, Model model) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - GET showTaskInfo - called");
 		model.addAttribute("user", userService.getLoggedUserDto());
 		model.addAttribute("task", taskService.getTaskDtoById(taskId));
 		return "/task/task_page";

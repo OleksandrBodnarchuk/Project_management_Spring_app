@@ -37,7 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void save(ProjectDto dto) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - save - called");
 		this.projectRepository
 				.save(Project.builder().name(dto.getName())
 						.info(dto.getInfo()).createdAt(new Date()).build());
@@ -45,7 +44,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Project getProjectById(long id) {
-		LOG.debug("[" + this.getClass().getSimpleName() + "] - getProjectById - called");
 		return projectRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Project not found for id : " + id));
 	}
@@ -66,6 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Override
 	public List<ProjectDto> getProjectsNotPartOf(long accountId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - getProjectsNotPartOf - called");
 		User user = userService.getUserByAccountId(accountId);
 		if(user.getProjects().isEmpty()) {
 			return projectRepository.findAll().stream()
@@ -100,6 +99,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Set<Task> getProjectTasks(long projectId) {
+		LOG.debug("[" + this.getClass().getSimpleName() + "] - getProjectTasks - called");
 		return getProjectById(projectId).getTasks();
 	}
 

@@ -29,9 +29,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.javawwa25.app.springboot.task.service.TaskService;
+import com.javawwa25.app.springboot.controller.UserController;
 import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.security.validators.EmailValidator;
-import com.javawwa25.app.springboot.user.controller.UserController;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
 import com.javawwa25.app.springboot.user.service.UserService;
