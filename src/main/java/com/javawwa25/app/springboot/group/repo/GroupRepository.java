@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.group.dto.SimpleGroupDto;
@@ -15,4 +16,7 @@ public interface GroupRepository extends JpaRepository<UserGroup, Long> {
 			+ "left join users_groups ug on ug.group_id = g.id "
 			+ "group by g.id", nativeQuery = true)
 	public Set<SimpleGroupDto> getSimpleGroupInfo();
+
+	@Query("SELECT g.name FROM UserGroup g WHERE g.name = :name")
+	public String findByName(@Param(value = "name") String name);
 }

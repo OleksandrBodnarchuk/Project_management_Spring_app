@@ -12,6 +12,7 @@
 					method="POST">
 					<input type="text" th:field="*{name}" placeholder="Group Name"
 						class="form-control mb-4 col-4">
+					<p class="error" th:each="error: ${#fields.errors('name')}" th:text="${error}">Validation error</p>
 					<button type="submit" class="btn btn-primary btn-success">
 						<span class="glyphicon glyphicon-plus-sign"></span> Save Group
 					</button>

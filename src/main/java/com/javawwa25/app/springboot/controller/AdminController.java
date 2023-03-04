@@ -123,10 +123,14 @@ public class AdminController {
 		model.addAttribute("group", new GroupDto());
 		return "admin/group/group_new";
 	}
-
 	
 	@PostMapping("/groups")
-	public String adminGroupSave(@ModelAttribute("group") GroupDto dto, Model model) {
+	public String adminGroupSave(@ModelAttribute("group") @Valid GroupDto dto, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			fillLoggedUserDto(model);
+			model.addAttribute("dto", dto);
+			return "admin/group/group_new";
+		}
 		groupService.save(dto);
 		return "redirect:/admin/groups?success";
 	}

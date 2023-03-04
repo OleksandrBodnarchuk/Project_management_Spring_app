@@ -50,7 +50,6 @@ public class UserController {
 	@PostMapping("/save")
     public String saveUser(@ModelAttribute("dto") @Valid UserRegistrationDto dto, BindingResult result, Model model) {
     	if (result.hasErrors()) {
-
     		model.addAttribute("user", userService.getLoggedUserDto());
     		model.addAttribute("dto", dto);
 			return "user/new_user";

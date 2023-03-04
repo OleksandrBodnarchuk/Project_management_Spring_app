@@ -3,8 +3,6 @@ package com.javawwa25.app.springboot.security.validators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.javawwa25.app.springboot.security.SecurityUtil;
-import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.validation.ConstraintValidator;
@@ -33,12 +31,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 	}
 
 	private boolean validateEmailExist(String email) {
-		String authenticatedEmail = SecurityUtil.getSessionUser();
-		User existingUser = userService.findByEmail(email);
-		if (existingUser == null || (authenticatedEmail != null && email.equals(authenticatedEmail))) {
-			return true;
-		}
-		return false;
+		 return userService.findByEmail(email) == null;
 	}
 
 	private boolean validateEmail(String email) {

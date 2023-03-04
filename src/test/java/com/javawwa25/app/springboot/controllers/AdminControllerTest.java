@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.javawwa25.app.springboot.controller.AdminController;
 import com.javawwa25.app.springboot.group.service.GroupService;
 import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.security.validators.GroupNameValidator;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.UserService;
@@ -215,8 +216,24 @@ class AdminControllerTest {
 		String expected= "redirect:/admin/groups?success";
 		GroupDto dto = new GroupDto();
 		dto.setName("GROUP_NAME");
-		String actual = underTest.adminGroupSave(dto, model);
+		BindingResult result = mock(BindException.class);
+		String actual = underTest.adminGroupSave(dto, result, model);
 		verify(groupService, times(1)).save(any());
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testAdminGroupSave_hasError() {
+		String expected= "admin/group/group_new";
+		GroupDto dto = new GroupDto();
+		dto.setName("GROUP_NAME");
+		BindingResult result = mock(BindException.class);
+		result.addError(new ObjectError("TEMP", "TEMP"));
+		given(result.hasErrors()).willReturn(true);
+
+		String actual = underTest.adminGroupSave(dto, result, model);
+		verify(model, times(2)).addAttribute(any(), any());
+		verify(groupService, never()).save(any());
 		assertEquals(expected, actual);
 	}
 
@@ -225,6 +242,8 @@ class AdminControllerTest {
 		String expected= "redirect:/admin/groups?success";
 		GroupDto dto = new GroupDto();
 		dto.setName("GROUP_NAME");
+		GroupNameValidator mock = mock(GroupNameValidator.class);
+		given(mock.isValid(any(), any())).willReturn(true);
 		mvc.perform(post(PATH + "/groups").flashAttr("dto", dto))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name(expected));

@@ -65,4 +65,8 @@ public class GroupService {
 		.orElseThrow(() -> new RuntimeException("Group id is not valid."));
 	}
 
+	public String findByName(String name) {
+		return groupRepository.findByName(name);
+	}
+
 }
