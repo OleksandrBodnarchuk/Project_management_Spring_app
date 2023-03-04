@@ -55,7 +55,7 @@ public class GroupService {
 			Set<User> users = form.getUsers().stream().filter(dto -> (dto.getAccountId() > 0))
 					.map(dto -> userService.getUserByAccountId(dto.getAccountId()))
 					.collect(Collectors.toSet());
-			group.setUsers(users);
+			users.forEach(user -> group.addUser(user));
 			groupRepository.save(group);
 		}
 	}

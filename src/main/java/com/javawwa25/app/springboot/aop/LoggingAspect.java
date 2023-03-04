@@ -29,12 +29,6 @@ public class LoggingAspect {
 		return result;
 	}
 
-	@Around("execution(public * *.*.*.*.*.*.*Repository.*(*))")
-	public Object beforeRepositoryMethodAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		Object result = logMessage(proceedingJoinPoint);
-		return result;
-	}
-
 	private Object logMessage(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 		final StopWatch stopWatch = new StopWatch();
