@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
+import com.javawwa25.app.springboot.security.validators.ValidEmail;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -27,15 +27,15 @@ public class UserDto {
 	private String lastName;
 	@NotNull
     @NotEmpty
-    @Email(message = "Email invalid")
+    @ValidEmail(message = "Email invalid")
 	private String email;
-	private boolean isAdmin;
+	private Boolean isAdmin;
 	
 	@Min(message = "Minimum 8 symbols", value = 8)
 	private String password;
 	private Date lastActiveDate;
 	private Date registrationDate;
 	private List<ProjectDto> projects;   
-	private boolean generatePassword;
+	private Boolean generatePassword;
 
 }

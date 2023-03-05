@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="~{fragments/header :: header-css}"/>
+<head th:replace="~{fragments/header :: header-css}" />
 <body>
 	<div th:replace="~{fragments/header :: navbar}"></div>
 
@@ -11,9 +11,8 @@
 				<!-- Account page navigation-->
 				<nav class="nav nav-borders">
 					<a class="nav-link active ms-0" href="#"> Profile Information</a> <a
+						class="nav-link" th:href="@{/user/security}">Security</a> <a
 						class="nav-link"
-						th:href="@{/user/security}">Security</a>
-					<a class="nav-link"
 						href="https://www.bootdey.com/snippets/view/bs5-edit-notifications-page"
 						target="__blank">Notifications</a>
 				</nav>
@@ -57,9 +56,8 @@
 									<input type="hidden" th:field="*{accountId}" id="accountId">
 									<!-- Form Group (status)-->
 									<div class="mb-3">
-										<label class="medium mb-1" for="inputStatus">Your
-											status (will appear to other user on the site)</label> <input
-											class="form-control" id="inputStatus" type="text"
+										<label class="medium mb-1" for="inputStatus">Status</label> <input
+											class="form-control mb-4 col-4" id="inputStatus" type="text"
 											th:field=*{status} placeholder="What do you think?">
 									</div>
 									<!-- Form Row-->
@@ -67,30 +65,42 @@
 										<!-- Form Group (first name)-->
 										<div class="col-md-6">
 											<label class="medium mb-1" for="firstName">First name</label>
-											<input class="form-control" id="firstName"
-												th:field=*{firstName} type="text"
-												placeholder="Enter your first name">
-											<p class="error"
-												th:each="error: ${#fields.errors('firstName')}"
-												th:text="${error}">Validation error</p>
+											<div sec:authorize="hasAuthority('ADMIN')">
+												<input class="form-control mb-4 col-4" id="firstName"
+													th:field=*{firstName} type="text"
+													placeholder="Enter your first name">
+											</div>
+											<div sec:authorize="!hasAuthority('ADMIN')">
+												<input class="form-control mb-4 col-4" id="firstName"
+													th:field=*{firstName} type="text" readonly="readonly">
+											</div>
 										</div>
 										<!-- Form Group (last name)-->
 										<div class="col-md-6">
-											<label class="medium mb-1" for="lastName">Last name</label> <input
-												class="form-control" id="lastName" th:field=*{lastName}
-												type="text" placeholder="Enter your last name">
-											<p class="error"
-												th:each="error: ${#fields.errors('lastName')}"
-												th:text="${error}">Validation error</p>
+											<label class="medium mb-1" for="lastName">Last name</label>
+											<div sec:authorize="hasAuthority('ADMIN')">
+												<input class="form-control mb-4 col-4" id="lastName"
+													th:field=*{lastName} type="text">
+											</div>
+											<div sec:authorize="!hasAuthority('ADMIN')">
+												<input class="form-control mb-4 col-4" id="lastName"
+													th:field=*{lastName} type="text" readonly="readonly">
+											</div>
 										</div>
 									</div>
 									<!-- Form Group (email address)-->
 									<div class="mb-3">
-										<label class="medium mb-1" for="email">Email address</label> <input
-											class="form-control" id="email" th:field="*{email}"
-											type="email" placeholder="Enter your email address">
-										<p class="error" th:each="error: ${#fields.errors('email')}"
-											th:text="${error}">Validation error</p>
+										<label class="medium mb-1" for="email">Email address</label>
+										<div sec:authorize="hasAuthority('ADMIN')">
+											<input class="form-control mb-4 col-4" th:field="*{email}"
+												type="email">
+											<p class="error" th:each="error: ${#fields.errors('email')}"
+												th:text="${error}">Validation error</p>
+										</div>
+										<div sec:authorize="!hasAuthority('ADMIN')">
+											<input class="form-control mb-4 col-4" th:field="*{email}"
+												type="email" readonly="readonly">
+										</div>
 									</div>
 									<br>
 									<!-- Save changes button-->

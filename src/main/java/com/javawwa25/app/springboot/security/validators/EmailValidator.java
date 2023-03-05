@@ -3,11 +3,15 @@ package com.javawwa25.app.springboot.security.validators;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
 	private Pattern pattern;
@@ -16,10 +20,8 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 			+ "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
 	private final UserService userService;
+	private final AccountService accountService;
 	
-	public EmailValidator(UserService userService) {
-		this.userService = userService;
-	}
 
 	@Override
 	public void initialize(ValidEmail constraintAnnotation) {
@@ -31,7 +33,14 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 	}
 
 	private boolean validateEmailExist(String email) {
-		 return userService.findByEmail(email) == null;
+		User loggedUser = userService.getLoggedUser();
+		User userToUpdate = userService.findByEmail(email);
+		// own profile
+		if(userToUpdate == null || loggedUser.equals(userToUpdate)) {
+			return true;
+		} else { // else profile
+			return accountService.findEmail(email) == 0;
+		}
 	}
 
 	private boolean validateEmail(String email) {

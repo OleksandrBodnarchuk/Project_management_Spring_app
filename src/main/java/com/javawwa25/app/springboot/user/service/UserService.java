@@ -22,7 +22,7 @@ public interface UserService {
 	User save(UserDto dto);
 
 	User findByEmail(String email);
-
+	
 	User getLoggedUser();
 
 	void userLogged();
@@ -38,5 +38,5 @@ public interface UserService {
 	List<SimpleUserDto> getSimpleDtos();
 
 	List<SimpleUserDto> getAllUsersForGroup(GroupDto group);
-	
+
 }

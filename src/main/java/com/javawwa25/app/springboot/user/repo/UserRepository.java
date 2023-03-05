@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("SELECT new com.javawwa25.app.springboot.user.dto.SimpleUserDto(u.account.id, CONCAT (u.firstName,' ', u.lastName) as userName) "
 			+ "FROM User u WHERE u.account.id NOT IN (:accountIds)")
 	List<SimpleUserDto> findByAccountAccountIdIn(@Param("accountIds") Set<Long> accountIds);
+
 }

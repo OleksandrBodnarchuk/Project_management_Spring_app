@@ -92,15 +92,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void update(UserDto dto) {
-		User user = getLoggedUser();
-		if(user.getAccount().getAccountId() != dto.getAccountId()) {
-			throw new RuntimeException("Id not match user id");
+		User loggedUser = getLoggedUser();
+		if (dto.getAccountId() != loggedUser.getAccount().getAccountId()) {
+			adminUpdateUser(dto);
 		} else {
-			user.setFirstName(dto.getFirstName());
-			user.setLastName(dto.getLastName());
-			user.getAccount().setEmail(dto.getEmail());
-			this.save(user);
+			updateUserDetails(dto, loggedUser);
+			SecurityUtil.updateSessionUser(loggedUser);
 		}
+	}
+
+	@Secured({ "ADMIN" })
+	private void adminUpdateUser(UserDto dto) {
+		User otherUser = getUserByAccountId(dto.getAccountId());
+		updateUserDetails(dto, otherUser);
+	}
+
+	private void updateUserDetails(UserDto dto, User user) {
+		user.setFirstName(dto.getFirstName());
+		user.setLastName(dto.getLastName());
+		user.getAccount().setEmail(dto.getEmail());
+		user.setUserStatus(dto.getStatus());
+		userRepository.save(user);
 	}
 
 	@Override
@@ -133,7 +145,7 @@ public class UserServiceImpl implements UserService {
 	public User save(UserDto dto) {
 		Account account = accountService.save(
 				Account.builder()
-				.authority(setAuthority(dto.isAdmin()))
+				.authority(setAuthority(dto.getIsAdmin()))
 				.email(dto.getEmail())
 				.password(passwordEncoder.encode(dto.getPassword()))
 				.registrationDate(new Date())
@@ -157,7 +169,8 @@ public class UserServiceImpl implements UserService {
 		dto.setEmail(user.getAccount().getEmail());
 		dto.setFirstName(user.getFirstName());
 		dto.setLastName(user.getLastName());
-		dto.setAdmin(user.getAccount().getAuthorities().stream()
+		dto.setStatus(user.getUserStatus());
+		dto.setIsAdmin(user.getAccount().getAuthorities().stream()
 				.anyMatch(authority -> authority.getRole().equals("ADMIN")));
 		dto.setLastActiveDate(user.getAccount().getLastActiveDate());
 		dto.setRegistrationDate(user.getAccount().getRegistrationDate());
@@ -167,10 +180,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(UserDto dto) {
 		User user = userRepository.findByAccountAccountId(Long.valueOf(dto.getAccountId()));
-		user.setFirstName(dto.getFirstName());
-		user.setLastName(dto.getLastName());
-		user.getAccount().setEmail(dto.getEmail());
-		if(dto.isGeneratePassword()) {
+		updateUserDetails(dto, user);
+		if(dto.getGeneratePassword()) {
 			// TODO: generate new password
 		}
 		userRepository.save(user);
@@ -197,4 +208,5 @@ public class UserServiceImpl implements UserService {
 			return userRepository.getUserDtoName();
 		}
 	}
+
 }

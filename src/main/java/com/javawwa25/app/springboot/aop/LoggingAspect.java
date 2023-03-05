@@ -23,7 +23,7 @@ public class LoggingAspect {
 		return result;
 	}
 
-	@Around("execution(public * *.*.*.*.*.*.service.*(*))")
+	@Around("execution(public * *.*.*.*.*.service.*.*(*))")
 	public Object beforeServiceMethodAdvise(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		Object result = logMessage(proceedingJoinPoint);
 		return result;

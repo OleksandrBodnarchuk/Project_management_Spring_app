@@ -48,8 +48,7 @@ public class UserController {
     
 	@Secured({"ADMIN"})
 	@PostMapping("/save")
-    public String saveUser(@ModelAttribute("dto") @Valid UserRegistrationDto dto, BindingResult result, Model model) {
-    	if (result.hasErrors()) {
+    public String saveUser(@ModelAttribute("dto") @Valid UserRegistrationDto dto, BindingResult result, Model model) {    	if (result.hasErrors()) {
     		model.addAttribute("user", userService.getLoggedUserDto());
     		model.addAttribute("dto", dto);
 			return "user/new_user";
@@ -59,25 +58,22 @@ public class UserController {
     }
     
     @GetMapping("/settings")
-    public String userEditPage(Model model) {
-    	model.addAttribute("user", userService.getLoggedUserDto());
+    public String userEditPage(Model model) {    	model.addAttribute("user", userService.getLoggedUserDto());
         return "user/edit-profile";
     }
     
     @GetMapping("/security")
-    public String userSecurity(Model model) {
-    	model.addAttribute("user", userService.getLoggedUserDto());
+    public String userSecurity(Model model) {    	model.addAttribute("user", userService.getLoggedUserDto());
         return "user/security-page";
     }
     
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("dto") @Valid UserDto dto, BindingResult result, Model model) {
-    	if (result.hasErrors()) {
+    public String updateUser(@ModelAttribute("dto") @Valid UserDto dto, BindingResult result, Model model) {    	if (result.hasErrors()) {
+    		model.addAttribute("user", userService.getLoggedUserDto());
 			model.addAttribute("dto", dto);
 			return "user/edit-profile";
 		}
-		userService.update(dto);
-		model.addAttribute("dto", dto);
+		userService.update(dto); 
 		return "redirect:/user/settings?success";
     }
 }
