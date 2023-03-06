@@ -57,8 +57,8 @@ public class DataLoader implements CommandLineRunner{
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
 		
 		Account account1 = accountService.save(Account.builder()
-							.email("tempUser1@email.com")
-							.password(passwordEncoder.encode("tempUser1"))
+							.email("admin@email.com")
+							.password(passwordEncoder.encode("admin"))
 							.registrationDate(new Date())
 							.lastActiveDate(null)
 							.authority(authorityRepository.save(Authority.builder().role("ADMIN").build()))
@@ -72,8 +72,8 @@ public class DataLoader implements CommandLineRunner{
 				.build());
 		
 		Account account2 = accountService.save(Account.builder()
-				.email("tempUser2@email.com")
-				.password(passwordEncoder.encode("tempUser2"))
+				.email("user@email.com")
+				.password(passwordEncoder.encode("user"))
 				.registrationDate(new Date())
 				.lastActiveDate(null)
 				.authority(authorityRepository.save(Authority.builder().role("USER").build()))

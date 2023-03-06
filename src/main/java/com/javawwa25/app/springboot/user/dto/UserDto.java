@@ -20,22 +20,38 @@ public class UserDto {
 	private long accountId;
 	private String status;
 	@NotNull
-    @NotEmpty
+	@NotEmpty
 	private String firstName;
 	@NotNull
-    @NotEmpty
+	@NotEmpty
 	private String lastName;
 	@NotNull
-    @NotEmpty
-    @ValidEmail(message = "Email invalid")
+	@NotEmpty
+	@ValidEmail(message = "Email invalid")
 	private String email;
-	private Boolean isAdmin;
-	
+	private boolean isAdmin;
+
 	@Min(message = "Minimum 8 symbols", value = 8)
 	private String password;
 	private Date lastActiveDate;
 	private Date registrationDate;
-	private List<ProjectDto> projects;   
-	private Boolean generatePassword;
+	private List<ProjectDto> projects;
+	private boolean generatePassword;
+
+	public boolean getIsAdmin() {
+		return this.isAdmin;
+	}
+
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public boolean getGeneratePassword() {
+		return this.generatePassword;
+	}
+
+	public void setGeneratePassword(boolean generatePassword) {
+		this.generatePassword = generatePassword;
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.javawwa25.app.springboot.user.BaseEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Authority extends BaseEntity {
-
+	
+	@Column(unique = true)
 	private String role;
 	
 	@ManyToMany(mappedBy = "authorities")

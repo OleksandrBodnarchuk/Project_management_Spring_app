@@ -1,6 +1,8 @@
 package com.javawwa25.app.springboot.user.service;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,6 +10,11 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +31,7 @@ import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
 import com.javawwa25.app.springboot.user.repo.UserRepository;
+import com.javawwa25.app.springboot.utils.CommonUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -53,8 +61,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(User dto) {
-		return userRepository.save(dto);
+	public User save(User user) {
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -91,17 +99,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void update(UserDto dto) {
 		User loggedUser = getLoggedUser();
 		if (dto.getAccountId() != loggedUser.getAccount().getAccountId()) {
 			adminUpdateUser(dto);
 		} else {
 			updateUserDetails(dto, loggedUser);
-			SecurityUtil.updateSessionUser(loggedUser);
+			this.updateSessionUser(loggedUser);
 		}
 	}
 
 	@Secured({ "ADMIN" })
+	@Transactional
 	private void adminUpdateUser(UserDto dto) {
 		User otherUser = getUserByAccountId(dto.getAccountId());
 		updateUserDetails(dto, otherUser);
@@ -142,6 +152,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User save(UserDto dto) {
 		Account account = accountService.save(
 				Account.builder()
@@ -159,9 +170,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private Authority setAuthority(boolean admin) {
-		return admin ? 
-				authorityRepository.save(Authority.builder().role("ADMIN").build()) : 
-					authorityRepository.save(Authority.builder().role("USER").build());
+		return admin ? authorityRepository.findByRole("ADMIN") : authorityRepository.findByRole("USER");
 	}
 
 	private void setUserDtoInfoDetails(User user, UserDto dto) {
@@ -177,6 +186,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Secured("ADMIN")
+	@Transactional
 	@Override
 	public void updateUser(UserDto dto) {
 		User user = userRepository.findByAccountAccountId(Long.valueOf(dto.getAccountId()));
@@ -184,7 +194,7 @@ public class UserServiceImpl implements UserService {
 		if(dto.getGeneratePassword()) {
 			// TODO: generate new password
 		}
-		userRepository.save(user);
+		this.updateSessionUser(userRepository.save(user));
 	}
 
 	@Override
@@ -206,6 +216,22 @@ public class UserServiceImpl implements UserService {
 			return userRepository.findByAccountAccountIdIn(accountIds);
 		} else {
 			return userRepository.getUserDtoName();
+		}
+	}
+	
+	private void updateSessionUser(User updatedUser) {
+		Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUser.getAccount().getEmail(),
+				updatedUser.getAccount().getPassword(), getAuthorities(updatedUser.getAccount().getAuthorities()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+	}
+
+	private Collection<? extends GrantedAuthority> getAuthorities(Set<Authority> authorities) {
+		if (authorities != null && authorities.size() > 0) {
+			return authorities.stream().map(Authority::getRole).map(SimpleGrantedAuthority::new)
+					.collect(Collectors.toSet());
+		} else {
+			return new HashSet<>();
 		}
 	}
 

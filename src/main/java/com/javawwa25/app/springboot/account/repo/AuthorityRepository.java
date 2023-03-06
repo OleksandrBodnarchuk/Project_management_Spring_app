@@ -6,4 +6,6 @@ import com.javawwa25.app.springboot.account.Authority;
 
 public interface AuthorityRepository extends CrudRepository<Authority, Long> {
 
+	Authority findByRole(String string);
+
 }

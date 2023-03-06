@@ -66,7 +66,6 @@ public class AdminController {
     		model.addAttribute("dto", dto);
 			return "admin/user_page";
 		}
-    	
     	userService.updateUser(dto);
 		return "redirect:/admin/user/" + id + "?success";
     	
