@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.javawwa25.app.springboot.file.FileData;
 import com.javawwa25.app.springboot.user.BaseEntity;
 
 import jakarta.persistence.CascadeType;
@@ -13,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +48,9 @@ public class Account extends BaseEntity {
 					@JoinColumn(name = "authority_id", referencedColumnName = "id") })
 	private Set<Authority> authorities;
 
+	@OneToOne
+	@JoinColumn(name = "photo_id")
+	private FileData photo;
 	// private Boolean activated;
 	// private LocalDate activationDate;
 	
