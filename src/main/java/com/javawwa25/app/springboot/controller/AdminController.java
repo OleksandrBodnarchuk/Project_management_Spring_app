@@ -19,6 +19,7 @@ import com.javawwa25.app.springboot.group.service.GroupService;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
+import com.javawwa25.app.springboot.user.Role;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.UserService;
@@ -164,6 +165,18 @@ public class AdminController {
 		return "redirect:/admin/groups/" + id + "/edit";
 	}
 	
+	@GetMapping("/roles")
+	public String rolesPage(Model model) {
+		fillLoggedUserDto(model);
+		return "/admin/role/roles_page";
+	}
+	
+	@GetMapping("/roles/new")
+	public String createRole(Model model) {
+		fillLoggedUserDto(model);
+		model.addAttribute("role", new Role());
+		return"/admin/role/role_new";
+	}
 	
 	private void fillLoggedUserDto(Model model) {
 		model.addAttribute("user", userService.getLoggedUserDto());
