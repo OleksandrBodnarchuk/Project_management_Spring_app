@@ -48,7 +48,7 @@ public class Account extends BaseEntity {
 					@JoinColumn(name = "authority_id", referencedColumnName = "id") })
 	private Set<Authority> authorities;
 
-	@OneToOne
+	@OneToOne(orphanRemoval = true)
 	@JoinColumn(name = "photo_id")
 	private FileData photo;
 	// private Boolean activated;

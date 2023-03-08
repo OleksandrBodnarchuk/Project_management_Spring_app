@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javawwa25.app.springboot.file.FileData;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FileService {
 
+	private final UserService userService; 
+	
 	@PersistenceContext
 	private final EntityManager entityManager;
 
@@ -30,7 +33,7 @@ public class FileService {
 			Session session = entityManager.unwrap(SessionImplementor.class);
 			LobHelper lobHelper = session.getLobHelper();
 			Blob blob = lobHelper.createBlob(file.getBytes());
-			fileData.setName(file.getName());
+			fileData.setName(file.getOriginalFilename());
 			fileData.setType(file.getContentType());
 			fileData.setData(blob);
 			entityManager.persist(fileData);
@@ -41,6 +44,14 @@ public class FileService {
 		}
 
 		return fileData;
+	}
+
+	public FileData getAvatar() {
+		FileData photo = userService.getLoggedUser().getAccount().getPhoto();
+		if(photo!=null) {
+			return photo;
+		}
+		return null;
 	}
 
 }
