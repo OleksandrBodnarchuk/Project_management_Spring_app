@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.user.service;
 
 import java.util.List;
 
+import com.javawwa25.app.springboot.file.FileData;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
@@ -38,5 +39,7 @@ public interface UserService {
 	List<SimpleUserDto> getSimpleDtos();
 
 	List<SimpleUserDto> getAllUsersForGroup(GroupDto group);
+
+	void updateAvatar(FileData fileData);
 
 }

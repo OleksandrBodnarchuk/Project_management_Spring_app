@@ -23,6 +23,7 @@ import com.javawwa25.app.springboot.account.Account;
 import com.javawwa25.app.springboot.account.Authority;
 import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.file.FileData;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.security.SecurityUtil;
 import com.javawwa25.app.springboot.user.User;
@@ -31,7 +32,6 @@ import com.javawwa25.app.springboot.user.dto.SimpleUserDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
 import com.javawwa25.app.springboot.user.repo.UserRepository;
-import com.javawwa25.app.springboot.utils.CommonUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -233,6 +233,11 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return new HashSet<>();
 		}
+	}
+
+	@Override
+	public void updateAvatar(FileData fileData) {
+		accountService.updateAvatar(getLoggedUser().getAccount(),fileData);
 	}
 
 }

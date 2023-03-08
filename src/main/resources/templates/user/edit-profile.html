@@ -37,9 +37,16 @@
 								<!-- Profile picture help block-->
 								<div class="medium font-italic text-muted mb-4">JPG or PNG
 									no larger than 5 MB</div>
-								<!-- Profile picture upload button-->
-								<button class="btn btn-primary" type="button">Upload
-									new image</button>
+									<!-- AVATAR form -->
+								<form method="post" th:action="@{/file/upload?type=avatar}"
+									enctype="multipart/form-data">
+									<div class="form-group" align="center">
+										<input type="file" name="file" class="form-control-file">
+									</div>
+									<!-- Profile picture upload button-->
+									<button class="btn btn-primary" type="submit">Upload
+										new image</button>
+								</form>
 							</div>
 						</div>
 					</div>

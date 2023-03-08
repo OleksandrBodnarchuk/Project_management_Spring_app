@@ -7,7 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.javawwa25.app.springboot.file.FileData;
+import com.javawwa25.app.springboot.file.service.FileService;
+import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +22,16 @@ import lombok.RequiredArgsConstructor;
 @Secured({ "ADMIN", "USER" })
 @RequiredArgsConstructor
 public class UploadController {
-
+	
+	private final FileService fileService;
+	private final UserService userService;
+	
 	@PostMapping("/upload")
-	public String uploadImage(MultipartFile file) throws IOException {
-		// TODO: save file
+	public String uploadImage(@RequestParam("type")String type, MultipartFile file) throws IOException {
+		FileData fileData = fileService.save(file);
+		if(type.equals("avatar")) {
+			userService.updateAvatar(fileData);
+		}
 		return "redirect:/user";
 	}
 	

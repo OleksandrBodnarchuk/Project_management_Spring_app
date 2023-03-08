@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.file.FileData;
 import com.javawwa25.app.springboot.user.repo.AccountRepository;
 
 @Service
@@ -36,6 +37,12 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int findEmail(String email) {
 		return accountRepository.findAccountEmail(email);
+	}
+
+	@Override
+	public void updateAvatar(Account account, FileData fileData) {
+		account.setPhoto(fileData);
+		save(account);
 	}
 
 }
