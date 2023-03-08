@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments/header :: header-css}" />
+<body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	<div class="container bootstrap snippets bootdey">
+		<div th:replace="~{fragments/admin_navTabs :: admin_nav}"></div>
+
+		<div class="row well">
+			<div class="container bootstrap snippets bootdey">
+				<h2>Roles</h2>
+
+				<div th:if="${param.success}">
+					<div class="alert alert-info">Role created successfully</div>
+				</div>
+
+				<!-- ADD PROJECT-->
+				<div sec:authorize="hasAuthority('ADMIN')">
+					<a th:href="@{/admin/roles/new}" class="btn btn-primary btn-success">
+						<span class="glyphicon glyphicon-plus-sign"></span> Add new
+						Role
+					</a>
+				</div>
+				<br>
+				<div class="col-md-12">
+					<table border="1" class="table table-striped table-responsive-md row well">
+						<thead>
+							<tr>
+								<th><a>Role</a></th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a> Name</a></td>
+								<td>1 , 2 , 3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
