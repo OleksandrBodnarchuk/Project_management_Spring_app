@@ -7,11 +7,10 @@
 	<div class="container bootstrap snippets bootdey">
 		<div class="row well">
 			<div th:replace="~{fragments/admin_user_navTabs :: admin_user_nav}"></div>
-
 			<div th:if="${param.success}">
-				<div class="alert alert-success">Projects added successfully</div>
+				<div
+					th:replace="~{fragments/admin_navTabs :: success_info('Projects added successfully')}"></div>
 			</div>
-
 			<!-- ADD USER-->
 			<div sec:authorize="hasAuthority('ADMIN')">
 				<a th:href="@{/admin/user/{id}/projects/add (id=${dto.accountId})}"

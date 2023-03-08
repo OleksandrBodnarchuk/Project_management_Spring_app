@@ -12,7 +12,7 @@
 				<h2>Roles</h2>
 
 				<div th:if="${param.success}">
-					<div class="alert alert-info">Role created successfully</div>
+					<div th:replace="~{fragments/admin_navTabs :: success_info('Role created successfully')}"></div>
 				</div>
 
 				<!-- ADD PROJECT-->

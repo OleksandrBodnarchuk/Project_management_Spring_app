@@ -12,9 +12,9 @@
 				<h2>Projects</h2>
 
 				<div th:if="${param.success}">
-					<div class="alert alert-info">Project created successfully</div>
+					<div
+						th:replace="~{fragments/admin_navTabs :: success_info('Project created successfully')}"></div>
 				</div>
-
 				<!-- ADD PROJECT-->
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<a th:href="@{/projects/new}" class="btn btn-primary btn-success">

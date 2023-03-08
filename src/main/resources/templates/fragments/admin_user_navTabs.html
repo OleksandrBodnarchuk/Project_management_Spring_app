@@ -6,8 +6,10 @@
 <body>
 	<div class="row well" th:fragment="admin_user_nav">
 		<div th:if="${param.success}">
-			<div class="alert alert-success">User updated successfully</div>
+			<div
+				th:replace="~{fragments/admin_navTabs :: success_info('User updated successfully')}"></div>
 		</div>
+
 		<div class="container-xl px-4 mt-4">
 			<nav class="nav nav-borders">
 				<a class="nav-link}"

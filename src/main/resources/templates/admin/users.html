@@ -10,11 +10,10 @@
 		<div class="row well">
 			<div class="container bootstrap snippets bootdey">
 				<h2>Users</h2>
-
 				<div th:if="${param.success}">
-					<div class="alert alert-success">User created successfully</div>
+					<div
+						th:replace="~{fragments/admin_navTabs :: success_info('User added successfully')}"></div>
 				</div>
-
 				<!-- ADD PROJECT-->
 				<div sec:authorize="hasAuthority('ADMIN')">
 					<a th:href="@{/user/new}" class="btn btn-primary btn-success">

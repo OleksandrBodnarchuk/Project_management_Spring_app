@@ -8,10 +8,9 @@
 		<div class="row well">
 
 			<div class="col-md-12">
-				<div
-					th:replace="~{fragments/admin_navTabs :: groups_nav(${group.id})}"></div>
+				<div th:replace="~{fragments/admin_navTabs :: groups_nav(${group.id})}"></div>
 				<div th:if="${param.success}">
-					<div class="alert alert-success">User added successfully</div>
+					<div th:replace="~{fragments/admin_navTabs :: success_info('User added successfully')}"></div>
 				</div>
 				<div
 					th:replace="~{fragments/admin_navTabs :: admin_add_button('/admin/groups/' + ${group.id} +'/users/new' ,'User')}">

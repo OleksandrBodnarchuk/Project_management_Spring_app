@@ -19,7 +19,8 @@
 				<br>
 				<!-- Success message -->
 				<div th:if="${param.success}">
-					<div class="alert alert-info">Profile udpated</div>
+					<div
+						th:replace="~{fragments/admin_navTabs :: success_info('Profile udpated')}"></div>
 				</div>
 				<!-- Success message end -->
 				<hr class="mt-0 mb-4">

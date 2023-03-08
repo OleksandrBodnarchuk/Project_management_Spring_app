@@ -6,6 +6,12 @@
 </head>
 <body>
 
+	<div class="row well" th:fragment="success_info(string)">
+		<div class="alert alert-success">
+			<p th:text="${string}">
+		</div>
+	</div>
+
 	<div class="row well" th:fragment="admin_nav">
 		<div class="container bootstrap snippets bootdey">
 			<div>
@@ -43,8 +49,10 @@
 	<div class="row well" sec:authorize="hasAuthority('ADMIN')"
 		th:fragment="admin_add_task_btn">
 		<div th:if="${param.success}">
-			<div class="alert alert-success">Task created successfully</div>
+			<div
+				th:replace="~{fragments/admin_navTabs :: success_info('Task created successfully')}"></div>
 		</div>
+
 		<div class="btn-group">
 			<button type="button" class="btn btn-success dropdown-toggle"
 				data-toggle="dropdown">

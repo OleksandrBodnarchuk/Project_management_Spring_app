@@ -178,6 +178,12 @@ public class AdminController {
 		return"/admin/role/role_new";
 	}
 	
+	@PostMapping("/roles")
+	public String createRole(@ModelAttribute("role") Role role) {
+		System.out.println(role.getName());
+		return"redirect:/admin/roles?success";
+	}
+	
 	private void fillLoggedUserDto(Model model) {
 		model.addAttribute("user", userService.getLoggedUserDto());
 	}
