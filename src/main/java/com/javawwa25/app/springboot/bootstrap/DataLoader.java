@@ -15,6 +15,8 @@ import com.javawwa25.app.springboot.account.Account;
 import com.javawwa25.app.springboot.account.Authority;
 import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
+import com.javawwa25.app.springboot.comment.Comment;
+import com.javawwa25.app.springboot.comment.CommentRepository;
 import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.group.repo.GroupRepository;
 import com.javawwa25.app.springboot.project.Project;
@@ -40,6 +42,7 @@ public class DataLoader implements CommandLineRunner{
 	private final TaskTypeService taskTypeService;
 	private final StatusRepository statusRepository;
 	private final GroupRepository groupRepository;
+	private final CommentRepository commentRepository;
 	
 	
 	@Transactional
@@ -47,6 +50,9 @@ public class DataLoader implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - Running DB initialization.");
 		int count = userService.getAllUserDtos().size();
+		Comment comment = new Comment(1L,2L,"TEST");
+		commentRepository.save(comment);
+		
 		if (count == 0) {
 			loadData();
 		}
@@ -55,7 +61,6 @@ public class DataLoader implements CommandLineRunner{
 
 	private void loadData() {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - loadData() - invoked\n\n");
-		
 		Account account1 = accountService.save(Account.builder()
 							.email("admin@email.com")
 							.password(passwordEncoder.encode("admin"))
