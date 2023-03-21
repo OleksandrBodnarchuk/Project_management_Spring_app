@@ -10,19 +10,19 @@ import org.springframework.context.annotation.Primary;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-@Configuration
+//@Configuration
 public class MySqlDataSourceConfiguration {
 
-	@Bean
-	@Primary
-	@ConfigurationProperties("main.datasource")
+//	@Bean
+//	@Primary
+//	@ConfigurationProperties("main.datasource")
 	public DataSourceProperties mainDataSourceProperties() {
 		return new DataSourceProperties();
 	}
 	
-	@Bean
-	@Primary
-	@ConfigurationProperties("main.datasource.configuration")
+//	@Bean
+//	@Primary
+//	@ConfigurationProperties("main.datasource.configuration")
 	public DataSource mainDataSource() {
 		return mainDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class).build();
 	}
