@@ -1,7 +1,7 @@
 package com.javawwa25.app.springboot.comment;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface CommentRepository extends MongoRepository<Comment, String>{
+public interface CommentRepository extends CrudRepository<Comment, String>{
 
 }

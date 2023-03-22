@@ -1,32 +1,26 @@
 package com.javawwa25.app.springboot.comment;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.javawwa25.app.springboot.user.BaseEntity;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@Document("task_comments")
+@Entity
+@Table(name = "task_comments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment {
-	
-	@Id
-    private String id;
+public class Comment extends BaseEntity {
 	
 	private long taskId;
 	private long previousCommentId;
 	private String comment;
 
-	public Comment(long taskId, long previousCommentId, String comment) {
-		this.taskId = taskId;
-		this.previousCommentId = previousCommentId;
-		this.comment = comment;
-	}
 	
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", taskId=" + taskId + ", previousCommentId=" + previousCommentId + ", comment="
+		return "Comment [taskId=" + taskId + ", previousCommentId=" + previousCommentId + ", comment="
 				+ comment + "]";
 	}
 	
