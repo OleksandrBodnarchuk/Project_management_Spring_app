@@ -29,14 +29,14 @@ public class UserDto {
 	@NotEmpty
 	@ValidEmail(message = "Email invalid")
 	private String email;
-	private boolean isAdmin;
+	private Boolean isAdmin;
 
 	@Min(message = "Minimum 8 symbols", value = 8)
 	private String password;
 	private Date lastActiveDate;
 	private Date registrationDate;
 	private List<ProjectDto> projects;
-	private boolean generatePassword;
+	private Boolean generatePassword;
 
 	public boolean getIsAdmin() {
 		return this.isAdmin;
