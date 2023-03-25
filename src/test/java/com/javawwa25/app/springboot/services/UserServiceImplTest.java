@@ -69,7 +69,7 @@ class UserServiceImplTest {
 		account = new Account();
 		account.setAccountId(1L);
 		account.setEmail("accountEmail@email.com");
-		account.setRoles(Set.of(Role.builder().role("ADMIN").build()));
+		account.setRoles(Set.of(Role.builder().name("ADMIN").build()));
 		user.setAccount(account);
 		
 		User user2 = new User();

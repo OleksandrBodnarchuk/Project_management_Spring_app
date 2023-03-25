@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private Role setAuthority(boolean admin) {
-		return admin ? authorityRepository.findByRole("ADMIN") : authorityRepository.findByRole("USER");
+		return admin ? authorityRepository.findByName("ADMIN") : authorityRepository.findByName("USER");
 	}
 
 	private void setUserDtoInfoDetails(User user, UserDto dto) {
@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 		dto.setLastName(user.getLastName());
 		dto.setStatus(user.getUserStatus());
 		dto.setIsAdmin(user.getAccount().getRoles().stream()
-				.anyMatch(authority -> authority.getRole().equals("ADMIN")));
+				.anyMatch(role -> role.getName().equals("ADMIN")));
 		dto.setLastActiveDate(user.getAccount().getLastActiveDate());
 		dto.setRegistrationDate(user.getAccount().getRegistrationDate());
 	}
@@ -228,7 +228,7 @@ public class UserServiceImpl implements UserService {
 
 	private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> authorities) {
 		if (authorities != null && authorities.size() > 0) {
-			return authorities.stream().map(Role::getRole).map(SimpleGrantedAuthority::new)
+			return authorities.stream().map(Role::getName).map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toSet());
 		} else {
 			return new HashSet<>();
@@ -238,6 +238,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateAvatar(FileData fileData) {
 		accountService.updateAvatar(getLoggedUser().getAccount(),fileData);
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
 	}
 
 }

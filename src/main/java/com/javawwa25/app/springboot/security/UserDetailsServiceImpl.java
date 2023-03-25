@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> authorities) {
 		if (authorities != null && authorities.size() > 0) {
 			return authorities.stream()
-					.map(Role::getRole)
+					.map(Role::getName)
 					.map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toSet());
 		} else {

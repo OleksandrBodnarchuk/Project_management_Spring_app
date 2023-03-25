@@ -27,7 +27,7 @@ import lombok.Singular;
 public class Role extends BaseEntity {
 	
 	@Column(unique = true)
-	private String role;
+	private String name;
 	
 	@ManyToMany(mappedBy = "roles")
 	private Set<Account> accounts;

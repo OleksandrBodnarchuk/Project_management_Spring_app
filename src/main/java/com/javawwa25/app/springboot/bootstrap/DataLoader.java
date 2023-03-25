@@ -49,7 +49,7 @@ public class DataLoader implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - Running DB initialization.");
-		int count = userService.getAllUserDtos().size();
+		int count = userService.getAllUsers().size();
 		Comment comment = new Comment(1L,2L,"TEST");
 		commentRepository.save(comment);
 		
@@ -67,7 +67,7 @@ public class DataLoader implements CommandLineRunner{
 							.registrationDate(new Date())
 							.lastActiveDate(null)
 							.isAdmin(Boolean.TRUE)
-							.role(roleRepository.save(Role.builder().role("ADMIN").build()))
+							.role(roleRepository.save(Role.builder().name("ADMIN").build()))
 							.build());
 		
 		User user2 = userService.save(User.builder()
@@ -83,7 +83,7 @@ public class DataLoader implements CommandLineRunner{
 				.registrationDate(new Date())
 				.lastActiveDate(null)
 				.isAdmin(Boolean.FALSE)
-				.role(roleRepository.save(Role.builder().role("USER").build()))
+				.role(roleRepository.save(Role.builder().name("USER").build()))
 				.build());
 		
 		User user = userService.save(User.builder()

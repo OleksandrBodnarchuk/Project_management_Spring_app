@@ -36,7 +36,8 @@ public class UserDto {
 	private Date lastActiveDate;
 	private Date registrationDate;
 	private List<ProjectDto> projects;
-	private Boolean generatePassword;
+	@Builder.Default
+	private Boolean generatePassword = false;
 
 	public boolean getIsAdmin() {
 		return this.isAdmin;
