@@ -32,8 +32,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a> Name</a></td>
+							<tr th:each="role : ${roles}">
+								<td><a th:text="${role.name}"
+									th:href="@{/admin/roles/{id}/edit (id=${role.id})}"> </a></td>
 								<td>1 , 2 , 3</td>
 							</tr>
 						</tbody>

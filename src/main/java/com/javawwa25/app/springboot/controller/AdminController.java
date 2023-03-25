@@ -22,6 +22,7 @@ import com.javawwa25.app.springboot.project.service.ProjectService;
 import com.javawwa25.app.springboot.user.Role;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
+import com.javawwa25.app.springboot.user.service.RoleService;
 import com.javawwa25.app.springboot.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -35,6 +36,7 @@ public class AdminController {
 	private final GroupService groupService;
     private final UserService userService;
     private final ProjectService projectService;
+    private final RoleService roleService;
     
     @GetMapping
     public String adminPage(Model model) {
@@ -168,6 +170,7 @@ public class AdminController {
 	@GetMapping("/roles")
 	public String rolesPage(Model model) {
 		fillLoggedUserDto(model);
+		model.addAttribute("roles", roleService.getAllRoles());
 		return "/admin/role/roles_page";
 	}
 	
@@ -180,8 +183,15 @@ public class AdminController {
 	
 	@PostMapping("/roles")
 	public String createRole(@ModelAttribute("role") Role role) {
-		System.out.println(role.getName());
+		roleService.saveRole(role);
 		return"redirect:/admin/roles?success";
+	}
+	
+	@GetMapping("/roles/{id}/edit")
+	public String rolePermissions(@PathVariable("id") long id, Model model) {
+		fillLoggedUserDto(model);
+		model.addAttribute("role", roleService.getById(id));
+		return"/admin/role/role_permissions";
 	}
 	
 	private void fillLoggedUserDto(Model model) {
