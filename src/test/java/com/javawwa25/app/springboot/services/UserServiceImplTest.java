@@ -30,7 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.javawwa25.app.springboot.account.Account;
-import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.Role;
 import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.project.Project;
@@ -40,6 +40,7 @@ import com.javawwa25.app.springboot.user.dto.UserRegistrationDto;
 import com.javawwa25.app.springboot.user.repo.UserRepository;
 import com.javawwa25.app.springboot.user.service.UserService;
 import com.javawwa25.app.springboot.user.service.UserServiceImpl;
+
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -68,7 +69,7 @@ class UserServiceImplTest {
 		account = new Account();
 		account.setAccountId(1L);
 		account.setEmail("accountEmail@email.com");
-		account.setAuthorities(Set.of(Authority.builder().role("ADMIN").build()));
+		account.setRoles(Set.of(Role.builder().role("ADMIN").build()));
 		user.setAccount(account);
 		
 		User user2 = new User();

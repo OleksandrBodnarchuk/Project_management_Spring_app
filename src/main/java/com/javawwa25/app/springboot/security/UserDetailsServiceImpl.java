@@ -2,6 +2,7 @@ package com.javawwa25.app.springboot.security;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.account.Account;
-import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.Role;
 import com.javawwa25.app.springboot.account.service.AccountService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,13 +39,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		});
 		LOG.debug(String.format("[%s] - %s", this.getClass().getSimpleName(), "user loaded"));
 		return new org.springframework.security.core.userdetails.User(account.getEmail(), account.getPassword(),
-				getAuthorities(account.getAuthorities()));
+				getAuthorities(account.getRoles()));
 	}
 
-	private Collection<? extends GrantedAuthority> getAuthorities(Set<Authority> authorities) {
+	private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> authorities) {
 		if (authorities != null && authorities.size() > 0) {
 			return authorities.stream()
-					.map(Authority::getRole)
+					.map(Role::getRole)
 					.map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toSet());
 		} else {

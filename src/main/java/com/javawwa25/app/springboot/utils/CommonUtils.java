@@ -1,5 +1,4 @@
 package com.javawwa25.app.springboot.utils;
-
 import java.util.stream.Collectors;
 
 import com.javawwa25.app.springboot.group.UserGroup;

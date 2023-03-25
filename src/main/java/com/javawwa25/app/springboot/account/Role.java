@@ -24,19 +24,19 @@ import lombok.Singular;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Authority extends BaseEntity {
+public class Role extends BaseEntity {
 	
 	@Column(unique = true)
 	private String role;
 	
-	@ManyToMany(mappedBy = "authorities")
+	@ManyToMany(mappedBy = "roles")
 	private Set<Account> accounts;
 	
 	@Singular
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "authority_permission", joinColumns = {
 			@JoinColumn(name = "permission_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "authority_id", referencedColumnName = "id") })
+					@JoinColumn(name = "role_id", referencedColumnName = "id") })
 	private Set<Permission> permissions;
 	
 }

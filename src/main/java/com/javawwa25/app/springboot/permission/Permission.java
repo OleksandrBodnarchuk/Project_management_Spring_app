@@ -2,7 +2,7 @@ package com.javawwa25.app.springboot.permission;
 
 import java.util.Set;
 
-import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.Role;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -20,5 +20,5 @@ public class Permission extends BasePermission {
 	private String name;
 	
 	@ManyToMany(mappedBy = "permissions")
-	private Set<Authority> authorities;
+	private Set<Role> authorities;
 }

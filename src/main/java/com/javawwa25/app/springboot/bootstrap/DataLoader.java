@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.account.Account;
-import com.javawwa25.app.springboot.account.Authority;
-import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
+import com.javawwa25.app.springboot.account.Role;
 import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.comment.Comment;
 import com.javawwa25.app.springboot.comment.CommentRepository;
@@ -25,6 +24,7 @@ import com.javawwa25.app.springboot.task.TaskType;
 import com.javawwa25.app.springboot.task.repo.StatusRepository;
 import com.javawwa25.app.springboot.task.service.TaskTypeService;
 import com.javawwa25.app.springboot.user.User;
+import com.javawwa25.app.springboot.user.service.RoleRepository;
 import com.javawwa25.app.springboot.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,12 +37,12 @@ public class DataLoader implements CommandLineRunner{
 	
 	private final UserService userService;
 	private final PasswordEncoder passwordEncoder;
-	private final AuthorityRepository authorityRepository;
 	private final AccountService accountService;
 	private final TaskTypeService taskTypeService;
 	private final StatusRepository statusRepository;
 	private final GroupRepository groupRepository;
 	private final CommentRepository commentRepository;
+	private final RoleRepository roleRepository;
 	
 	
 	@Transactional
@@ -66,7 +66,8 @@ public class DataLoader implements CommandLineRunner{
 							.password(passwordEncoder.encode("admin"))
 							.registrationDate(new Date())
 							.lastActiveDate(null)
-							.authority(authorityRepository.save(Authority.builder().role("ADMIN").build()))
+							.isAdmin(Boolean.TRUE)
+							.role(roleRepository.save(Role.builder().role("ADMIN").build()))
 							.build());
 		
 		User user2 = userService.save(User.builder()
@@ -81,7 +82,8 @@ public class DataLoader implements CommandLineRunner{
 				.password(passwordEncoder.encode("user"))
 				.registrationDate(new Date())
 				.lastActiveDate(null)
-				.authority(authorityRepository.save(Authority.builder().role("USER").build()))
+				.isAdmin(Boolean.FALSE)
+				.role(roleRepository.save(Role.builder().role("USER").build()))
 				.build());
 		
 		User user = userService.save(User.builder()

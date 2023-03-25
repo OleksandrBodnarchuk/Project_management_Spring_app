@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javawwa25.app.springboot.account.Account;
-import com.javawwa25.app.springboot.account.Authority;
+import com.javawwa25.app.springboot.account.Role;
 import com.javawwa25.app.springboot.account.repo.AuthorityRepository;
 import com.javawwa25.app.springboot.account.service.AccountService;
 import com.javawwa25.app.springboot.file.FileData;
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User saveRegister(UserRegistrationDto dto) {
 		Account account = accountService.save(Account.builder()
-								.authority(setAuthority(dto.isAdmin()))
+								.role(setAuthority(dto.isAdmin()))
 								.email(dto.getEmail())
 								.password(passwordEncoder.encode(dto.getPassword()))
 								.registrationDate(new Date())
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 	public User save(UserDto dto) {
 		Account account = accountService.save(
 				Account.builder()
-				.authority(setAuthority(dto.getIsAdmin()))
+				.role(setAuthority(dto.getIsAdmin()))
 				.email(dto.getEmail())
 				.password(passwordEncoder.encode(dto.getPassword()))
 				.registrationDate(new Date())
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	private Authority setAuthority(boolean admin) {
+	private Role setAuthority(boolean admin) {
 		return admin ? authorityRepository.findByRole("ADMIN") : authorityRepository.findByRole("USER");
 	}
 
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 		dto.setFirstName(user.getFirstName());
 		dto.setLastName(user.getLastName());
 		dto.setStatus(user.getUserStatus());
-		dto.setIsAdmin(user.getAccount().getAuthorities().stream()
+		dto.setIsAdmin(user.getAccount().getRoles().stream()
 				.anyMatch(authority -> authority.getRole().equals("ADMIN")));
 		dto.setLastActiveDate(user.getAccount().getLastActiveDate());
 		dto.setRegistrationDate(user.getAccount().getRegistrationDate());
@@ -221,14 +221,14 @@ public class UserServiceImpl implements UserService {
 	
 	private void updateSessionUser(User updatedUser) {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUser.getAccount().getEmail(),
-				updatedUser.getAccount().getPassword(), getAuthorities(updatedUser.getAccount().getAuthorities()));
+				updatedUser.getAccount().getPassword(), getAuthorities(updatedUser.getAccount().getRoles()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 	}
 
-	private Collection<? extends GrantedAuthority> getAuthorities(Set<Authority> authorities) {
+	private Collection<? extends GrantedAuthority> getAuthorities(Set<Role> authorities) {
 		if (authorities != null && authorities.size() > 0) {
-			return authorities.stream().map(Authority::getRole).map(SimpleGrantedAuthority::new)
+			return authorities.stream().map(Role::getRole).map(SimpleGrantedAuthority::new)
 					.collect(Collectors.toSet());
 		} else {
 			return new HashSet<>();

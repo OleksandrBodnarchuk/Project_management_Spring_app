@@ -31,6 +31,7 @@ import com.javawwa25.app.springboot.project.service.ProjectServiceImpl;
 import com.javawwa25.app.springboot.user.User;
 import com.javawwa25.app.springboot.user.service.UserService;
 
+
 @ExtendWith(MockitoExtension.class)
 class ProjectServiceImplTest {
 	

@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.javawwa25.app.springboot.account.Role;
 import com.javawwa25.app.springboot.group.dto.GroupUsersForm;
 import com.javawwa25.app.springboot.group.service.GroupService;
 import com.javawwa25.app.springboot.project.Project;
 import com.javawwa25.app.springboot.project.dto.ProjectDto;
 import com.javawwa25.app.springboot.project.service.ProjectService;
-import com.javawwa25.app.springboot.user.Role;
 import com.javawwa25.app.springboot.user.dto.GroupDto;
 import com.javawwa25.app.springboot.user.dto.UserDto;
 import com.javawwa25.app.springboot.user.service.RoleService;
@@ -74,11 +74,6 @@ public class AdminController {
     	
     }
 
-    @GetMapping("/user/{id}/groups")
-    public  String adminUserGroupsPage(@PathVariable("id") long id, Model model) {
-    	return null;
-    }
-    
 	@GetMapping("/user/{id}/projects")
 	public String adminUserProjectsPage(@PathVariable("id") long accountId, Model model) {
     	UserDto dto = userService.getUserDtoByAccountId(accountId);

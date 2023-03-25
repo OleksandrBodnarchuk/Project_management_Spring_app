@@ -43,11 +43,14 @@ public class Account extends BaseEntity {
 
 	@Singular
 	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "account_authority", joinColumns = {
+	@JoinTable(name = "account_role", joinColumns = {
 			@JoinColumn(name = "account_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "authority_id", referencedColumnName = "id") })
-	private Set<Authority> authorities;
-
+					@JoinColumn(name = "role_id", referencedColumnName = "id") })
+	private Set<Role> roles;
+	
+	@Column(nullable = false)
+	private Boolean isAdmin;
+	
 	@OneToOne(orphanRemoval = true)
 	@JoinColumn(name = "photo_id")
 	private FileData photo;

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import com.javawwa25.app.springboot.controller.LoginController;
 import com.javawwa25.app.springboot.user.service.UserService;
 
+
 @ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
 	

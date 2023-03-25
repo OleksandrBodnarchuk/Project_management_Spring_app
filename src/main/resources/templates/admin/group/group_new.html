@@ -8,8 +8,7 @@
 		<div class="row well">
 			<h4>Add new group</h4>
 			<div class="col-md-12">
-				<form action="#" th:action="@{/admin/groups}" th:object="${group}"
-					method="POST">
+				<form th:action="@{/admin/groups}" th:object="${group}"	method="POST">
 					<input type="text" th:field="*{name}" placeholder="Group Name"
 						class="form-control mb-4 col-4">
 					<p class="error" th:each="error: ${#fields.errors('name')}" th:text="${error}">Validation error</p>

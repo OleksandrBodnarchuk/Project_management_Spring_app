@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.javawwa25.app.springboot.user.Role;
+import com.javawwa25.app.springboot.account.Role;
 
 import lombok.RequiredArgsConstructor;
 
