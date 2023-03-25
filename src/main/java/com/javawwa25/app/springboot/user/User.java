@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.javawwa25.app.springboot.account.Account;
+import com.javawwa25.app.springboot.comment.Comment;
 import com.javawwa25.app.springboot.group.UserGroup;
 import com.javawwa25.app.springboot.project.Project;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

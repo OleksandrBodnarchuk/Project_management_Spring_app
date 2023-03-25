@@ -41,7 +41,6 @@ public class DataLoader implements CommandLineRunner{
 	private final TaskTypeService taskTypeService;
 	private final StatusRepository statusRepository;
 	private final GroupRepository groupRepository;
-	private final CommentRepository commentRepository;
 	private final RoleRepository roleRepository;
 	
 	
@@ -50,8 +49,6 @@ public class DataLoader implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		LOG.debug("[" + this.getClass().getSimpleName() + "] - Running DB initialization.");
 		int count = userService.getAllUsers().size();
-		Comment comment = new Comment(1L,2L,"TEST");
-		commentRepository.save(comment);
 		
 		if (count == 0) {
 			loadData();

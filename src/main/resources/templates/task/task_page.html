@@ -7,8 +7,8 @@
 	<div class="container bootstrap snippets bootdey">
 		<div class="row well">
 			<fieldset>
-				<legend th:text=${task.name}>
-					Task name
+				<legend th:text=${task.name}> Task name 
+				<a>edit</a>
 				</legend>
 				<table class="table user-view-table m-0">
 					<tbody>
@@ -62,9 +62,17 @@
 			<div>
 				<ul class="nav nav-tabs">
 					<li><a>Comments</a></li>
-					<li><a>Changes</a></li>
+					<!-- <li><a>Changes</a></li> -->
 				</ul>
 			</div>
+			<fieldset>
+				<legend>Comments</legend>
+				<div th:replace="~{fragments/task-comments :: task-comments}"></div>
+			</fieldset>
+			<fieldset>
+				<legend>Add new comment</legend>
+				<div th:replace="~{fragments/task-comments :: add-comment}"></div>
+			</fieldset>
 		</div>
 	</div>
 </body>
